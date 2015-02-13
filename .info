@@ -1,0 +1,2 @@
+one thread -> FileSystemWatcher to watch for file changes. Add these to a queue.
+another thread -> updates the app with new contents (gets the delta and adds them)
