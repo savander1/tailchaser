@@ -61,6 +61,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Code\ConfigLoadercs.cs" />
+    <Compile Include="Code\GroupOpener.cs" />
+    <Compile Include="Code\IFileReader.cs" />
+    <Compile Include="Code\IGroupOpener.cs" />
+    <Compile Include="Controls\GroupBrowserTreeControl.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -92,6 +97,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TailChaser.Entity\TailChaser.Entity.csproj">
+      <Project>{36790aed-4c87-4b37-b380-b5c783a28e41}</Project>
+      <Name>TailChaser.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
