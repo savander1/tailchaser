@@ -1,26 +1,23 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Xml;
 
 namespace TailChaser.Entity
 {
     public class Configuration
     {
-        private const string EncryptionKey =
-            "3098CD2785CE176C559F745189F06204BE6AA526652B96DFFB8CB2AA3E2247E171CB5CBBA4BAA16486A2AA700332B4591CD92257C041EF75D8EDBE32F6171964";
-
-
-        public List<Group> Groups { get; set; } 
+        public List<Machine> Machines { get; set; } 
 
         public Configuration()
         {
-            Groups = new List<Group>();
+            Machines = new List<Machine>();
         }
 
         public byte[] Serialize()
         {
             var doc = ConfigDocument();
-            var buffLen = doc.InnerXml.Length + 1024;
+            var buffLen = Encoding.UTF8.GetByteCount(doc.InnerXml) + 1024;
             var buffer = new byte[buffLen];
             using (var stream = new MemoryStream(buffer))
             {
@@ -37,26 +34,27 @@ namespace TailChaser.Entity
             var dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
             doc.AppendChild(dec);
 
-            var root = doc.CreateElement("groups");
-            foreach (var group in Groups)
+            var root = doc.CreateElement("machines");
+            foreach (var machine in Machines)
             {
-                var grpElm = doc.CreateElement("group");
-                var name = doc.CreateNode(XmlNodeType.Element, "name", null);
-                var nameNode = doc.CreateTextNode(group.Name);
-                name.AppendChild(nameNode);
-
-                grpElm.AppendChild(name);
-
-                var files = doc.CreateElement("files");
-                foreach (var file in group.Files)
+                var machineElm = doc.CreateElement("machine");
+                machineElm.SetAttribute("name", machine.Name);
+                foreach (var group in machine.Groups)
                 {
-                    var fileElm = doc.CreateElement("file");
-                    fileElm.SetAttribute("name", file.Name);
-                    fileElm.SetAttribute("path", file.FullName);
-                    files.AppendChild(fileElm);
+                    var grpElm = doc.CreateElement("group");
+                    grpElm.SetAttribute("name", group.Name);
+                    var files = doc.CreateElement("files");
+                    foreach (var file in group.Files)
+                    {
+                        var fileElm = doc.CreateElement("file");
+                        fileElm.SetAttribute("name", file.Name);
+                        fileElm.SetAttribute("path", file.FullName);
+                        files.AppendChild(fileElm);
+                    }
+                    grpElm.AppendChild(files);
+                    machineElm.AppendChild(grpElm);
                 }
-                grpElm.AppendChild(files);
-                root.AppendChild(grpElm);
+                root.AppendChild(machineElm);
             }
             doc.AppendChild(root);
 
@@ -81,18 +79,24 @@ namespace TailChaser.Entity
             {
                 while (reader.Read())
                 {
-                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "group")
+                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "machine")
                     {
-                        reader.ReadToDescendant("name");
-                        var name = reader.ReadElementContentAsString();
-                        var group = new Group(name);
-                        while (reader.ReadToDescendant("file"))
+
+                        var machineName = reader.GetAttribute("name");
+                        var machine = new Machine(machineName);
+                        while (reader.ReadToDescendant("group"))
                         {
-                            var fileName = reader.GetAttribute("name");
-                            var filePath = reader.GetAttribute("path");
-                            group.Files.Add(new TailedFile(fileName, filePath));
+                            var name = reader.GetAttribute("name");
+                            var group = new Group(name);
+                            while (reader.ReadToDescendant("file"))
+                            {
+                                var fileName = reader.GetAttribute("name");
+                                var filePath = reader.GetAttribute("path");
+                                group.Files.Add(new TailedFile(fileName, filePath));
+                            }
+                            machine.Groups.Add(group);
                         }
-                        config.Groups.Add(group);
+                        config.Machines.Add(machine);
                     }
                 }
             }

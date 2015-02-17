@@ -5,6 +5,7 @@
     <Grid>
         <Menu HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="1042">
             <MenuItem Header="File">
+                <MenuItem Header="New Grouping" Click="NewGrouping_Click"></MenuItem>
                 <MenuItem Header="Open Grouping" Click="OpenGrouping_Click"></MenuItem>
                 <Separator />
                 <MenuItem Header= "Save"></MenuItem>
