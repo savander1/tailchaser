@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TailChaser.Entity.Tests
@@ -8,17 +9,17 @@ namespace TailChaser.Entity.Tests
     {
         private static readonly Configuration Configuration = new Configuration
             {
-                Machines = new List<Machine>
+                Machines = new ObservableCollection<Machine>
                     {
                         new Machine
                             {
                                 Name = "machine",
-                                Groups = new List<Group>
+                                Groups = new ObservableCollection<Group>
                                     {
                                         new Group
                                             {
                                                 Name = "First",
-                                                Files = new List<TailedFile>
+                                                Files = new ObservableCollection<TailedFile>
                                                     {
                                                         new TailedFile("WebServices.log", "C:\\Logs\\WebServices.log")
                                                     }

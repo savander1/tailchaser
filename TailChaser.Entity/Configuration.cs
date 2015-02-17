@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
@@ -18,12 +18,15 @@ namespace TailChaser.Entity
         public byte[] Serialize()
         {
             var doc = ConfigDocument();
-            var buffLen = Encoding.UTF8.GetByteCount(doc.InnerXml) + 1024;
-            var buffer = new byte[buffLen];
-            using (var stream = new MemoryStream(buffer))
+            byte[] buffer;
+            using (var stream = new MemoryStream())
             {
-                doc.Save(stream);
-                stream.Flush();
+                using (var writer = new StreamWriter(stream))
+                {
+                    writer.Write(doc.InnerXml);
+                    writer.Flush();
+                }
+                buffer = stream.GetBuffer();
             }
             return buffer;
         }
@@ -106,6 +109,21 @@ namespace TailChaser.Entity
         public override string ToString()
         {
            return ConfigDocument().InnerXml;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        protected bool Equals(Configuration other)
+        {
+            return Equals(Machines, other.Machines);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Machines != null ? Machines.GetHashCode() : 0);
         }
     }
 }
