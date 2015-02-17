@@ -15,7 +15,9 @@
                 
             </controls:GroupBrowserTreeControl>
         </DockPanel>
-        <DockPanel HorizontalAlignment="Right" Height="739" LastChildFill="False" Margin="0,30,0,0" VerticalAlignment="Top" Width="800"/>
+        <DockPanel HorizontalAlignment="Right" Height="739" LastChildFill="False" Margin="0,30,0,0" VerticalAlignment="Top" Width="800">
+            <RichTextBox Name="textBox" ></RichTextBox>
+        </DockPanel>
 
     </Grid>
 </Window>

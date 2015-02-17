@@ -61,11 +61,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Code\ConfigLoadercs.cs" />
+    <Compile Include="Code\ConfigLoader.cs" />
     <Compile Include="Code\GroupOpener.cs" />
     <Compile Include="Code\IFileReader.cs" />
     <Compile Include="Code\IGroupOpener.cs" />
     <Compile Include="Controls\GroupBrowserTreeControl.cs" />
+    <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

@@ -24,11 +24,20 @@ namespace TailChaser
     public partial class MainWindow : Window
     {
         private IGroupOpener _groupOpener;
+        private readonly ConfigLoader _configLoader;
 
         public MainWindow()
         {
             _groupOpener = new GroupOpener(); // TODO: use DI
+            _configLoader = new ConfigLoader();
             InitializeComponent();
+            LoadConfiguration();
+        }
+
+        private void LoadConfiguration()
+        {
+            var configuration = _configLoader.LoadConfiguration();
+            textBox.AppendText(configuration.ToString());
         }
 
         private void NewGrouping_Click(object sender, RoutedEventArgs e)

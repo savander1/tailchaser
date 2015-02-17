@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace TailChaser.Entity
 {
-    [DataContract]
-    [Serializable]
     public class Configuration
     {
-        [DataMember]
+        private const string EncryptionKey =
+            "3098CD2785CE176C559F745189F06204BE6AA526652B96DFFB8CB2AA3E2247E171CB5CBBA4BAA16486A2AA700332B4591CD92257C041EF75D8EDBE32F6171964";
+
+
         public List<Group> Groups { get; set; } 
+
+        public Configuration()
+        {
+            Groups = new List<Group>();
+        }
 
         public byte[] Serialize()
         {
-            var doc = GetConfig();
+            var doc = ConfigDocument();
             var buffLen = doc.InnerXml.Length + 1024;
             var buffer = new byte[buffLen];
             using (var stream = new MemoryStream(buffer))
@@ -30,7 +31,7 @@ namespace TailChaser.Entity
             return buffer;
         }
 
-        private XmlDocument GetConfig()
+        private XmlDocument ConfigDocument()
         {
             var doc = new XmlDocument();
             var dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
@@ -46,23 +47,61 @@ namespace TailChaser.Entity
 
                 grpElm.AppendChild(name);
 
+                var files = doc.CreateElement("files");
                 foreach (var file in group.Files)
                 {
                     var fileElm = doc.CreateElement("file");
                     fileElm.SetAttribute("name", file.Name);
-                    var path = doc.CreateNode(XmlNodeType.Element, "path", null);
-                    var pathNode = doc.CreateTextNode(file.FullName);
-                    path.AppendChild(pathNode);
-
-                    fileElm.AppendChild(path);
-
-                    grpElm.AppendChild(fileElm);
+                    fileElm.SetAttribute("path", file.FullName);
+                    files.AppendChild(fileElm);
                 }
+                grpElm.AppendChild(files);
                 root.AppendChild(grpElm);
             }
             doc.AppendChild(root);
 
             return doc;
+        }
+
+        public static Configuration Deserialize(byte[] bytes)
+        {
+            using (var stream = new MemoryStream(bytes))
+            {
+                var doc = new XmlDocument();
+                doc.Load(stream);
+
+                return GetConfig(doc);
+            }
+        }
+
+        private static Configuration GetConfig(XmlDocument doc)
+        {
+            var config = new Configuration();
+            using (var reader = new XmlNodeReader(doc))
+            {
+                while (reader.Read())
+                {
+                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "group")
+                    {
+                        reader.ReadToDescendant("name");
+                        var name = reader.ReadElementContentAsString();
+                        var group = new Group(name);
+                        while (reader.ReadToDescendant("file"))
+                        {
+                            var fileName = reader.GetAttribute("name");
+                            var filePath = reader.GetAttribute("path");
+                            group.Files.Add(new TailedFile(fileName, filePath));
+                        }
+                        config.Groups.Add(group);
+                    }
+                }
+            }
+            return config;
+        }
+
+        public override string ToString()
+        {
+           return ConfigDocument().InnerXml;
         }
     }
 }
