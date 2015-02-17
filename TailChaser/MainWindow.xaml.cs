@@ -25,6 +25,7 @@ namespace TailChaser
     {
         private IGroupOpener _groupOpener;
         private readonly ConfigLoader _configLoader;
+        private static Configuration _configuration;
 
         public MainWindow()
         {
@@ -32,18 +33,20 @@ namespace TailChaser
             _configLoader = new ConfigLoader();
             InitializeComponent();
             LoadConfiguration();
+            BindTree();
         }
 
         private void LoadConfiguration()
         {
-            var configuration = _configLoader.LoadConfiguration();
-            textBox.AppendText(configuration.ToString());
+            _configuration = _configLoader.LoadConfiguration();
+            
         }
 
-        private void NewGrouping_Click(object sender, RoutedEventArgs e)
+        private void NewMachine_Click(object sender, RoutedEventArgs e)
         {
-            var group = new Group();
-
+            var machine = new Machine();
+            _configuration.Machines.Add(machine);
+            BindTree();
         }
 
         private void OpenGrouping_Click(object sender, RoutedEventArgs e)
@@ -51,14 +54,19 @@ namespace TailChaser
             var fileBrowserDialog = new OpenFileDialog
                 {
                     DefaultExt = ".cfg",
-                    Filter = "Group (*.cfg) | All Files (*.*)",
-                    InitialDirectory = Environment.SpecialFolder.MyDocuments.ToString(),
+                    Filter = "Machine (*.cfg) | All Files (*.*)",
+                    InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                     Multiselect = true,
                     
                 };
 
 
             fileBrowserDialog.ShowDialog();
+        }
+
+        private void BindTree()
+        {
+            MachineTreeView.ItemsSource = _configuration.Machines;
         }
     }
 }

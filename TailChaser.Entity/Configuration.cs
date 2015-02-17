@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Xml;
@@ -7,11 +8,11 @@ namespace TailChaser.Entity
 {
     public class Configuration
     {
-        public List<Machine> Machines { get; set; } 
+        public ObservableCollection<Machine> Machines { get; set; } 
 
         public Configuration()
         {
-            Machines = new List<Machine>();
+            Machines = new ObservableCollection<Machine>();
         }
 
         public byte[] Serialize()
@@ -21,7 +22,6 @@ namespace TailChaser.Entity
             var buffer = new byte[buffLen];
             using (var stream = new MemoryStream(buffer))
             {
-                
                 doc.Save(stream);
                 stream.Flush();
             }

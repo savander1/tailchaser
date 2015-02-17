@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 
 namespace TailChaser.Entity
 {
     public class Machine
     {
         public string Name { get; set; }
-        public List<Group> Groups { get; set; }
+        public ObservableCollection<Group> Groups { get; set; }
 
         public Machine()
         {
-            Groups = new List<Group>();
+            Groups = new ObservableCollection<Group>();
         }
 
         public Machine(string machineName)
         {
             Name = machineName;
-            Groups = new List<Group>();
+            Groups = new ObservableCollection<Group>();
         }
     }
 }
