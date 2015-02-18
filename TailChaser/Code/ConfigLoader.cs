@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Xml;
 using TailChaser.Entity;
 using TailChaser.Exceptions;
 
@@ -36,6 +37,11 @@ namespace TailChaser.Code
             }
 
             catch (DirectoryNotFoundException)
+            {
+                SaveConfiguration(config);
+                return config;
+            }
+            catch (XmlException)
             {
                 SaveConfiguration(config);
                 return config;

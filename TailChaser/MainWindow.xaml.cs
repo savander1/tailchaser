@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.Win32;
 using TailChaser.Code;
 using TailChaser.Entity;
@@ -73,6 +75,23 @@ namespace TailChaser
         private bool NeedsWarning(Configuration savedConfiguration, Configuration currentConfiguration)
         {
             return !savedConfiguration.Equals(currentConfiguration);
+        }
+
+        private void MachineElement_OnMouseRightButtonDown(object sender, RoutedEventArgs e)
+        {
+            var item = (TreeViewItem) sender;
+
+            var node = (Machine)item.DataContext;
+        }
+
+        private void UiElement_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var element = Mouse.DirectlyOver as Border;
+            var type = sender.GetType();
+
+            if (element == null) return;
+            
+            var node = (Machine)element.DataContext;
         }
     }
 }

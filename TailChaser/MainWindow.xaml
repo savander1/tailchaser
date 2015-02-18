@@ -13,7 +13,8 @@
                     <MenuItem Header= "Save" Click="Save_Click"></MenuItem>
                 </MenuItem>
             </Menu>
-            <TreeView Name="MachineTreeView" Width="242" ItemsSource="{Binding}" DockPanel.Dock="Left">
+
+            <TreeView Name="MachineTreeView" Width="242" ItemsSource="{Binding}" DockPanel.Dock="Left"  MouseRightButtonDown="UiElement_OnMouseRightButtonDown">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type entity:Machine}" ItemsSource="{Binding Groups}">
                         <Border Width="150" BorderBrush="DodgerBlue" Background="DodgerBlue" BorderThickness="1" CornerRadius="2" Margin="2" Padding="2">
@@ -21,6 +22,9 @@
                                 <TextBlock Text="{Binding Path=Name}"></TextBlock>
                             </StackPanel>
                         </Border>
+                        <HierarchicalDataTemplate.Triggers>
+                            
+                        </HierarchicalDataTemplate.Triggers>
                     </HierarchicalDataTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type entity:Group}" ItemsSource="{Binding Files}">
                         <Border Width="132" Background="Lavender" CornerRadius="2" Margin="1">
@@ -46,6 +50,11 @@
                             </Grid>
                         </Border>
                     </DataTemplate>
+                    <ContextMenu x:Key="MachineContext" StaysOpen="True">
+                        <MenuItem Header="Add" ></MenuItem>
+                        <MenuItem Header="Rename"></MenuItem>
+                        <MenuItem Header="Delete"></MenuItem>
+                    </ContextMenu>
                 </TreeView.Resources>
             </TreeView>
             <TabControl Name="Tabs" DockPanel.Dock="Right">
