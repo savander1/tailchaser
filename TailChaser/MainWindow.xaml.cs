@@ -34,7 +34,7 @@ namespace TailChaser
 
         private void NewMachine_Click(object sender, RoutedEventArgs e)
         {
-            var machine = new Machine();
+            var machine = new Machine("New Machine");
             _configuration.Machines.Add(machine);
             BindTree();
         }
@@ -77,21 +77,20 @@ namespace TailChaser
             return !savedConfiguration.Equals(currentConfiguration);
         }
 
-        private void MachineElement_OnMouseRightButtonDown(object sender, RoutedEventArgs e)
-        {
-            var item = (TreeViewItem) sender;
-
-            var node = (Machine)item.DataContext;
-        }
-
         private void UiElement_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             var element = Mouse.DirectlyOver as Border;
-            var type = sender.GetType();
+            var contextMenu = new ContextMenu();
 
             if (element == null) return;
-            
-            var node = (Machine)element.DataContext;
+
+            if (element.DataContext.GetType() == typeof (Machine))
+            {
+                element.ContextMenu = contextMenu;
+                contextMenu.Items.Add(new MenuItem { Header = "Add" });
+                contextMenu.Items.Add(new MenuItem().Header = "Rename");
+                contextMenu.Items.Add(new MenuItem().Header = "Delete");
+            }
         }
     }
 }

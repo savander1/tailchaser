@@ -50,15 +50,10 @@
                             </Grid>
                         </Border>
                     </DataTemplate>
-                    <ContextMenu x:Key="MachineContext" StaysOpen="True">
-                        <MenuItem Header="Add" ></MenuItem>
-                        <MenuItem Header="Rename"></MenuItem>
-                        <MenuItem Header="Delete"></MenuItem>
-                    </ContextMenu>
                 </TreeView.Resources>
             </TreeView>
             <TabControl Name="Tabs" DockPanel.Dock="Right">
-                <TabItem Header="Meep"></TabItem>
+                <TabItem Header="Meep" BorderThickness="2"></TabItem>
             </TabControl>
         </DockPanel>
     </Grid>
