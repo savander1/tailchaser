@@ -8,7 +8,7 @@ namespace TailChaser.Code
 {
     public class ConfigLoader
     {
-        private const string ConfigFileName = "data.cfg";
+        private const string ConfigFileName = ".init.cfg";
         private static readonly string ConfigDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                                                                     "TailChaser");
 
