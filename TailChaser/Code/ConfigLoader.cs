@@ -32,7 +32,7 @@ namespace TailChaser.Code
             }
             catch (FileNotFoundException)
             {
-                SaveConfiguration(config);
+                SaveConfiguration(config, true);
                 return config;
             }
 
@@ -52,7 +52,7 @@ namespace TailChaser.Code
             }
         }
 
-        public void SaveConfiguration(Configuration config)
+        public void SaveConfiguration(Configuration config, bool setAtributes = false)
         {
             try
             {
@@ -60,16 +60,20 @@ namespace TailChaser.Code
 
                 using (
                     var stream = new FileStream(ConfigFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
-                                                FileShare.ReadWrite))
+                                                FileShare.ReadWrite ))
                 {
                     stream.Write(configBytes, 0, configBytes.Length);
                     stream.Flush(true);
+                }
+                if (setAtributes)
+                {
+                    File.SetAttributes(ConfigFullPath, FileAttributes.Hidden | FileAttributes.NotContentIndexed);
                 }
             }
             catch (DirectoryNotFoundException)
             {
                 Directory.CreateDirectory(ConfigDirectory);
-                SaveConfiguration(config);
+                SaveConfiguration(config, setAtributes);
             }
             catch (Exception ex)
             {

@@ -18,17 +18,7 @@ namespace TailChaser.Entity
         public byte[] Serialize()
         {
             var doc = ConfigDocument();
-            byte[] buffer;
-            using (var stream = new MemoryStream())
-            {
-                using (var writer = new StreamWriter(stream))
-                {
-                    writer.Write(doc.InnerXml);
-                    writer.Flush();
-                }
-                buffer = stream.GetBuffer();
-            }
-            return buffer;
+            return Encoding.UTF8.GetBytes(doc.InnerXml);
         }
 
         private XmlDocument ConfigDocument()

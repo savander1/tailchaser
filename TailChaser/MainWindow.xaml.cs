@@ -68,13 +68,17 @@ namespace TailChaser
         {
             if (NeedsWarning(_configLoader.LoadConfiguration(), _configuration))
             {
-                
+                MessageBoxResult result = MessageBox.Show("Your application settings have changed. Do you want to save your settings?", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    _configLoader.SaveConfiguration(_configuration);
+                }
             }
         }
 
         private bool NeedsWarning(Configuration savedConfiguration, Configuration currentConfiguration)
         {
-            return !savedConfiguration.Equals(currentConfiguration);
+            return !savedConfiguration.ToString().Equals(currentConfiguration.ToString(), StringComparison.InvariantCultureIgnoreCase);
         }
 
         private void UiElement_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
