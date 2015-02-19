@@ -56,13 +56,9 @@ namespace TailChaser.Entity
 
         public static Configuration Deserialize(byte[] bytes)
         {
-            using (var stream = new MemoryStream(bytes))
-            {
-                var doc = new XmlDocument();
-                doc.Load(stream);
-
-                return GetConfig(doc);
-            }
+            var doc = new XmlDocument();
+            doc.LoadXml(Encoding.UTF8.GetString(bytes));
+            return GetConfig(doc);
         }
 
         private static Configuration GetConfig(XmlDocument doc)
