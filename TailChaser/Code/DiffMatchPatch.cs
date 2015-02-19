@@ -1,4 +1,4 @@
-?/*
+/*
  * Copyright 2008 Google Inc. All Rights Reserved.
  * Author: fraser@google.com (Neil Fraser)
  * Author: anteru@developer.shelter13.net (Matthaeus G. Chajdas)
