@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.Win32;
 using TailChaser.Code;
 using TailChaser.Entity;
@@ -13,13 +14,11 @@ namespace TailChaser
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IGroupOpener _groupOpener;
         private readonly ConfigLoader _configLoader;
         private static Configuration _configuration;
 
         public MainWindow()
         {
-            _groupOpener = new GroupOpener(); // TODO: use DI
             _configLoader = new ConfigLoader();
             InitializeComponent();
             LoadConfiguration();
@@ -28,8 +27,7 @@ namespace TailChaser
 
         private void LoadConfiguration()
         {
-            _configuration = _configLoader.LoadConfiguration();
-            
+            _configuration = _configLoader.LoadConfiguration();    
         }
 
         private void NewMachine_Click(object sender, RoutedEventArgs e)
@@ -49,7 +47,6 @@ namespace TailChaser
                     Multiselect = true,
                     
                 };
-
 
             fileBrowserDialog.ShowDialog();
         }
@@ -83,18 +80,91 @@ namespace TailChaser
 
         private void UiElement_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var element = Mouse.DirectlyOver as Border;
+            var element = Mouse.DirectlyOver as TextBlock;
+            
+            if (element == null) return;
+            //var source = (TreeViewItem)((TextBlock)e.OriginalSource).TemplatedParent;
+
+            if (element.DataContext.GetType() == typeof (Machine) || element.DataContext.GetType() == typeof (Group))
+            {
+                element.ContextMenu = GetContextMenu(element.DataContext);
+            }
+        }
+
+        private void ContextMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (MenuItem) sender;
+            var parameter = item.CommandParameter;
+
+            if (item.Header.Equals(ContentMenuButtonType.Add.ToString()))
+            {
+                if (parameter.GetType() == typeof (Machine))
+                {
+                    _configuration.FindMachine((Machine) parameter).Groups.Add(new Group("New Group"));
+                }
+            }
+            else if (item.Header.Equals(ContentMenuButtonType.Rename.ToString()))
+            {
+                
+            }
+            else if (item.Header.Equals(ContentMenuButtonType.Delete.ToString()))
+            {
+                if (parameter.GetType() == typeof(Machine))
+                {
+                    _configuration.FindMachine((Machine)parameter).Groups.Add(new Group("New Group"));
+                    _configuration.Machines.Remove((Machine)parameter);
+                }
+            }
+        }
+
+        private ContextMenu GetContextMenu(object element)
+        {
             var contextMenu = new ContextMenu();
+            var add = new MenuItem {Header = ContentMenuButtonType.Add.ToString(), CommandParameter = element};
+            add.Click += ContextMenuItem_Click;
+            var rename = new MenuItem {Header = ContentMenuButtonType.Rename.ToString(), CommandParameter = element};
+            rename.Click += ContextMenuItem_Click;
+            var delete = new MenuItem {Header = ContentMenuButtonType.Delete.ToString(), CommandParameter = element};
+            delete.Click += ContextMenuItem_Click;
+
+            contextMenu.Items.Add(add);
+            contextMenu.Items.Add(rename);
+            contextMenu.Items.Add(delete);
+
+            return contextMenu;
+        }
+
+        private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
+        {
+            var element = Mouse.DirectlyOver as TextBlock;
 
             if (element == null) return;
 
-            if (element.DataContext.GetType() == typeof (Machine))
+            var parent = element.Parent;
+
+            if (parent.GetType() == typeof (StackPanel))
             {
-                element.ContextMenu = contextMenu;
-                contextMenu.Items.Add(new MenuItem { Header = "Add" });
-                contextMenu.Items.Add(new MenuItem().Header = "Rename");
-                contextMenu.Items.Add(new MenuItem().Header = "Delete");
+                var txt = (TextBox)((StackPanel)parent).Children[1];
+                txt.Visibility = Visibility.Visible;
+                txt.SelectedText = element.Text;
+                txt.Focus();
+                element.Visibility = Visibility.Collapsed;
             }
+            
+
         }
+
+        protected void Txtbox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var tb = (TextBlock)((StackPanel)((TextBox)sender).Parent).Children[0];
+            tb.Text = ((TextBox)sender).Text;
+            tb.Visibility = Visibility.Visible;
+            ((TextBox)sender).Visibility = Visibility.Collapsed;
+        }
+    }
+
+    internal enum ContentMenuButtonType
+    {
+        Add, Rename, Delete
     }
 }

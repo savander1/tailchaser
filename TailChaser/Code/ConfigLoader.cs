@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
+using System.Xml.Serialization;
 using TailChaser.Entity;
 using TailChaser.Exceptions;
 
@@ -19,15 +20,10 @@ namespace TailChaser.Code
             var config = new Configuration();
             try
             {
+                var serializer = new XmlSerializer(typeof(Configuration));
                 using (var stream = File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
-                    var bytes = new byte[stream.Length];
-                    stream.Read(bytes, 0, bytes.Length);
-                    stream.Flush();
-
-                    config = Configuration.Deserialize(bytes);
-
-                    return config;
+                    return serializer.Deserialize(stream) as Configuration;
                 }
             }
             catch (FileNotFoundException)
@@ -56,14 +52,12 @@ namespace TailChaser.Code
         {
             try
             {
-                var configBytes = config.Serialize();
-
+                var serializer = new XmlSerializer(typeof(Configuration));
                 using (
                     var stream = new FileStream(ConfigFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
-                                                FileShare.ReadWrite ))
+                                                FileShare.ReadWrite))
                 {
-                    stream.Write(configBytes, 0, configBytes.Length);
-                    stream.Flush(true);
+                    serializer.Serialize(stream, config);
                 }
                 if (setAtributes)
                 {

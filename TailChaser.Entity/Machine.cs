@@ -1,21 +1,37 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace TailChaser.Entity
 {
+    [DataContract]
     public class Machine
     {
+        [DataMember]
+        [XmlAttribute("name")]
         public string Name { get; set; }
+
+        [DataMember]
+        [XmlArrayItem("group", typeof(Group))]
+        [XmlArray("groups")]
         public ObservableCollection<Group> Groups { get; set; }
 
-        public Machine()
-        {
-            Groups = new ObservableCollection<Group>();
-        }
+        [DataMember]
+        [XmlAttribute("uid")]
+        public Guid Id { get; set; }
 
+        [DataMember]
+        [XmlAttribute("exp")]
+        public bool Expanded { get; set; }
+
+        public Machine(): this(string.Empty){}
+       
         public Machine(string machineName)
         {
             Name = machineName;
             Groups = new ObservableCollection<Group>();
+            Id = Guid.NewGuid();
         }
 
         public override bool Equals(object obj)

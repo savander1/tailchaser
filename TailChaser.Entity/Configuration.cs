@@ -1,13 +1,19 @@
 ﻿
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace TailChaser.Entity
 {
+    [DataContract]
     public class Configuration
     {
+        [XmlArrayItem("machine", typeof(Machine))]
+        [XmlArray("machines")]
         public ObservableCollection<Machine> Machines { get; set; } 
 
         public Configuration()
@@ -15,86 +21,28 @@ namespace TailChaser.Entity
             Machines = new ObservableCollection<Machine>();
         }
 
-        public byte[] Serialize()
+        public Machine FindMachine(Machine toFind)
         {
-            var doc = ConfigDocument();
-            return Encoding.UTF8.GetBytes(doc.InnerXml);
-        }
-
-        private XmlDocument ConfigDocument()
-        {
-            var doc = new XmlDocument();
-            var dec = doc.CreateXmlDeclaration("1.0", "utf-8", null);
-            doc.AppendChild(dec);
-
-            var root = doc.CreateElement("machines");
-            foreach (var machine in Machines)
-            {
-                var machineElm = doc.CreateElement("machine");
-                machineElm.SetAttribute("name", machine.Name);
-                foreach (var group in machine.Groups)
-                {
-                    var grpElm = doc.CreateElement("group");
-                    grpElm.SetAttribute("name", group.Name);
-                    var files = doc.CreateElement("files");
-                    foreach (var file in group.Files)
-                    {
-                        var fileElm = doc.CreateElement("file");
-                        fileElm.SetAttribute("name", file.Name);
-                        fileElm.SetAttribute("path", file.FullName);
-                        files.AppendChild(fileElm);
-                    }
-                    grpElm.AppendChild(files);
-                    machineElm.AppendChild(grpElm);
-                }
-                root.AppendChild(machineElm);
-            }
-            doc.AppendChild(root);
-
-            return doc;
-        }
-
-        public static Configuration Deserialize(byte[] bytes)
-        {
-            var doc = new XmlDocument();
-            doc.LoadXml(Encoding.UTF8.GetString(bytes));
-            return GetConfig(doc);
-        }
-
-        private static Configuration GetConfig(XmlDocument doc)
-        {
-            var config = new Configuration();
-            using (var reader = new XmlNodeReader(doc))
-            {
-                while (reader.Read())
-                {
-                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "machine")
-                    {
-
-                        var machineName = reader.GetAttribute("name");
-                        var machine = new Machine(machineName);
-                        while (reader.ReadToDescendant("group"))
-                        {
-                            var name = reader.GetAttribute("name");
-                            var group = new Group(name);
-                            while (reader.ReadToDescendant("file"))
-                            {
-                                var fileName = reader.GetAttribute("name");
-                                var filePath = reader.GetAttribute("path");
-                                group.Files.Add(new TailedFile(fileName, filePath));
-                            }
-                            machine.Groups.Add(group);
-                        }
-                        config.Machines.Add(machine);
-                    }
-                }
-            }
-            return config;
+            return Machines.FirstOrDefault(x => x.Id.Equals(toFind.Id));
         }
 
         public override string ToString()
         {
-           return ConfigDocument().InnerXml;
+            var builder = new StringBuilder();
+            foreach (var machine in Machines)
+            {
+                builder.Append(machine.Name);
+                foreach (var group in machine.Groups)
+                {
+                    builder.Append(group.Name);
+                    foreach (var file in group.Files)
+                    {
+                        builder.Append(file.Name);
+                        builder.Append(file.FullName);
+                    }
+                }
+            }
+            return builder.ToString();
         }
 
         public override bool Equals(object obj)
