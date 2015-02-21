@@ -79,7 +79,7 @@ namespace TailChaser
 
         private bool NeedsWarning(Configuration savedConfiguration, Configuration currentConfiguration)
         {
-            return !savedConfiguration.ToString().Equals(currentConfiguration.ToString(), StringComparison.InvariantCultureIgnoreCase);
+            return !savedConfiguration.Equals(currentConfiguration);
         }
 
         private void UiElement_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -87,7 +87,6 @@ namespace TailChaser
             var element = Mouse.DirectlyOver as TextBlock;
             
             if (element == null) return;
-            //var source = (TreeViewItem)((TextBlock)e.OriginalSource).TemplatedParent;
 
             if (element.DataContext.GetType() == typeof (Machine) || element.DataContext.GetType() == typeof (Group))
             {
@@ -104,18 +103,36 @@ namespace TailChaser
             {
                 if (parameter.GetType() == typeof (Machine))
                 {
-                    _configuration.FindMachine((Machine) parameter).Groups.Add(new Group("New Group"));
+                    _configuration.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
                 }
-            }
-            else if (item.Header.Equals(ContentMenuButtonType.Rename.ToString()))
-            {
-                
+                if (parameter.GetType() == typeof(Group))
+                {
+                    var dialog = new OpenFileDialog
+                        {
+                            Filter = "Log Files (*.txt, *.log)|*.txt;*.log|All files (*.*)|*.*",
+                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+                            Multiselect = true,
+                        };
+
+                    dialog.FileOk += (o, args) =>
+                        {
+                            if (!args.Cancel)
+                            {
+                                foreach (var filename in dialog.FileNames)
+                                {
+                                    _configuration.FindGroup(((Group)parameter).Id).Files.Add(new TailedFile(filename, filename));
+                                }
+                            }
+                        };
+
+                    dialog.ShowDialog();
+                }
             }
             else if (item.Header.Equals(ContentMenuButtonType.Delete.ToString()))
             {
                 if (parameter.GetType() == typeof(Machine))
                 {
-                    _configuration.FindMachine((Machine)parameter).Groups.Add(new Group("New Group"));
+                    _configuration.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
                     _configuration.Machines.Remove((Machine)parameter);
                 }
             }
@@ -126,13 +143,10 @@ namespace TailChaser
             var contextMenu = new ContextMenu();
             var add = new MenuItem {Header = ContentMenuButtonType.Add.ToString(), CommandParameter = element};
             add.Click += ContextMenuItem_Click;
-            var rename = new MenuItem {Header = ContentMenuButtonType.Rename.ToString(), CommandParameter = element};
-            rename.Click += ContextMenuItem_Click;
             var delete = new MenuItem {Header = ContentMenuButtonType.Delete.ToString(), CommandParameter = element};
             delete.Click += ContextMenuItem_Click;
 
             contextMenu.Items.Add(add);
-            contextMenu.Items.Add(rename);
             contextMenu.Items.Add(delete);
 
             return contextMenu;

@@ -1,11 +1,11 @@
 ﻿
+using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
+using TailChaser.Entity.Extensions;
 
 namespace TailChaser.Entity
 {
@@ -21,9 +21,17 @@ namespace TailChaser.Entity
             Machines = new ObservableCollection<Machine>();
         }
 
-        public Machine FindMachine(Machine toFind)
+        public Machine FindMachine(Guid machineId)
         {
-            return Machines.FirstOrDefault(x => x.Id.Equals(toFind.Id));
+            return Machines.FirstOrDefault(x => x.Id.Equals(machineId));
+        }
+
+        public Group FindGroup(Guid groupId)
+        {
+            return (from machine in Machines
+                    where machine.FindGroup(groupId) != null
+                    select machine.FindGroup(groupId))
+                    .FirstOrDefault();
         }
 
         public override string ToString()
@@ -47,17 +55,18 @@ namespace TailChaser.Entity
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
-        }
+            var other = obj as Configuration;
+            if (other == null) return false;
 
-        protected bool Equals(Configuration other)
-        {
-            return Equals(Machines, other.Machines);
-        }
+            var thisBytes = ToString().GetHash();
+            var otherBytes = obj.ToString().GetHash();
 
-        public override int GetHashCode()
-        {
-            return (Machines != null ? Machines.GetHashCode() : 0);
+            if (thisBytes.Length != otherBytes.Length)
+            {
+                return false;
+            }
+
+            return !thisBytes.Where((t, i) => t != otherBytes[i]).Any();
         }
     }
 }

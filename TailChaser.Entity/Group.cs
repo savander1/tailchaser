@@ -33,23 +33,5 @@ namespace TailChaser.Entity
             Files = new ObservableCollection<TailedFile>();
             Id = Guid.NewGuid();
         }
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        protected bool Equals(Group other)
-        {
-            return string.Equals(Name, other.Name) && Equals(Files, other.Files);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (Files != null ? Files.GetHashCode() : 0);
-            }
-        }
     }
 }

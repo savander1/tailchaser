@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -34,22 +35,9 @@ namespace TailChaser.Entity
             Id = Guid.NewGuid();
         }
 
-        public override bool Equals(object obj)
+        public Group FindGroup(Guid groupId)
         {
-            return base.Equals(obj);
-        }
-
-        protected bool Equals(Machine other)
-        {
-            return string.Equals(Name, other.Name) && Equals(Groups, other.Groups);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (Groups != null ? Groups.GetHashCode() : 0);
-            }
+            return Groups.FirstOrDefault(x => x.Id.Equals(groupId));
         }
     }
 }

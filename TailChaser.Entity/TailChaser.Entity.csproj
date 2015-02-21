@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="IExpandable.cs" />
     <Compile Include="IItem.cs" />
