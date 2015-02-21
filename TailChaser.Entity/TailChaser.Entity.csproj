@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Configuration.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="IExpandable.cs" />
+    <Compile Include="IItem.cs" />
     <Compile Include="Machine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TailedFile.cs" />

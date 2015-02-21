@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace TailChaser.Entity
 {
     [DataContract]
-    public class Group
+    public class Group : IItem, IExpandable
     {
         [DataMember]
         [XmlAttribute("name")]

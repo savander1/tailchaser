@@ -109,6 +109,12 @@
       <Name>TailChaser.Entity</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Iconlicious-Misc-File.ico" />
+    <Resource Include="Resources\Iconlicious-Misc-Folder.ico" />
+    <Resource Include="Resources\Iconlicious-Misc-Monitor.ico" />
+    <Resource Include="Resources\Iconlicious-Misc-Tv.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

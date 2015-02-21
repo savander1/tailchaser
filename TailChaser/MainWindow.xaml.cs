@@ -65,10 +65,14 @@ namespace TailChaser
         {
             if (NeedsWarning(_configLoader.LoadConfiguration(), _configuration))
             {
-                MessageBoxResult result = MessageBox.Show("Your application settings have changed. Do you want to save your settings?", "Warning", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
+                MessageBoxResult result = MessageBox.Show("Your application settings have changed. Do you want to save your settings?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
                 {
                     _configLoader.SaveConfiguration(_configuration);
+                }
+                else if (result == MessageBoxResult.Cancel)
+                {
+                    e.Cancel = true;
                 }
             }
         }
@@ -136,7 +140,7 @@ namespace TailChaser
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
         {
-            var element = Mouse.DirectlyOver as TextBlock;
+            var element = e.OriginalSource as TextBlock;
 
             if (element == null) return;
 
@@ -144,22 +148,40 @@ namespace TailChaser
 
             if (parent.GetType() == typeof (StackPanel))
             {
-                var txt = (TextBox)((StackPanel)parent).Children[1];
+                var txt = (TextBox)((StackPanel)parent).Children[2];
                 txt.Visibility = Visibility.Visible;
-                txt.SelectedText = element.Text;
+                txt.SelectAll();
                 txt.Focus();
+                txt.KeyUp += (o, args) =>
+                    {
+                        if (args.Key == Key.Enter)
+                        {
+                            ((StackPanel)parent).Children[1].Focus();
+                        }
+                    };
                 element.Visibility = Visibility.Collapsed;
             }
-            
 
+            var item = (TreeViewItem) sender;
+            var expandable = item.DataContext as IExpandable;
+            if (expandable != null)
+            {
+                item.IsExpanded = expandable.Expanded;
+            }
+            
         }
 
         protected void Txtbox_LostFocus(object sender, RoutedEventArgs e)
         {
-            var tb = (TextBlock)((StackPanel)((TextBox)sender).Parent).Children[0];
+            var tb = (TextBlock)((StackPanel)((TextBox)sender).Parent).Children[1];
             tb.Text = ((TextBox)sender).Text;
             tb.Visibility = Visibility.Visible;
             ((TextBox)sender).Visibility = Visibility.Collapsed;
+        }
+
+        private void TreeviewItem_OnSelected(object sender, RoutedEventArgs e)
+        {
+            ((TreeViewItem) e.OriginalSource).IsSelected = false;
         }
     }
 

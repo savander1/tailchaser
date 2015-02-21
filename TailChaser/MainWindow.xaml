@@ -17,12 +17,13 @@
 
 
             <TreeView Name="MachineTreeView" Width="242" ItemsSource="{Binding}" DockPanel.Dock="Left"  
-                      MouseRightButtonDown="UiElement_OnMouseRightButtonDown">
+                      MouseRightButtonDown="UiElement_OnMouseRightButtonDown"  Padding="10,01,10,10">
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type entity:Machine}" ItemsSource="{Binding Groups}">
-                        <StackPanel Orientation="Horizontal" IsHitTestVisible="True">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Resources\Iconlicious-Misc-Monitor.ico" Height="20" SnapsToDevicePixels="True"></Image>
                             <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                            <TextBox LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
+                            <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
                         </StackPanel>
                         <HierarchicalDataTemplate.ItemContainerStyle>
                             <Style TargetType ="{x:Type TreeViewItem}">
@@ -31,9 +32,11 @@
                         </HierarchicalDataTemplate.ItemContainerStyle>
                     </HierarchicalDataTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type entity:Group}" ItemsSource="{Binding Files}">
-                        <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Resources\Iconlicious-Misc-Folder.ico" Height="20" SnapsToDevicePixels="True"></Image>
                             <TextBlock Margin="2" Text="{Binding Path=Name}"></TextBlock>
-                        </Grid>
+                            <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
+                        </StackPanel>
                         <HierarchicalDataTemplate.ItemContainerStyle>
                             <Style TargetType ="{x:Type TreeViewItem}">
                                 <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"></Setter>
@@ -41,19 +44,22 @@
                         </HierarchicalDataTemplate.ItemContainerStyle>
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type entity:TailedFile}">
-                        <Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Resources\Iconlicious-Misc-File.ico" Height="20" SnapsToDevicePixels="True"></Image>
                             <TextBlock Margin="2" Text="{Binding Path=Name}"></TextBlock>
-                        </Grid>
+                            <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
+                        </StackPanel>
                     </DataTemplate>
                     <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"></Setter>
-                        <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"></EventSetter>
+                        <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"/>
+                        <Setter Property="Focusable" Value="False" />
+                        <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
+                        <EventSetter Event="Selected" Handler="TreeviewItem_OnSelected"></EventSetter>
                     </Style>
                 </TreeView.Resources>
             </TreeView>
-            <TabControl Name="Tabs" DockPanel.Dock="Right">
-                <TabItem Header="Meep" BorderThickness="2"></TabItem>
-            </TabControl>
+
+                <RichTextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right"></RichTextBox>
         </DockPanel>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 namespace TailChaser.Entity
 {
     [DataContract]
-    public class TailedFile
+    public class TailedFile : IItem
     {
         [DataMember]
         [XmlAttribute("name")]
