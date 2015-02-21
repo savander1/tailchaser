@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -32,6 +33,14 @@ namespace TailChaser.Entity
             Name = name;
             Files = new ObservableCollection<TailedFile>();
             Id = Guid.NewGuid();
+        }
+
+        public void AddFile(TailedFile file)
+        {
+            if (Files.All(x => x.FullName != file.FullName))
+            {
+                Files.Add(file);
+            }
         }
     }
 }

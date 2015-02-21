@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using Microsoft.Win32;
 using TailChaser.Code;
 using TailChaser.Entity;
@@ -120,7 +119,7 @@ namespace TailChaser
                             {
                                 foreach (var filename in dialog.FileNames)
                                 {
-                                    _configuration.FindGroup(((Group)parameter).Id).Files.Add(new TailedFile(filename, filename));
+                                    _configuration.FindGroup(((Group)parameter).Id).AddFile(new TailedFile(filename));
                                 }
                             }
                         };
@@ -195,7 +194,14 @@ namespace TailChaser
 
         private void TreeviewItem_OnSelected(object sender, RoutedEventArgs e)
         {
-            ((TreeViewItem) e.OriginalSource).IsSelected = false;
+            var item = (TreeViewItem) e.OriginalSource;
+            item.IsSelected = false;
+
+            if (item.Header.GetType() == typeof (TailedFile))
+            {
+                // load file in rtf.
+            }
+            
         }
     }
 

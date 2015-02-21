@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
@@ -20,6 +21,8 @@ namespace TailChaser.Entity
         public Guid Id { get; set; }
 
         public TailedFile() : this(string.Empty, string.Empty) { }
+
+        public TailedFile(string fullname) : this(Path.GetFileName(fullname), fullname) { }
 
         public TailedFile(string name, string fullName)
         {
