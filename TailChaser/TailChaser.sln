@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser", "TailChaser.csproj", "{4D4C8377-343E-49AC-ABC1-A5E370C539F5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.Entity", "..\TailChaser.Entity\TailChaser.Entity.csproj", "{36790AED-4C87-4B37-B380-B5C783A28E41}"
@@ -8,6 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5BF71CFA-CAA0-48C9-B2D2-8388DFAB0A36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.Entity.Tests", "TailChaser.Entity.Tests\TailChaser.Entity.Tests.csproj", "{61BC5A0F-308B-4345-B5F9-C8F296BA10B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.Tail", "..\TailChaser.Tail\TailChaser.Tail.csproj", "{C81A492C-9088-489A-933B-5BB9884B9CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,10 @@ Global
 		{61BC5A0F-308B-4345-B5F9-C8F296BA10B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61BC5A0F-308B-4345-B5F9-C8F296BA10B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61BC5A0F-308B-4345-B5F9-C8F296BA10B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81A492C-9088-489A-933B-5BB9884B9CB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81A492C-9088-489A-933B-5BB9884B9CB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81A492C-9088-489A-933B-5BB9884B9CB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81A492C-9088-489A-933B-5BB9884B9CB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

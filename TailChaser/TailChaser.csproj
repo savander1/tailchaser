@@ -108,6 +108,10 @@
       <Project>{36790aed-4c87-4b37-b380-b5c783a28e41}</Project>
       <Name>TailChaser.Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TailChaser.Tail\TailChaser.Tail.csproj">
+      <Project>{c81a492c-9088-489a-933b-5bb9884b9cb6}</Project>
+      <Name>TailChaser.Tail</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Iconlicious-Misc-File.ico" />

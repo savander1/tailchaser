@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using TailChaser.Code;
 using TailChaser.Entity;
+using TailChaser.Tail;
 
 namespace TailChaser
 {
@@ -15,10 +16,12 @@ namespace TailChaser
     {
         private readonly ConfigLoader _configLoader;
         private static Configuration _configuration;
+        private readonly Tailer _tailer;
 
         public MainWindow()
         {
             _configLoader = new ConfigLoader();
+            _tailer = new Tailer();
             InitializeComponent();
             LoadConfiguration();
             BindTree();
@@ -120,6 +123,7 @@ namespace TailChaser
                                 foreach (var filename in dialog.FileNames)
                                 {
                                     _configuration.FindGroup(((Group)parameter).Id).AddFile(new TailedFile(filename));
+                                    _tailer.TailFile(filename);
                                 }
                             }
                         };
@@ -196,10 +200,13 @@ namespace TailChaser
         {
             var item = (TreeViewItem) e.OriginalSource;
             item.IsSelected = false;
+            item.ExpandSubtree();
 
             if (item.Header.GetType() == typeof (TailedFile))
             {
                 // load file in rtf.
+                item.IsSelected = true;
+
             }
             
         }

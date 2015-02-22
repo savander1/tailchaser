@@ -54,7 +54,7 @@ namespace TailChaser.Code
             {
                 var serializer = new XmlSerializer(typeof(Configuration));
                 using (
-                    var stream = new FileStream(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite,
+                    var stream = new FileStream(ConfigFullPath, FileMode.Create, FileAccess.ReadWrite,
                                                 FileShare.ReadWrite))
                 {
                     serializer.Serialize(stream, config);
