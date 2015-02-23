@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Messaging;
+﻿using System.Messaging;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
     internal class FileUpdater
     {
-        private static MessageQueue _quene = new MessageQueue(".\\Private$\\tailChaser");
+        private static readonly MessageQueue Quene = new MessageQueue(".\\Private$\\tailChaser");
 
         private string _file;
+        private readonly OnFileUpdated _onFileUpdated;
         private StringBuilder _builder;
+        private readonly IFileReaderAsync _fileReader;
 
-        public FileUpdater(string file)
+        public FileUpdater(string file, OnFileUpdated onFileUpdated)
         {
             _file = file;
+            _onFileUpdated = onFileUpdated;
             _builder = new StringBuilder();
             StartPolling();
             
@@ -26,9 +25,10 @@ namespace TailChaser.Tail
 
         private void StartPolling()
         {
-
-            ThreadPool.QueueUserWorkItem(ThreadProc);
-            
+            while (true)
+            {
+                
+            }   
         }
 
         private static void ThreadProc(object obj)
