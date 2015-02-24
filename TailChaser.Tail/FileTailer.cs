@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using DiffMatchPatch;
 using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
-    internal class FileTailer
+    public class FileTailer
     {
-        public FileWatcher Watcher {get; set;}
+        public FileWatcher Watcher { get; set; }
         public FileUpdater Updater { get; set; }
-        private readonly IFileReaderAsync _fileReader;
+        private static IFileReaderAsync _fileReader;
 
         public string FileContent { get; private set; }
+        public List<Patch> Patches { get; private set; }
 
-        private static readonly object SyncRoot = new Object();
+    private static readonly object SyncRoot = new Object();
         private static volatile Stack<FileChange> _stack;
         public static Stack<FileChange> Stack
         {
@@ -36,20 +38,23 @@ namespace TailChaser.Tail
         {
             Watcher = watcher;
             _fileReader = new FileReaderAsync();
-           
+            Patches = new List<Patch>();
         }
 
         public static FileTailer Create(string fullPath)
         {
             var watcher = new FileWatcher(fullPath, Stack);
+            var fileTailer = new FileTailer(watcher);
+            fileTailer.SetFileContent(fullPath);
             
-            var fileStruct = new FileTailer(watcher);
-            var updater = new FileUpdater(fullPath, Stack, diff => fileStruct.FileContent = (string)diff);
-            fileStruct.Updater = updater;
+            
+            var updater = new FileUpdater(fullPath, Stack, fileTailer.FileContent, _fileReader);
+            fileTailer.Updater = updater;
+            
 
-            fileStruct.SetFileContent(fullPath);
+            
 
-            return fileStruct;
+            return fileTailer;
         }
 
         private async void SetFileContent(string path)

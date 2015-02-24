@@ -2,7 +2,7 @@
 
 namespace TailChaser.Tail.Interfaces
 {
-    internal interface IFileReaderAsync
+    public interface IFileReaderAsync
     {
         Task<string> ReadFileContents(string filePath);
     }

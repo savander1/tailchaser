@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TailChaser.Tail
 {
-    internal class FileWatcher
+    public class FileWatcher
     {
         private readonly Stack<FileChange> _stack;
 
