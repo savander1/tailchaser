@@ -59,7 +59,7 @@ namespace TailChaser.Tail
 
         private async void SetFileContent(string path)
         {
-            FileContent = await _fileReader.ReadFileContents(path);
+            FileContent = await _fileReader.ReadFileContentsAsync(path);
         }
     }
 }

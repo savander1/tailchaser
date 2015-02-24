@@ -6,20 +6,16 @@ namespace TailChaser.Tail
 {
     public class Tailer : ITail
     {
-        private static Dictionary<string, FileTailer> _watchedFiles;
-        
+        private readonly IFileReaderAsync _reader;
 
-        public Tailer()
+        public Tailer(IFileReaderAsync reader)
         {
-            _watchedFiles = new Dictionary<string,FileTailer>();
+            _reader = reader;
         }
 
-        public void TailFile(string filePath)
+        public async void TailFile(string filePath)
         {
-            if (!_watchedFiles.ContainsKey(filePath))
-            {
-                _watchedFiles.Add(filePath, FileTailer.Create(filePath));
-            }
+            var content = await _reader.ReadFileContentsAsync(filePath);
         }
     }
 }

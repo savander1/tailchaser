@@ -34,7 +34,7 @@ namespace TailChaser.Tail
 
                 if (change != null)
                 {
-                    var currentContent = await _reader.ReadFileContents(_fullPath);
+                    var currentContent = await _reader.ReadFileContentsAsync(_fullPath);
                     ProcessChange(lastFileContent, currentContent, change, lastChange);
                     lastChange = change.ChangeDetected;
                     lastFileContent = currentContent;

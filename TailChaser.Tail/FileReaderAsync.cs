@@ -6,7 +6,7 @@ namespace TailChaser.Tail
 {
     public class FileReaderAsync : IFileReaderAsync
     {
-        public Task<string> ReadFileContents(string filePath)
+        public Task<string> ReadFileContentsAsync(string filePath)
         {
             try
             {
