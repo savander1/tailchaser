@@ -6,16 +6,16 @@ namespace TailChaser.Tail
 {
     internal class FileWatcher
     {
-        private readonly Queue<FileChange> _queue;
+        private readonly Stack<FileChange> _stack;
 
         private readonly FileSystemWatcher _watcher;
 
-        public FileWatcher(string file, Queue<FileChange> queue)
+        public FileWatcher(string file, Stack<FileChange> stack)
         {
-            _queue = queue;
+            _stack = stack;
             _watcher = new FileSystemWatcher();
             InitWatcher(file);
-            _queue.Enqueue(new FileChange{ChangeDetected = DateTime.UtcNow, FilePath = file});
+            _stack.Push(new FileChange(file));
             _watcher.EnableRaisingEvents = true;
         }
 
@@ -32,15 +32,9 @@ namespace TailChaser.Tail
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            var evnt = new FileChange
-                {
-                    ChangeDetected = DateTime.UtcNow,
-                    FilePath = e.FullPath,
-                    Type = e.ChangeType
-                };
-            _queue.Enqueue(evnt);
+            _stack.Push(new FileChange(e.FullPath, e.ChangeType));
         }
 
-
+       
     }
 }

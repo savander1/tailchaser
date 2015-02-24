@@ -7,13 +7,13 @@ namespace TailChaser.Tail
     internal class FileUpdater
     {
         private readonly string _fullPath;
-        private readonly Queue<FileChange> _queue;
+        private readonly Stack<FileChange> _stack;
         private readonly Func<object, string> _func;
 
-        public FileUpdater(string fullPath, Queue<FileChange> queue, Func<object, string> func)
+        public FileUpdater(string fullPath, Stack<FileChange> stack, Func<object, string> func)
         {
             _fullPath = fullPath;
-            _queue = queue;
+            _stack = stack;
             _func = func;
         }
 
@@ -21,7 +21,7 @@ namespace TailChaser.Tail
         {
             while (true)
             {
-                var change = _queue.Dequeue();
+                var change = _stack.Pop();
 
                 if (change != null)
                 {

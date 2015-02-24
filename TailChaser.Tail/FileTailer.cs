@@ -4,7 +4,7 @@ using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
-    internal class FileStruct
+    internal class FileTailer
     {
         public FileWatcher Watcher {get; set;}
         public FileUpdater Updater { get; set; }
@@ -13,38 +13,38 @@ namespace TailChaser.Tail
         public string FileContent { get; private set; }
 
         private static readonly object SyncRoot = new Object();
-        private static volatile Queue<FileChange> _queue;
-        public static Queue<FileChange> Queue
+        private static volatile Stack<FileChange> _stack;
+        public static Stack<FileChange> Stack
         {
             get
             {
-                if (_queue == null)
+                if (_stack == null)
                 {
                     lock (SyncRoot)
                     {
-                        if (_queue == null)
+                        if (_stack == null)
                         {
-                            _queue = new Queue<FileChange>();
+                            _stack = new Stack<FileChange>();
                         }
                     }
                 }
-                return _queue;
+                return _stack;
             }
         }
 
-        private FileStruct(FileWatcher watcher)
+        private FileTailer(FileWatcher watcher)
         {
             Watcher = watcher;
             _fileReader = new FileReaderAsync();
            
         }
 
-        public static FileStruct Create(string fullPath)
+        public static FileTailer Create(string fullPath)
         {
-            var watcher = new FileWatcher(fullPath, Queue);
+            var watcher = new FileWatcher(fullPath, Stack);
             
-            var fileStruct = new FileStruct(watcher);
-            var updater = new FileUpdater(fullPath, Queue, diff => fileStruct.FileContent = (string)diff);
+            var fileStruct = new FileTailer(watcher);
+            var updater = new FileUpdater(fullPath, Stack, diff => fileStruct.FileContent = (string)diff);
             fileStruct.Updater = updater;
 
             fileStruct.SetFileContent(fullPath);

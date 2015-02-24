@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiffMatchPatch.cs" />
-    <Compile Include="FileStruct.cs" />
+    <Compile Include="FileTailer.cs" />
     <Compile Include="FileUpdater.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="FileReaderAsync.cs" />
