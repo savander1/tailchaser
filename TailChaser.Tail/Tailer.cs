@@ -7,25 +7,7 @@ namespace TailChaser.Tail
     public class Tailer : ITail
     {
         private static Dictionary<string, FileStruct> _watchedFiles;
-        private static readonly object SyncRoot = new Object();
-        private static volatile Queue<FileChange> _queue;
-        public static Queue<FileChange> Queue
-        {
-            get
-            {
-                if (_queue == null)
-                {
-                    lock (SyncRoot)
-                    {
-                        if (_queue == null)
-                        {
-                            _queue = new Queue<FileChange>();
-                        }
-                    }
-                }
-                return _queue;
-            }
-        }
+        
 
         public Tailer()
         {
@@ -36,7 +18,7 @@ namespace TailChaser.Tail
         {
             if (!_watchedFiles.ContainsKey(filePath))
             {
-                _watchedFiles.Add(filePath, FileStruct.Create(filePath, Queue));
+                _watchedFiles.Add(filePath, FileStruct.Create(filePath));
             }
         }
     }

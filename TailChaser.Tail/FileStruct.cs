@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
@@ -11,6 +12,26 @@ namespace TailChaser.Tail
 
         public string FileContent { get; private set; }
 
+        private static readonly object SyncRoot = new Object();
+        private static volatile Queue<FileChange> _queue;
+        public static Queue<FileChange> Queue
+        {
+            get
+            {
+                if (_queue == null)
+                {
+                    lock (SyncRoot)
+                    {
+                        if (_queue == null)
+                        {
+                            _queue = new Queue<FileChange>();
+                        }
+                    }
+                }
+                return _queue;
+            }
+        }
+
         private FileStruct(FileWatcher watcher)
         {
             Watcher = watcher;
@@ -18,12 +39,12 @@ namespace TailChaser.Tail
            
         }
 
-        public static FileStruct Create(string fullPath, Queue<FileChange> queue)
+        public static FileStruct Create(string fullPath)
         {
-            var watcher = new FileWatcher(fullPath, queue);
+            var watcher = new FileWatcher(fullPath, Queue);
             
             var fileStruct = new FileStruct(watcher);
-            var updater = new FileUpdater(fullPath, queue, diff => fileStruct.FileContent = (string)diff);
+            var updater = new FileUpdater(fullPath, Queue, diff => fileStruct.FileContent = (string)diff);
             fileStruct.Updater = updater;
 
             fileStruct.SetFileContent(fullPath);

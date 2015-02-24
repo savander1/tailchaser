@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Messaging;
 using System.Threading;
 
 namespace TailChaser.Tail
 {
     internal class FileUpdater
     {
-        private static readonly MessageQueue Quene = new MessageQueue(".\\Private$\\tailChaser");
         private readonly string _fullPath;
         private readonly Queue<FileChange> _queue;
         private readonly Func<object, string> _func;
@@ -24,12 +21,9 @@ namespace TailChaser.Tail
         {
             while (true)
             {
-                var message = Quene.GetAllMessages()
-                                   .Where(x => x.Body.Equals(_fullPath))
-                                   .OrderByDescending(x => x.ArrivedTime)
-                                   .FirstOrDefault();
+                var change = _queue.Dequeue();
 
-                if (message != null)
+                if (change != null)
                 {
                     _func(_fullPath);
                 }
