@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using Microsoft.Win32;
 using TailChaser.Code;
@@ -17,12 +18,12 @@ namespace TailChaser
     {
         private readonly ConfigLoader _configLoader;
         private static Configuration _configuration;
-        private readonly Tailer _tailer;
+        private readonly FileManager _fileManager;
 
         public MainWindow()
         {
             _configLoader = new ConfigLoader();
-            _tailer = new Tailer();
+            _fileManager = new FileManager();
             InitializeComponent();
             LoadConfiguration();
             BindTree();
@@ -41,7 +42,18 @@ namespace TailChaser
                                  from file in @group.Files 
                                  select file)
             {
-                _tailer.TailFile(file.FullName);
+                
+                
+                _fileManager.WatchFile(file, s =>
+                    {
+                        var doc = new FlowDocument();
+                        var paragraph = new Paragraph();
+                        paragraph.Inlines.Add(s);
+                        doc.Blocks.Add(paragraph);
+                    });
+               
+
+
             }
         }
 
@@ -80,10 +92,17 @@ namespace TailChaser
         {
             if (NeedsWarning(_configLoader.LoadConfiguration(), _configuration))
             {
-                MessageBoxResult result = MessageBox.Show("Your application settings have changed. Do you want to save your settings?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                MessageBoxResult result =
+                    MessageBox.Show("Your application settings have changed. Do you want to save your settings?",
+                                    "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
                     _configLoader.SaveConfiguration(_configuration);
+                    _fileManager.Dispose();
+                }
+                else if (result == MessageBoxResult.No)
+                {
+                    _fileManager.Dispose();
                 }
                 else if (result == MessageBoxResult.Cancel)
                 {
@@ -136,7 +155,7 @@ namespace TailChaser
                                 foreach (var filename in dialog.FileNames)
                                 {
                                     _configuration.FindGroup(((Group)parameter).Id).AddFile(new TailedFile(filename));
-                                    _tailer.TailFile(filename);
+                                    _fileManager.WatchFile(filename, OnFileUpdated);
                                 }
                             }
                         };
@@ -152,6 +171,11 @@ namespace TailChaser
                     _configuration.Machines.Remove((Machine)parameter);
                 }
             }
+        }
+
+        private void OnFileUpdated(string file)
+        {
+            throw new NotImplementedException();
         }
 
         private ContextMenu GetContextMenu(object element)

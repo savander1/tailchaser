@@ -4,14 +4,15 @@ using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
-    public class Tailer : ITail, IDisposable
+    public class FileTailer : ITail, IDisposable
     {
         private readonly IFileReaderAsync _reader;
         private Events.FileTailer _tailer;
         private FileSystemWatcher _watcher;
         private OnFileUpdated _onFileUpdated;
 
-        public Tailer(IFileReaderAsync reader)
+        public FileTailer() : this(new FileReaderAsync()){}
+        public FileTailer(IFileReaderAsync reader)
         {
             _reader = reader;
         }
@@ -44,7 +45,7 @@ namespace TailChaser.Tail
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
             _tailer.PublishFileChange();
-            _onFileUpdated(_tailer.FileContent);
+            _onFileUpdated(e.FullPath, _tailer.FileContent);
         }
 
         public void Dispose()

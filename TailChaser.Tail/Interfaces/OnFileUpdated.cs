@@ -1,4 +1,6 @@
-﻿namespace TailChaser.Tail.Interfaces
+﻿using System;
+
+namespace TailChaser.Tail.Interfaces
 {
-    public delegate void OnFileUpdated(string file);
+    public delegate void OnFileUpdated(string filePath, string file);
 }
