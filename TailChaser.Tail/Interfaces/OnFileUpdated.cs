@@ -1,4 +1,4 @@
 ﻿namespace TailChaser.Tail.Interfaces
 {
-    public delegate void OnFileUpdated(string diff);
+    public delegate void OnFileUpdated(string file);
 }

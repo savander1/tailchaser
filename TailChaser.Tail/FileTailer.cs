@@ -1,65 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using DiffMatchPatch;
+using System.IO;
 using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
-    public class FileTailer
+    public class Tailer : ITail, IDisposable
     {
-        public FileWatcher Watcher { get; set; }
-        public FileUpdater Updater { get; set; }
-        private static IFileReaderAsync _fileReader;
+        private readonly IFileReaderAsync _reader;
+        private Events.FileTailer _tailer;
+        private FileSystemWatcher _watcher;
+        private OnFileUpdated _onFileUpdated;
 
-        public string FileContent { get; private set; }
-        public List<Patch> Patches { get; private set; }
-
-    private static readonly object SyncRoot = new Object();
-        private static volatile Stack<FileChange> _stack;
-        public static Stack<FileChange> Stack
+        public Tailer(IFileReaderAsync reader)
         {
-            get
-            {
-                if (_stack == null)
+            _reader = reader;
+        }
+
+        public void TailFile(string filePath, OnFileUpdated onFileUpdated)
+        {
+            _tailer = new Events.FileTailer(_reader, filePath);
+            _tailer.Subscribe();
+
+            _watcher = CreateWatcher(filePath);
+            _onFileUpdated = onFileUpdated;
+        }
+
+        private FileSystemWatcher CreateWatcher(string path)
+        {
+            var folder = Path.GetDirectoryName(path);
+            var filename = Path.GetFileName(path);
+
+            var watcher = new FileSystemWatcher
                 {
-                    lock (SyncRoot)
-                    {
-                        if (_stack == null)
-                        {
-                            _stack = new Stack<FileChange>();
-                        }
-                    }
-                }
-                return _stack;
-            }
+                    Path = folder,
+                    Filter = filename,
+                    NotifyFilter = NotifyFilters.LastWrite
+                };
+            watcher.Changed += Watcher_Changed;
+
+            return watcher;
         }
 
-        private FileTailer(FileWatcher watcher)
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Watcher = watcher;
-            _fileReader = new FileReaderAsync();
-            Patches = new List<Patch>();
+            _tailer.PublishFileChange();
+            _onFileUpdated(_tailer.FileContent);
         }
 
-        public static FileTailer Create(string fullPath)
+        public void Dispose()
         {
-            var watcher = new FileWatcher(fullPath, Stack);
-            var fileTailer = new FileTailer(watcher);
-            fileTailer.SetFileContent(fullPath);
-            
-            
-            var updater = new FileUpdater(fullPath, Stack, fileTailer.FileContent, _fileReader);
-            fileTailer.Updater = updater;
-            
-
-            
-
-            return fileTailer;
-        }
-
-        private async void SetFileContent(string path)
-        {
-            FileContent = await _fileReader.ReadFileContentsAsync(path);
+            _watcher.Dispose();
         }
     }
 }

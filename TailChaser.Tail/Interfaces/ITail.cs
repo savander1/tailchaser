@@ -2,6 +2,6 @@
 {
     internal interface ITail
     {
-        void TailFile(string filePath);
+        void TailFile(string filePath, OnFileUpdated onFileUpdated);
     }
 }

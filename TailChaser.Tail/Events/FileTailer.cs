@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DiffMatchPatch;
+using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail.Events
 {
@@ -11,20 +12,26 @@ namespace TailChaser.Tail.Events
 
     internal class FileTailer : IFileTailer
     {
+        private readonly IFileReaderAsync _fileReader;
+        private readonly string _filePath;
         public static event FileChangeEventHandler FileChangeEvent;
         public delegate void FileChangeEventHandler(object sender, FileChangeEventArgs e);
         IFileContentMaintainer _callback;
         FileChangeEventHandler _fileChangeHandler;
+        private readonly diff_match_patch _diffMatchPatch;
 
         public string FileContent { get; private set; }
 
-        public FileTailer(string fileContent)
+        public FileTailer(IFileReaderAsync fileReader, string filePath)
         {
-            FileContent = fileContent;
+            _fileReader = fileReader;
+            _filePath = filePath;
+            _diffMatchPatch = new diff_match_patch();
         }
 
-        public void Subscribe()
+        public async void Subscribe()
         {
+            FileContent = await _fileReader.ReadFileContentsAsync(_filePath);
             _callback = new FileContentMaintainer(FileContent);
             _fileChangeHandler = FileChangeHandler;
             FileChangeEvent += _fileChangeHandler;
@@ -35,8 +42,12 @@ namespace TailChaser.Tail.Events
             FileChangeEvent -= _fileChangeHandler;
         }
 
-        public void PublishFileChange(List<Patch> patches)
+        public async void PublishFileChange()
         {
+            var newContent = await _fileReader.ReadFileContentsAsync(_filePath);
+            var diffs = _diffMatchPatch.diff_main(FileContent, newContent, true);
+            var patches = _diffMatchPatch.patch_make(diffs);
+
             var eventArgs = new FileChangeEventArgs
                 {
                     Patches = patches
@@ -55,7 +66,7 @@ namespace TailChaser.Tail.Events
     {
         void Subscribe();
         void Unsubscribe();
-        void PublishFileChange(List<Patch> patches);
+        void PublishFileChange();
     }
 
     internal interface IFileContentMaintainer
