@@ -46,7 +46,7 @@
     <Compile Include="FileUpdater.cs" />
     <Compile Include="FileWatcher.cs" />
     <Compile Include="FileReaderAsync.cs" />
-    <Compile Include="Interfaces\FileChange.cs" />
+    <Compile Include="FileChange.cs" />
     <Compile Include="Interfaces\IFileReaderAsync.cs" />
     <Compile Include="Interfaces\ITail.cs" />
     <Compile Include="Interfaces\OnFileUpdated.cs" />

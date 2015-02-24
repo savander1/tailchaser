@@ -10,11 +10,13 @@ namespace TailChaser.Tail
     {
         private static readonly MessageQueue Quene = new MessageQueue(".\\Private$\\tailChaser");
         private readonly string _fullPath;
+        private readonly Queue<FileChange> _queue;
         private readonly Func<object, string> _func;
 
-        public FileUpdater(string fullPath, Queue<string> queue, Func<object, string> func)
+        public FileUpdater(string fullPath, Queue<FileChange> queue, Func<object, string> func)
         {
             _fullPath = fullPath;
+            _queue = queue;
             _func = func;
         }
 

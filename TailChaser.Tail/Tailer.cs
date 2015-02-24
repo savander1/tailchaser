@@ -8,8 +8,8 @@ namespace TailChaser.Tail
     {
         private static Dictionary<string, FileStruct> _watchedFiles;
         private static readonly object SyncRoot = new Object();
-        private static volatile Queue<string> _queue;
-        public static Queue<string> Queue
+        private static volatile Queue<FileChange> _queue;
+        public static Queue<FileChange> Queue
         {
             get
             {
@@ -19,7 +19,7 @@ namespace TailChaser.Tail
                     {
                         if (_queue == null)
                         {
-                            _queue = new Queue<string>();
+                            _queue = new Queue<FileChange>();
                         }
                     }
                 }

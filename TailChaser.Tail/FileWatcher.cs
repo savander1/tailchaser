@@ -1,21 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Messaging;
 
 namespace TailChaser.Tail
 {
     internal class FileWatcher
     {
-        private readonly Queue<string> _queue;
+        private readonly Queue<FileChange> _queue;
 
         private readonly FileSystemWatcher _watcher;
 
-        public FileWatcher(string file, Queue<string> queue)
+        public FileWatcher(string file, Queue<FileChange> queue)
         {
             _queue = queue;
             _watcher = new FileSystemWatcher();
             InitWatcher(file);
-            _queue.Enqueue();
+            _queue.Enqueue(new FileChange{ChangeDetected = DateTime.UtcNow, FilePath = file});
             _watcher.EnableRaisingEvents = true;
         }
 
@@ -27,12 +27,18 @@ namespace TailChaser.Tail
             _watcher.Path = folder;
             _watcher.Filter = filename;
             _watcher.NotifyFilter = NotifyFilters.LastWrite;
-            _watcher.Changed += watcher_Changed;
+            _watcher.Changed += Watcher_Changed;
         }
 
-        private void watcher_Changed(object sender, FileSystemEventArgs e)
+        private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Quene.Send(e.FullPath, e.ChangeType.ToString());
+            var evnt = new FileChange
+                {
+                    ChangeDetected = DateTime.UtcNow,
+                    FilePath = e.FullPath,
+                    Type = e.ChangeType
+                };
+            _queue.Enqueue(evnt);
         }
 
 

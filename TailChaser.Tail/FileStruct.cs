@@ -18,7 +18,7 @@ namespace TailChaser.Tail
            
         }
 
-        public static FileStruct Create(string fullPath, Queue<string> queue)
+        public static FileStruct Create(string fullPath, Queue<FileChange> queue)
         {
             var watcher = new FileWatcher(fullPath, queue);
             
