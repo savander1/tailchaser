@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Messaging" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiffMatchPatch.cs" />
     <Compile Include="FileStruct.cs" />
-    <Compile Include="FileWatcher.cs" />
     <Compile Include="FileUpdater.cs" />
+    <Compile Include="FileWatcher.cs" />
     <Compile Include="FileReaderAsync.cs" />
+    <Compile Include="Interfaces\FileChange.cs" />
     <Compile Include="Interfaces\IFileReaderAsync.cs" />
     <Compile Include="Interfaces\ITail.cs" />
     <Compile Include="Interfaces\OnFileUpdated.cs" />

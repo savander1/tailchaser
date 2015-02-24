@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -29,14 +30,26 @@ namespace TailChaser
 
         private void LoadConfiguration()
         {
-            _configuration = _configLoader.LoadConfiguration();    
+            _configuration = _configLoader.LoadConfiguration();
+            StartWatchingTailedFiles();
+        }
+
+        private void StartWatchingTailedFiles()
+        {
+            foreach (var file in from machine in _configuration.Machines 
+                                 from @group in machine.Groups 
+                                 from file in @group.Files 
+                                 select file)
+            {
+                _tailer.TailFile(file.FullName);
+            }
         }
 
         private void NewMachine_Click(object sender, RoutedEventArgs e)
         {
             var machine = new Machine("New Machine");
             _configuration.Machines.Add(machine);
-            BindTree();
+            //BindTree();
         }
 
         private void OpenGrouping_Click(object sender, RoutedEventArgs e)
@@ -199,13 +212,13 @@ namespace TailChaser
         private void TreeviewItem_OnSelected(object sender, RoutedEventArgs e)
         {
             var item = (TreeViewItem) e.OriginalSource;
-            item.IsSelected = false;
-            item.ExpandSubtree();
+            //item.IsSelected = false;
+//            item.ExpandSubtree();
 
             if (item.Header.GetType() == typeof (TailedFile))
             {
-                // load file in rtf.
-                item.IsSelected = true;
+                 //load file in rtf.
+                //item.IsSelected = true;
 
             }
             

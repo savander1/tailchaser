@@ -1,17 +1,32 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Messaging;
 
 namespace TailChaser.Tail
 {
     internal class FileWatcher
     {
-        private static readonly MessageQueue Quene = new MessageQueue(".\\Private$\\tailChaser");
+        private readonly Queue<string> _queue;
+
         private readonly FileSystemWatcher _watcher;
 
-        public FileWatcher(string file)
+        public FileWatcher(string file, Queue<string> queue)
         {
-            _watcher = new FileSystemWatcher(file);
-            Quene.Send(file, "Start");
+            _queue = queue;
+            _watcher = new FileSystemWatcher();
+            InitWatcher(file);
+            _queue.Enqueue();
+            _watcher.EnableRaisingEvents = true;
+        }
+
+        private void InitWatcher(string path)
+        {
+            var folder = Path.GetDirectoryName(path);
+            var filename = Path.GetFileName(path);
+
+            _watcher.Path = folder;
+            _watcher.Filter = filename;
+            _watcher.NotifyFilter = NotifyFilters.LastWrite;
             _watcher.Changed += watcher_Changed;
         }
 
@@ -19,5 +34,7 @@ namespace TailChaser.Tail
         {
             Quene.Send(e.FullPath, e.ChangeType.ToString());
         }
+
+
     }
 }

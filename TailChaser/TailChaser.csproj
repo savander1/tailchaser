@@ -63,7 +63,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\ConfigLoader.cs" />
-    <Compile Include="Code\DiffMatchPatch.cs" />
     <Compile Include="Code\GroupOpener.cs" />
     <Compile Include="Code\IFileReader.cs" />
     <Compile Include="Code\IGroupOpener.cs" />

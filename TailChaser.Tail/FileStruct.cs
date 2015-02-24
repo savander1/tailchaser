@@ -1,31 +1,32 @@
-﻿using TailChaser.Tail.Interfaces;
+﻿using System.Collections.Generic;
+using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
     internal class FileStruct
     {
         public FileWatcher Watcher {get; set;}
-        public FileUpdater Tailer {get; set;}
+        public FileUpdater Updater { get; set; }
         private readonly IFileReaderAsync _fileReader;
 
         public string FileContent { get; private set; }
 
-        private FileStruct(FileWatcher watcher, FileUpdater updater)
+        private FileStruct(FileWatcher watcher)
         {
             Watcher = watcher;
-            Tailer = updater;
             _fileReader = new FileReaderAsync();
+           
         }
 
-        public static FileStruct Create(string fullPath, OnFileUpdated onFileUpdated)
+        public static FileStruct Create(string fullPath, Queue<string> queue)
         {
-            var watcher = new FileWatcher(fullPath);
-            var tailer = new FileUpdater(fullPath, onFileUpdated);
-
-            var fileStruct = new FileStruct(watcher, tailer);
+            var watcher = new FileWatcher(fullPath, queue);
+            
+            var fileStruct = new FileStruct(watcher);
+            var updater = new FileUpdater(fullPath, queue, diff => fileStruct.FileContent = (string)diff);
+            fileStruct.Updater = updater;
 
             fileStruct.SetFileContent(fullPath);
-            onFileUpdated(fileStruct.FileContent);
 
             return fileStruct;
         }
