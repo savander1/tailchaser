@@ -1,2 +1,9 @@
-# tailchaser
-A tabbed log file tailing program for Windows.
+# Tail Chaser:
+### A work space style log file tailing program for Windows.
+
+## Program Features
+
+
+- Organize log files with meaningful group names
+- Find a word or phrase within a file
+- Make files more readable with Regex style highlighting.
