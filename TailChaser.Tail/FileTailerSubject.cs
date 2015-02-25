@@ -3,9 +3,9 @@ using TailChaser.Entity;
 using TailChaser.Entity.Interfaces;
 using TailChaser.Tail.Interfaces;
 
-namespace TailChaser.Tail.Events
+namespace TailChaser.Tail
 {
-    internal class FileTailer : IFileTailerSubject
+    internal class FileTailerSubject : IFileTailerSubject
     {
         private readonly IFileReaderAsync _fileReader;
         private readonly string _filePath;
@@ -17,7 +17,7 @@ namespace TailChaser.Tail.Events
 
         public string FileContent { get; private set; }
 
-        public FileTailer(IFileReaderAsync fileReader, string filePath)
+        public FileTailerSubject(IFileReaderAsync fileReader, string filePath)
         {
             _fileReader = fileReader;
             _filePath = filePath;
@@ -56,21 +56,4 @@ namespace TailChaser.Tail.Events
             FileContent = _contentMaintainer.FileContent;
         }
     }
-
-   
-    //internal class FileContentMaintainer : IFileContentMaintainer
-    //{
-    //    public string FileContent { get; private set; }
-
-    //    public FileContentMaintainer(string fileContent)
-    //    {
-    //        FileContent = fileContent;
-    //    }
-
-    //    public void UpdatFileContent(List<Patch> patches)
-    //    {
-    //        var diffMatchPatch = new diff_match_patch();
-    //        diffMatchPatch.patch_apply(patches, FileContent);
-    //    }
-    //}
 }

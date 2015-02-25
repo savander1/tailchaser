@@ -41,14 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DiffMatchPatch.cs" />
-    <Compile Include="Events\FileTailer.cs" />
+    <Compile Include="FileTailerSubject.cs" />
     <Compile Include="FileReaderAsync.cs" />
     <Compile Include="Interfaces\IFileReaderAsync.cs" />
     <Compile Include="Interfaces\ITail.cs" />
     <Compile Include="Interfaces\OnFileUpdated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FileTailer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TailChaser.Entity\TailChaser.Entity.csproj">
+      <Project>{36790aed-4c87-4b37-b380-b5c783a28e41}</Project>
+      <Name>TailChaser.Entity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

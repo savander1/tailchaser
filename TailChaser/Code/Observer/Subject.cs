@@ -1,6 +1,6 @@
 ﻿namespace TailChaser.Code.Observer
 {
-    public abstract class Subject
+    public abstract class Subject : Ifi
     {
         private Observer _observer;
 

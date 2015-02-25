@@ -7,7 +7,7 @@ namespace TailChaser.Tail
     public class FileTailer : ITail, IDisposable
     {
         private readonly IFileReaderAsync _reader;
-        private Events.FileTailer _tailer;
+        private FileTailerSubject _tailerSubject;
         private FileSystemWatcher _watcher;
         private OnFileUpdated _onFileUpdated;
 
@@ -17,10 +17,10 @@ namespace TailChaser.Tail
             _reader = reader;
         }
 
-        public void TailFile(string filePath, OnFileUpdated onFileUpdated)
+        public void TailFile(string filePath)
         {
-            _tailer = new Events.FileTailer(_reader, filePath);
-            _tailer.Subscribe();
+            _tailerSubject = new FileTailerSubject(_reader, filePath);
+            _tailerSubject.Subscribe();
 
             _watcher = CreateWatcher(filePath);
             _onFileUpdated = onFileUpdated;
@@ -44,13 +44,18 @@ namespace TailChaser.Tail
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            _tailer.PublishFileChange();
-            _onFileUpdated(e.FullPath, _tailer.FileContent);
+            _tailerSubject.PublishFileChange();
+            _onFileUpdated(e.FullPath, _tailerSubject.FileContent);
         }
 
         public void Dispose()
         {
             _watcher.Dispose();
+        }
+
+        public void TailFile(string filePath, OnFileUpdated onFileUpdated)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -41,10 +41,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="DiffMatchPatch.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FileChangeEventArgs.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="IExpandable.cs" />
     <Compile Include="IItem.cs" />
+    <Compile Include="Interfaces\IFileContentObserver.cs" />
+    <Compile Include="Interfaces\IFileTailerSubject.cs" />
     <Compile Include="Machine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TailedFile.cs" />
