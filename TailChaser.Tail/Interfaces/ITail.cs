@@ -1,7 +1,9 @@
-﻿namespace TailChaser.Tail.Interfaces
+﻿using TailChaser.Entity.Interfaces;
+
+namespace TailChaser.Tail.Interfaces
 {
     internal interface ITail
     {
-        void TailFile(string filePath, OnFileUpdated onFileUpdated);
+        void TailFile(string filePath, IFileContentObserver fileContentObserver);
     }
 }

@@ -7,15 +7,16 @@ namespace TailChaser.Tail
 {
     internal class FileTailerSubject : IFileTailerSubject
     {
-        private readonly IFileReaderAsync _fileReader;
-        private readonly string _filePath;
         public static event FileChangeEventHandler FileChangeEvent;
         public delegate void FileChangeEventHandler(object sender, FileChangeEventArgs e);
-        IFileContentObserver _contentMaintainer;
-        FileChangeEventHandler _fileChangeHandler;
-        private readonly diff_match_patch _diffMatchPatch;
 
         public string FileContent { get; private set; }
+
+        private readonly IFileReaderAsync _fileReader;
+        private readonly string _filePath;
+        private IFileContentObserver _contentMaintainer;
+        private FileChangeEventHandler _fileChangeHandler;
+        private readonly diff_match_patch _diffMatchPatch;
 
         public FileTailerSubject(IFileReaderAsync fileReader, string filePath)
         {

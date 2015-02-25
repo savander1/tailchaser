@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using TailChaser.Entity.Interfaces;
 using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
@@ -9,7 +10,6 @@ namespace TailChaser.Tail
         private readonly IFileReaderAsync _reader;
         private FileTailerSubject _tailerSubject;
         private FileSystemWatcher _watcher;
-        private OnFileUpdated _onFileUpdated;
 
         public FileTailer() : this(new FileReaderAsync()){}
         public FileTailer(IFileReaderAsync reader)
@@ -17,13 +17,11 @@ namespace TailChaser.Tail
             _reader = reader;
         }
 
-        public void TailFile(string filePath)
+        public void TailFile(string filePath, IFileContentObserver fileContentObserver)
         {
             _tailerSubject = new FileTailerSubject(_reader, filePath);
-            _tailerSubject.Subscribe();
-
+            _tailerSubject.Subscribe(fileContentObserver);
             _watcher = CreateWatcher(filePath);
-            _onFileUpdated = onFileUpdated;
         }
 
         private FileSystemWatcher CreateWatcher(string path)
@@ -45,17 +43,11 @@ namespace TailChaser.Tail
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
             _tailerSubject.PublishFileChange();
-            _onFileUpdated(e.FullPath, _tailerSubject.FileContent);
         }
 
         public void Dispose()
         {
             _watcher.Dispose();
-        }
-
-        public void TailFile(string filePath, OnFileUpdated onFileUpdated)
-        {
-            throw new NotImplementedException();
         }
     }
 }
