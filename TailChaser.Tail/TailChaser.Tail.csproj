@@ -43,16 +43,12 @@
   <ItemGroup>
     <Compile Include="DiffMatchPatch.cs" />
     <Compile Include="Events\FileTailer.cs" />
-    <Compile Include="FileTailer.cs" />
-    <Compile Include="FileUpdater.cs" />
-    <Compile Include="FileWatcher.cs" />
     <Compile Include="FileReaderAsync.cs" />
-    <Compile Include="FileChange.cs" />
     <Compile Include="Interfaces\IFileReaderAsync.cs" />
     <Compile Include="Interfaces\ITail.cs" />
     <Compile Include="Interfaces\OnFileUpdated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tailer.cs" />
+    <Compile Include="FileTailer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

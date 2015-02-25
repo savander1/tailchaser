@@ -2,5 +2,5 @@
 
 namespace TailChaser.Tail.Interfaces
 {
-    public delegate void OnFileUpdated(string filePath, string file);
+    public delegate void OnFileUpdated(string filePath);
 }

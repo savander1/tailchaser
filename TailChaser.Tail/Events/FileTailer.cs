@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using DiffMatchPatch;
+﻿using DiffMatchPatch;
+using TailChaser.Entity;
+using TailChaser.Entity.Interfaces;
 using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail.Events
 {
-    internal class FileChangeEventArgs : EventArgs
-    {
-        public List<Patch> Patches;
-    }
-
-    internal class FileTailer : IFileTailer
+    internal class FileTailer : IFileTailerSubject
     {
         private readonly IFileReaderAsync _fileReader;
         private readonly string _filePath;
         public static event FileChangeEventHandler FileChangeEvent;
         public delegate void FileChangeEventHandler(object sender, FileChangeEventArgs e);
-        IFileContentMaintainer _callback;
+        IFileContentObserver _contentMaintainer;
         FileChangeEventHandler _fileChangeHandler;
         private readonly diff_match_patch _diffMatchPatch;
 
@@ -29,10 +24,10 @@ namespace TailChaser.Tail.Events
             _diffMatchPatch = new diff_match_patch();
         }
 
-        public async void Subscribe()
+        public async void Subscribe(IFileContentObserver contentMaintainer)
         {
             FileContent = await _fileReader.ReadFileContentsAsync(_filePath);
-            _callback = new FileContentMaintainer(FileContent);
+            _contentMaintainer = contentMaintainer;
             _fileChangeHandler = FileChangeHandler;
             FileChangeEvent += _fileChangeHandler;
         }
@@ -57,37 +52,25 @@ namespace TailChaser.Tail.Events
 
         public void FileChangeHandler(object sender, FileChangeEventArgs e)
         {
-            _callback.UpdatFileContent(e.Patches);
-            FileContent = _callback.FileContent;
+            _contentMaintainer.UpdatFileContent(e.Patches);
+            FileContent = _contentMaintainer.FileContent;
         }
     }
 
-    internal interface IFileTailer
-    {
-        void Subscribe();
-        void Unsubscribe();
-        void PublishFileChange();
-    }
+   
+    //internal class FileContentMaintainer : IFileContentMaintainer
+    //{
+    //    public string FileContent { get; private set; }
 
-    internal interface IFileContentMaintainer
-    {
-        void UpdatFileContent(List<Patch> patches);
-        string FileContent { get; }
-    }
+    //    public FileContentMaintainer(string fileContent)
+    //    {
+    //        FileContent = fileContent;
+    //    }
 
-    internal class FileContentMaintainer : IFileContentMaintainer
-    {
-        public string FileContent { get; private set; }
-
-        public FileContentMaintainer(string fileContent)
-        {
-            FileContent = fileContent;
-        }
-
-        public void UpdatFileContent(List<Patch> patches)
-        {
-            var diffMatchPatch = new diff_match_patch();
-            diffMatchPatch.patch_apply(patches, FileContent);
-        }
-    }
+    //    public void UpdatFileContent(List<Patch> patches)
+    //    {
+    //        var diffMatchPatch = new diff_match_patch();
+    //        diffMatchPatch.patch_apply(patches, FileContent);
+    //    }
+    //}
 }

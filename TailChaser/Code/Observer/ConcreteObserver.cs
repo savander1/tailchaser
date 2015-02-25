@@ -19,7 +19,7 @@ namespace TailChaser.Code.Observer
 
         public override void Update()
         {
-            _subject.GetFileContent();
+            // 
         }
     }
 }

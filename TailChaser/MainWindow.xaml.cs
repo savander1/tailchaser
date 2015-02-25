@@ -154,8 +154,9 @@ namespace TailChaser
                             {
                                 foreach (var filename in dialog.FileNames)
                                 {
-                                    _configuration.FindGroup(((Group)parameter).Id).AddFile(new TailedFile(filename));
-                                    _fileManager.WatchFile(filename, OnFileUpdated);
+                                    var file = new TailedFile(filename);
+                                    _configuration.FindGroup(((Group)parameter).Id).AddFile(file);
+                                    _fileManager.WatchFile(file, OnFileUpdated);
                                 }
                             }
                         };
@@ -175,7 +176,7 @@ namespace TailChaser
 
         private void OnFileUpdated(string file)
         {
-            throw new NotImplementedException();
+   
         }
 
         private ContextMenu GetContextMenu(object element)

@@ -1,26 +1,24 @@
-﻿using System.Collections.Generic;
-
-namespace TailChaser.Code.Observer
+﻿namespace TailChaser.Code.Observer
 {
-    internal abstract class Subject
+    public abstract class Subject
     {
-        private readonly List<Observer> _observers = new List<Observer>();
+        private Observer _observer;
 
         public void Attach(Observer observer)
         {
-            _observers.Add(observer);
+            _observer = observer;
         }
 
-        public void Detach(Observer observer)
+        public void Detach()
         {
-            _observers.Remove(observer);
+            _observer = null;
         }
 
         public void Notify()
         {
-            foreach (var observer in _observers)
+            if (_observer != null)
             {
-                observer.Update();
+                _observer.Update();
             }
         }
     }
