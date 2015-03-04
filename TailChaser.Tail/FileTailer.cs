@@ -1,21 +1,33 @@
 ﻿using System;
 using System.IO;
+using DiffMatchPatch;
 using TailChaser.Entity;
 using TailChaser.Entity.Interfaces;
 using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
-    public class FileTailer : ITail, IDisposable
+    public class FileTailer : ITail, IFileTailerSubject, IDisposable
     {
-        private FileTailerSubject _tailerSubject;
-        private FileSystemWatcher _watcher;
+        private readonly IFileReaderAsync _fileReader;
+        private readonly diff_match_patch _diffMatchPatch;
+        public static event FileChangeEventHandler FileChangeEvent;
+        public delegate void FileChangeEventHandler(object sender, FileChangeEventArgs e);
 
-        public void TailFile(TailedFile file, IFileContentObserver fileContentObserver)
+        private FileSystemWatcher _watcher;
+        private TailedFile _file;
+
+        public FileTailer(IFileReaderAsync fileReader)
         {
-            _tailerSubject = new FileTailerSubject(GetFileReader(), file);
-            _tailerSubject.Subscribe(fileContentObserver);
+            _fileReader = fileReader;
+            _diffMatchPatch = new diff_match_patch();
+        }
+
+        public void TailFile(TailedFile file)
+        {
+            _file = file;
             _watcher = CreateWatcher(file.FullName);
+            Subscribe(file);
         }
 
         protected virtual IFileReaderAsync GetFileReader()
@@ -32,7 +44,7 @@ namespace TailChaser.Tail
                 {
                     Path = folder,
                     Filter = filename,
-                    NotifyFilter = NotifyFilters.LastWrite
+                    NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size
                 };
             watcher.Changed += Watcher_Changed;
 
@@ -41,12 +53,43 @@ namespace TailChaser.Tail
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            _tailerSubject.PublishFileChange();
+            PublishFileChange();
         }
 
         public void Dispose()
         {
             _watcher.Dispose();
+        }
+
+        public async void Subscribe(TailedFile file)
+        {
+            _file.FileContent = await _fileReader.ReadFileContentsAsync(_file.FullName);
+            FileChangeEvent += FileChangeHandler;
+        }
+
+        public void Unsubscribe()
+        {
+            FileChangeEvent -= FileChangeHandler;
+        }
+
+        public async void PublishFileChange()
+        {
+            var newContent = await _fileReader.ReadFileContentsAsync(_file.FullName);
+            var diffs = _diffMatchPatch.diff_main(_file.FileContent, newContent, true);
+            var patches = _diffMatchPatch.patch_make(diffs);
+
+            var eventArgs = new FileChangeEventArgs
+            {
+                Patches = patches
+            };
+            FileChangeEvent(this, eventArgs);
+        }
+
+        public void FileChangeHandler(object sender, FileChangeEventArgs e)
+        {
+            var currentContent = _file.FileContent;
+            _diffMatchPatch.patch_apply(e.Patches, currentContent);
+            _file.FileContent = currentContent;
         }
     }
 }

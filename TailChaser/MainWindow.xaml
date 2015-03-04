@@ -59,7 +59,7 @@
                 </TreeView.Resources>
             </TreeView>
 
-                <TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" Text="{Binding Path=FileContent}">
+                <TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" Text="{Binding Path=FileContent, NotifyOnSourceUpdated=True, Mode=OneWay}">
                 </TextBox>
         </DockPanel>
     </Grid>

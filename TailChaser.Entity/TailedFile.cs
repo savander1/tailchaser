@@ -31,7 +31,7 @@ namespace TailChaser.Entity
             set 
             { 
                 _content = value;
-                OnPropertyChanged("FileContent");
+                OnPropertyChanged();
             } 
         }
         

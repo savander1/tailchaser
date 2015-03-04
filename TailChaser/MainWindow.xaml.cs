@@ -223,8 +223,11 @@ namespace TailChaser
                  //load file in rtf.
                 //item.IsSelected = true;
                 ContentBox.DataContext = item.Header;
+                ((TailedFile) item.Header).PropertyChanged += (o, args) =>
+                    {
+                        ContentBox.DataContext = item.Header;
+                    };
             }
-            
         }
     }
 

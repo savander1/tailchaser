@@ -2,7 +2,7 @@
 {
     public interface IFileTailerSubject
     {
-        void Subscribe(IFileContentObserver contentMaintainer);
+        void Subscribe(TailedFile file);
         void Unsubscribe();
         void PublishFileChange();
     }
