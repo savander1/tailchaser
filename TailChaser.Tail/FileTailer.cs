@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using TailChaser.Entity;
 using TailChaser.Entity.Interfaces;
 using TailChaser.Tail.Interfaces;
 
@@ -10,11 +11,11 @@ namespace TailChaser.Tail
         private FileTailerSubject _tailerSubject;
         private FileSystemWatcher _watcher;
 
-        public void TailFile(string filePath, IFileContentObserver fileContentObserver)
+        public void TailFile(TailedFile file, IFileContentObserver fileContentObserver)
         {
-            _tailerSubject = new FileTailerSubject(GetFileReader(), filePath);
+            _tailerSubject = new FileTailerSubject(GetFileReader(), file);
             _tailerSubject.Subscribe(fileContentObserver);
-            _watcher = CreateWatcher(filePath);
+            _watcher = CreateWatcher(file.FullName);
         }
 
         protected virtual IFileReaderAsync GetFileReader()

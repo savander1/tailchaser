@@ -17,7 +17,7 @@ namespace TailChaser.Code
             if (!WatchedFiles.ContainsKey(tailedFile.Id))
             {
                 var tailer = new FileTailer();
-                tailer.TailFile(tailedFile.FullName, new FileContentObserver(ref tailedFile));
+                tailer.TailFile(tailedFile, new FileContentObserver(ref tailedFile));
                 WatchedFiles.Add(tailedFile.Id, tailer);
             }
         }

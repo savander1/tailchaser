@@ -23,10 +23,18 @@ namespace TailChaser.Entity
         [XmlAttribute("uid")]
         public Guid Id { get; set; }
 
+        private string _content;
         [DataMember]
         [XmlIgnore]
-        public string FileContent { get; set; }
-
+        public string FileContent { 
+            get { return _content; }
+            set 
+            { 
+                _content = value;
+                OnPropertyChanged("FileContent");
+            } 
+        }
+        
 
         public TailedFile() : this(string.Empty, string.Empty) { }
 

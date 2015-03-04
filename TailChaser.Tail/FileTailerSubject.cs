@@ -10,24 +10,26 @@ namespace TailChaser.Tail
         public static event FileChangeEventHandler FileChangeEvent;
         public delegate void FileChangeEventHandler(object sender, FileChangeEventArgs e);
 
-        public string FileContent { get; private set; }
+        //public string FileContent { get; private set; }
 
         private readonly IFileReaderAsync _fileReader;
+        private readonly TailedFile _file;
         private readonly string _filePath;
         private IFileContentObserver _contentMaintainer;
         private FileChangeEventHandler _fileChangeHandler;
         private readonly diff_match_patch _diffMatchPatch;
 
-        public FileTailerSubject(IFileReaderAsync fileReader, string filePath)
+        public FileTailerSubject(IFileReaderAsync fileReader, TailedFile file)
         {
             _fileReader = fileReader;
-            _filePath = filePath;
+            _file = file;
+            _filePath = file.FullName;
             _diffMatchPatch = new diff_match_patch();
         }
 
         public async void Subscribe(IFileContentObserver contentMaintainer)
         {
-            FileContent = await _fileReader.ReadFileContentsAsync(_filePath);
+            _file.FileContent = await _fileReader.ReadFileContentsAsync(_filePath);
             _contentMaintainer = contentMaintainer;
             _fileChangeHandler = FileChangeHandler;
             FileChangeEvent += _fileChangeHandler;
@@ -41,7 +43,7 @@ namespace TailChaser.Tail
         public async void PublishFileChange()
         {
             var newContent = await _fileReader.ReadFileContentsAsync(_filePath);
-            var diffs = _diffMatchPatch.diff_main(FileContent, newContent, true);
+            var diffs = _diffMatchPatch.diff_main(_file.FileContent, newContent, true);
             var patches = _diffMatchPatch.patch_make(diffs);
 
             var eventArgs = new FileChangeEventArgs
