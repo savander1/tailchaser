@@ -1,12 +1,15 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using TailChaser.Entity.Annotations;
 
 namespace TailChaser.Entity
 {
     [DataContract]
-    public class TailedFile : IItem
+    public class TailedFile : IItem, INotifyPropertyChanged
     {
         [DataMember]
         [XmlAttribute("name")]
@@ -20,6 +23,11 @@ namespace TailChaser.Entity
         [XmlAttribute("uid")]
         public Guid Id { get; set; }
 
+        [DataMember]
+        [XmlIgnore]
+        public string FileContent { get; set; }
+
+
         public TailedFile() : this(string.Empty, string.Empty) { }
 
         public TailedFile(string fullname) : this(Path.GetFileName(fullname), fullname) { }
@@ -29,6 +37,15 @@ namespace TailChaser.Entity
             Name = name;
             FullName = fullName;
             Id = Guid.NewGuid();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

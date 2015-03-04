@@ -10,13 +10,9 @@ namespace TailChaser.Tail
         {
             try
             {
-                using (var filestream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    using (var streamReader = new StreamReader(filestream))
-                    {
-                        return streamReader.ReadToEndAsync();
-                    }
-                }
+                var filestream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                var streamReader = new StreamReader(filestream);
+                return Task<string>.Factory.StartNew(streamReader.ReadToEnd);
             }
             catch (FileNotFoundException)
             {

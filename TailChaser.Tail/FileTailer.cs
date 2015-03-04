@@ -7,21 +7,19 @@ namespace TailChaser.Tail
 {
     public class FileTailer : ITail, IDisposable
     {
-        private readonly IFileReaderAsync _reader;
         private FileTailerSubject _tailerSubject;
         private FileSystemWatcher _watcher;
 
-        public FileTailer() : this(new FileReaderAsync()){}
-        public FileTailer(IFileReaderAsync reader)
-        {
-            _reader = reader;
-        }
-
         public void TailFile(string filePath, IFileContentObserver fileContentObserver)
         {
-            _tailerSubject = new FileTailerSubject(_reader, filePath);
+            _tailerSubject = new FileTailerSubject(GetFileReader(), filePath);
             _tailerSubject.Subscribe(fileContentObserver);
             _watcher = CreateWatcher(filePath);
+        }
+
+        protected virtual IFileReaderAsync GetFileReader()
+        {
+            return new FileReaderAsync();
         }
 
         private FileSystemWatcher CreateWatcher(string path)

@@ -54,7 +54,6 @@ namespace TailChaser.Tail
         public void FileChangeHandler(object sender, FileChangeEventArgs e)
         {
             _contentMaintainer.UpdatFileContent(e.Patches);
-            FileContent = _contentMaintainer.FileContent;
         }
     }
 }

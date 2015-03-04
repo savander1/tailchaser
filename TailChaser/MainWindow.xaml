@@ -59,7 +59,8 @@
                 </TreeView.Resources>
             </TreeView>
 
-                <RichTextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right"></RichTextBox>
+                <TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" Text="{Binding Path=FileContent}">
+                </TextBox>
         </DockPanel>
     </Grid>
 </Window>

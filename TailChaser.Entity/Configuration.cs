@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,7 +15,23 @@ namespace TailChaser.Entity
     {
         [XmlArrayItem("machine", typeof(Machine))]
         [XmlArray("machines")]
-        public ObservableCollection<Machine> Machines { get; set; } 
+        public ObservableCollection<Machine> Machines { get; set; }
+
+        [XmlIgnore]
+        public ObservableCollection<TailedFile> Files 
+        { 
+            get 
+            { 
+                var files = new List<TailedFile>();
+
+                foreach (var group in Machines.SelectMany(machine => machine.Groups))
+                {
+                    files.AddRange(group.Files);
+                }
+
+                return new ObservableCollection<TailedFile>(files);
+            }    
+        }
 
         public Configuration()
         {

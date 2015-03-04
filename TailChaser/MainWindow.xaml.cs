@@ -17,7 +17,7 @@ namespace TailChaser
     public partial class MainWindow : Window
     {
         private readonly ConfigLoader _configLoader;
-        private static Configuration _configuration;
+        private static Configuration _settings;
         private readonly FileManager _fileManager;
 
         public MainWindow()
@@ -31,37 +31,22 @@ namespace TailChaser
 
         private void LoadConfiguration()
         {
-            _configuration = _configLoader.LoadConfiguration();
+            _settings = _configLoader.LoadConfiguration();
             StartWatchingTailedFiles();
         }
 
         private void StartWatchingTailedFiles()
         {
-            foreach (var file in from machine in _configuration.Machines 
-                                 from @group in machine.Groups 
-                                 from file in @group.Files 
-                                 select file)
+            foreach (var file in _settings.Files)
             {
-                
-                
-                _fileManager.WatchFile(file, s =>
-                    {
-                        var doc = new FlowDocument();
-                        var paragraph = new Paragraph();
-                        paragraph.Inlines.Add(s);
-                        doc.Blocks.Add(paragraph);
-                    });
-               
-
-
+                _fileManager.WatchFile(file);
             }
         }
 
         private void NewMachine_Click(object sender, RoutedEventArgs e)
         {
             var machine = new Machine("New Machine");
-            _configuration.Machines.Add(machine);
-            //BindTree();
+            _settings.Machines.Add(machine);
         }
 
         private void OpenGrouping_Click(object sender, RoutedEventArgs e)
@@ -80,24 +65,24 @@ namespace TailChaser
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            _configLoader.SaveConfiguration(_configuration);
+            _configLoader.SaveConfiguration(_settings);
         }
 
         private void BindTree()
         {
-            MachineTreeView.ItemsSource = _configuration.Machines;
+            MachineTreeView.ItemsSource = _settings.Machines;
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            if (NeedsWarning(_configLoader.LoadConfiguration(), _configuration))
+            if (NeedsWarning(_configLoader.LoadConfiguration(), _settings))
             {
                 MessageBoxResult result =
                     MessageBox.Show("Your application settings have changed. Do you want to save your settings?",
                                     "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (result == MessageBoxResult.Yes)
                 {
-                    _configLoader.SaveConfiguration(_configuration);
+                    _configLoader.SaveConfiguration(_settings);
                     _fileManager.Dispose();
                 }
                 else if (result == MessageBoxResult.No)
@@ -137,7 +122,7 @@ namespace TailChaser
             {
                 if (parameter.GetType() == typeof (Machine))
                 {
-                    _configuration.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
+                    _settings.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
                 }
                 if (parameter.GetType() == typeof(Group))
                 {
@@ -155,8 +140,8 @@ namespace TailChaser
                                 foreach (var filename in dialog.FileNames)
                                 {
                                     var file = new TailedFile(filename);
-                                    _configuration.FindGroup(((Group)parameter).Id).AddFile(file);
-                                    _fileManager.WatchFile(file, OnFileUpdated);
+                                    _settings.FindGroup(((Group)parameter).Id).AddFile(file);
+                                    _fileManager.WatchFile(file);
                                 }
                             }
                         };
@@ -168,15 +153,10 @@ namespace TailChaser
             {
                 if (parameter.GetType() == typeof(Machine))
                 {
-                    _configuration.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
-                    _configuration.Machines.Remove((Machine)parameter);
+                    _settings.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
+                    _settings.Machines.Remove((Machine)parameter);
                 }
             }
-        }
-
-        private void OnFileUpdated(string file)
-        {
-   
         }
 
         private ContextMenu GetContextMenu(object element)
@@ -237,14 +217,12 @@ namespace TailChaser
         private void TreeviewItem_OnSelected(object sender, RoutedEventArgs e)
         {
             var item = (TreeViewItem) e.OriginalSource;
-            //item.IsSelected = false;
-//            item.ExpandSubtree();
 
             if (item.Header.GetType() == typeof (TailedFile))
             {
                  //load file in rtf.
                 //item.IsSelected = true;
-
+                ContentBox.DataContext = item.Header;
             }
             
         }

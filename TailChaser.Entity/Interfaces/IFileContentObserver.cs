@@ -6,6 +6,5 @@ namespace TailChaser.Entity.Interfaces
     public interface IFileContentObserver
     {
         void UpdatFileContent(List<Patch> patches);
-        string FileContent { get; }
     }
 }
