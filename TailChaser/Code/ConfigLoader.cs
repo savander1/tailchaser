@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.AccessControl;
 using System.Xml;
 using System.Xml.Serialization;
 using TailChaser.Entity;
@@ -21,7 +22,7 @@ namespace TailChaser.Code
             try
             {
                 var serializer = new XmlSerializer(typeof(Configuration));
-                using (var stream = File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+                using (var stream = new FileStream(ConfigFullPath, FileMode.Open, FileSystemRights.Read, FileShare.ReadWrite, 8, FileOptions.WriteThrough, new FileSecurity(ConfigFullPath, AccessControlSections.Owner)) ) // File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
                     return serializer.Deserialize(stream) as Configuration;
                 }

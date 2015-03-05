@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="FileText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -63,9 +67,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Code\ConfigLoader.cs" />
-    <Compile Include="Code\FileContentObserver.cs" />
     <Compile Include="Code\FileManager.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
+    <Compile Include="FileText.xaml.cs">
+      <DependentUpon>FileText.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

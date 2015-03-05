@@ -48,8 +48,6 @@
     <Compile Include="Group.cs" />
     <Compile Include="IExpandable.cs" />
     <Compile Include="IItem.cs" />
-    <Compile Include="Interfaces\IFileContentObserver.cs" />
-    <Compile Include="Interfaces\IFileTailerSubject.cs" />
     <Compile Include="Machine.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
