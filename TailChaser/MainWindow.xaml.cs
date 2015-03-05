@@ -107,10 +107,7 @@ namespace TailChaser
             
             if (element == null) return;
 
-            if (element.DataContext.GetType() == typeof (Machine) || element.DataContext.GetType() == typeof (Group))
-            {
-                element.ContextMenu = GetContextMenu(element.DataContext);
-            }
+            element.ContextMenu = GetContextMenu(element.DataContext);
         }
 
         private void ContextMenuItem_Click(object sender, RoutedEventArgs e)
@@ -162,13 +159,23 @@ namespace TailChaser
         private ContextMenu GetContextMenu(object element)
         {
             var contextMenu = new ContextMenu();
-            var add = new MenuItem {Header = ContentMenuButtonType.Add.ToString(), CommandParameter = element};
+            var add = new MenuItem { Header = ContentMenuButtonType.Add.ToString(), CommandParameter = element };
             add.Click += ContextMenuItem_Click;
-            var delete = new MenuItem {Header = ContentMenuButtonType.Delete.ToString(), CommandParameter = element};
+            var delete = new MenuItem { Header = ContentMenuButtonType.Delete.ToString(), CommandParameter = element };
             delete.Click += ContextMenuItem_Click;
+            var settings = new MenuItem { Header = ContentMenuButtonType.Settings.ToString(), CommandParameter = element };
+            settings.Click += ContextMenuItem_Click;
 
-            contextMenu.Items.Add(add);
-            contextMenu.Items.Add(delete);
+            if (element.GetType() == typeof(Machine) || element.GetType() == typeof(Group))
+            {
+                contextMenu.Items.Add(add);
+                contextMenu.Items.Add(delete);
+            }
+            else if (element.GetType() == typeof (TailedFile))
+            {
+                contextMenu.Items.Add(settings);
+                contextMenu.Items.Add(delete);
+            }
 
             return contextMenu;
         }
@@ -229,6 +236,6 @@ namespace TailChaser
 
     internal enum ContentMenuButtonType
     {
-        Add, Rename, Delete
+        Add, Rename, Delete, Settings
     }
 }
