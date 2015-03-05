@@ -62,7 +62,10 @@
                 <TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" 
                          Text="{Binding Path=FileContent, NotifyOnSourceUpdated=True, Mode=OneWay}"
                          FontFamily="{Binding Path=PresentationSettings.FontFamily}"
-                         FontSize="{Binding Path=PresentationSettings.FontSize}">
+                         FontSize="{Binding Path=PresentationSettings.FontSize}"
+                         TextChanged="ContentBox_OnTextChanged"
+                         HorizontalScrollBarVisibility="Auto"
+                         VerticalScrollBarVisibility="Auto">
                 </TextBox>
         </DockPanel>
     </Grid>

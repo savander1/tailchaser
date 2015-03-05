@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using Microsoft.Win32;
 using TailChaser.Code;
 using TailChaser.Entity;
-using TailChaser.Tail;
 
 namespace TailChaser
 {
@@ -228,9 +225,14 @@ namespace TailChaser
             if (item.Header.GetType() == typeof (TailedFile))
             {
                  //load file in rtf.
-                //item.IsSelected = true;
                 ContentBox.DataContext = item.Header;
             }
+        }
+
+        private void ContentBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((TextBox) sender).CaretIndex = ((TextBox) sender).Text.Length;
+            ((TextBox) sender).ScrollToEnd();
         }
     }
 
