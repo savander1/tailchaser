@@ -6,7 +6,7 @@ using TailChaser.Tail.Interfaces;
 
 namespace TailChaser.Tail
 {
-    public class FileTailer : ITail,  IDisposable
+    public class FileTailer : ITail
     {
         private readonly IFileReaderAsync _fileReader;
         private readonly diff_match_patch _diffMatchPatch;

@@ -23,6 +23,10 @@ namespace TailChaser.Entity
         [XmlAttribute("uid")]
         public Guid Id { get; set; }
 
+        [DataMember]
+        [XmlElement("settings")]
+        public FilePresentationSettings PresentationSettings { get; set; }
+
         private string _content;
         [DataMember]
         [XmlIgnore]
@@ -45,6 +49,7 @@ namespace TailChaser.Entity
             Name = name;
             FullName = fullName;
             Id = Guid.NewGuid();
+            PresentationSettings = new FilePresentationSettings();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

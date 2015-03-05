@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -45,6 +46,8 @@
     <Compile Include="DiffMatchPatch.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileChangeEventArgs.cs" />
+    <Compile Include="FilePresentationSetting.cs" />
+    <Compile Include="FilePresentationSettings.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="IExpandable.cs" />
     <Compile Include="IItem.cs" />

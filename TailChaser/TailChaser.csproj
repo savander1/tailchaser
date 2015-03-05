@@ -68,6 +68,8 @@
     </Compile>
     <Compile Include="Code\ConfigLoader.cs" />
     <Compile Include="Code\FileManager.cs" />
+    <Compile Include="Code\FilePresenter.cs" />
+    <Compile Include="Code\IFilePresenter.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="FileText.xaml.cs">
       <DependentUpon>FileText.xaml</DependentUpon>
@@ -123,9 +125,7 @@
     <Resource Include="Resources\Iconlicious-Misc-Monitor.ico" />
     <Resource Include="Resources\Iconlicious-Misc-Tv.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
