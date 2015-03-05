@@ -22,7 +22,7 @@ namespace TailChaser.Code
             try
             {
                 var serializer = new XmlSerializer(typeof(Configuration));
-                using (var stream = new FileStream(ConfigFullPath, FileMode.Open, FileSystemRights.Read, FileShare.ReadWrite, 8, FileOptions.WriteThrough, new FileSecurity(ConfigFullPath, AccessControlSections.Owner)) ) // File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+                using (var stream = new FileStream(ConfigFullPath, FileMode.Open, FileSystemRights.Read | FileSystemRights.Modify, FileShare.ReadWrite, 8, FileOptions.WriteThrough, new FileSecurity(ConfigFullPath, AccessControlSections.All)) ) // File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
                     return serializer.Deserialize(stream) as Configuration;
                 }
@@ -55,7 +55,7 @@ namespace TailChaser.Code
             {
                 var serializer = new XmlSerializer(typeof(Configuration));
                 using (
-                    var stream = new FileStream(ConfigFullPath, FileMode.Create, FileAccess.ReadWrite,
+                    var stream = new FileStream(ConfigFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
                                                 FileShare.ReadWrite))
                 {
                     serializer.Serialize(stream, config);
