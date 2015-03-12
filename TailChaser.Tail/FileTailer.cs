@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using DiffMatchPatch;
+﻿using System.IO;
 using TailChaser.Entity;
 using TailChaser.Tail.Interfaces;
 
@@ -9,7 +7,6 @@ namespace TailChaser.Tail
     public class FileTailer : ITail
     {
         private readonly IFileReaderAsync _fileReader;
-        private readonly diff_match_patch _diffMatchPatch;
 
         private FileSystemWatcher _watcher;
         private TailedFile _file;
@@ -17,7 +14,6 @@ namespace TailChaser.Tail
         public FileTailer(IFileReaderAsync fileReader)
         {
             _fileReader = fileReader;
-            _diffMatchPatch = new diff_match_patch();
         }
 
         public void TailFile(TailedFile file)
@@ -57,9 +53,6 @@ namespace TailChaser.Tail
             _fileReader.ReadFileContentsAsync(_file.FullName).ContinueWith(task =>
                 {
                     var content = task.Result;
-                    var diffs = _diffMatchPatch.diff_main(_file.FileContent, content, true);
-                    var patches = _diffMatchPatch.patch_make(diffs);
-                    _diffMatchPatch.patch_apply(patches, content);
                     _file.FileContent = content;
                 });
         }
