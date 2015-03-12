@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -224,8 +225,13 @@ namespace TailChaser
 
             if (item.Header.GetType() == typeof (TailedFile))
             {
-                 //load file in rtf.
-                ContentBox.DataContext = item.Header;
+                //ContentBox.DataContext = item.Header;
+                while (((TailedFile) item.Header).FileContent == null)
+                {
+                    Thread.Sleep(10);
+                }
+                var presenter = new FilePresenter((TailedFile) item.Header);
+                ContentBox.Document = presenter.PresentFile();
             }
         }
 

@@ -4,6 +4,6 @@ namespace TailChaser.Code
 {
     public interface IFilePresenter
     {
-        FlowDocument PresentFile(string contents);
+        FlowDocument PresentFile();
     }
 }

@@ -59,14 +59,16 @@
                 </TreeView.Resources>
             </TreeView>
 
-                <TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" 
+                <!--<TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" 
                          Text="{Binding Path=FileContent, NotifyOnSourceUpdated=True, Mode=OneWay}"
                          FontFamily="{Binding Path=PresentationSettings.FontFamily}"
                          FontSize="{Binding Path=PresentationSettings.FontSize}"
                          TextChanged="ContentBox_OnTextChanged"
                          HorizontalScrollBarVisibility="Auto"
                          VerticalScrollBarVisibility="Auto">
-                </TextBox>
+                
+                </TextBox>-->
+            <RichTextBox Name="ContentBox" Height ="Auto" DockPanel.Dock="Right"></RichTextBox>
         </DockPanel>
     </Grid>
 </Window>
