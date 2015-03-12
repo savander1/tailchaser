@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
-    <Compile Include="DiffMatchPatch.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileChangeEventArgs.cs" />
     <Compile Include="FilePresentationSetting.cs" />
