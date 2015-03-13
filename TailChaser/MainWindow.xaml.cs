@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
-using TailChaser.Code;
 using TailChaser.Entity;
+using TailChaser.UI;
 
 namespace TailChaser
 {
@@ -209,7 +208,6 @@ namespace TailChaser
                 item.IsExpanded = expandable.Expanded;
                 item.ExpandSubtree();
             }
-            
         }
 
         protected void Txtbox_LostFocus(object sender, RoutedEventArgs e)

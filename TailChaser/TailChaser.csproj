@@ -67,11 +67,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Code\ConfigLoader.cs" />
-    <Compile Include="Code\FileManager.cs" />
-    <Compile Include="Code\FilePresenter.cs" />
-    <Compile Include="Code\IFilePresenter.cs" />
-    <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="FileText.xaml.cs">
       <DependentUpon>FileText.xaml</DependentUpon>
     </Compile>
@@ -118,6 +113,10 @@
     <ProjectReference Include="..\TailChaser.Tail\TailChaser.Tail.csproj">
       <Project>{c81a492c-9088-489a-933b-5bb9884b9cb6}</Project>
       <Name>TailChaser.Tail</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TailChaser.UI\TailChaser.UI.csproj">
+      <Project>{befe9233-5c2d-4da6-a546-9f0a8f1be807}</Project>
+      <Name>TailChaser.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

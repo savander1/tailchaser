@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.Tail", "..\TailC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.ViewModel", "..\TailChaser.ViewModel\TailChaser.ViewModel.csproj", "{D19E3AB6-5755-40C9-88D5-90FA2A931D6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.UI", "..\TailChaser.UI\TailChaser.UI.csproj", "{BEFE9233-5C2D-4DA6-A546-9F0A8F1BE807}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D19E3AB6-5755-40C9-88D5-90FA2A931D6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D19E3AB6-5755-40C9-88D5-90FA2A931D6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D19E3AB6-5755-40C9-88D5-90FA2A931D6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEFE9233-5C2D-4DA6-A546-9F0A8F1BE807}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEFE9233-5C2D-4DA6-A546-9F0A8F1BE807}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEFE9233-5C2D-4DA6-A546-9F0A8F1BE807}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEFE9233-5C2D-4DA6-A546-9F0A8F1BE807}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

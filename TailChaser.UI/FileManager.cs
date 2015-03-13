@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TailChaser.Entity;
 using TailChaser.Tail;
 
-namespace TailChaser.Code
+namespace TailChaser.UI
 {
     public class FileManager : IDisposable
     {

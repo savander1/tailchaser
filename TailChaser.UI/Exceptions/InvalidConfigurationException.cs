@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TailChaser.Exceptions
+namespace TailChaser.UI.Exceptions
 {
     public class InvalidConfigurationException : Exception
     {

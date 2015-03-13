@@ -1,6 +1,6 @@
 ﻿using System.Windows.Documents;
 
-namespace TailChaser.Code
+namespace TailChaser.UI
 {
     public interface IFilePresenter
     {

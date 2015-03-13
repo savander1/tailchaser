@@ -4,9 +4,9 @@ using System.Security.AccessControl;
 using System.Xml;
 using System.Xml.Serialization;
 using TailChaser.Entity;
-using TailChaser.Exceptions;
+using TailChaser.UI.Exceptions;
 
-namespace TailChaser.Code
+namespace TailChaser.UI
 {
     public class ConfigLoader
     {

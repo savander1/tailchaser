@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TailChaser.ViewModel
 {
-    public class Files
+    public class FileTreeViewModel
     {
+
     }
 }

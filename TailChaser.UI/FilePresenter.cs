@@ -5,7 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using TailChaser.Entity;
 
-namespace TailChaser.Code
+namespace TailChaser.UI
 {
     public class FilePresenter : IFilePresenter
     {
