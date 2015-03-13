@@ -18,8 +18,6 @@ namespace TailChaser.UI
 
         public FlowDocument PresentFile()
         {
-            var lines = _file.FileContent.Split(new[] {'\r', '\n'}, StringSplitOptions.RemoveEmptyEntries);
-
             var document = new FlowDocument
                 {
                     FontFamily = _file.PresentationSettings.FontFamily,
@@ -27,20 +25,24 @@ namespace TailChaser.UI
                     MinPageWidth = 1000
                 };
 
-            foreach (var line in lines)
+            if (_file.FileContent != null)
             {
-                var color = GetColorForLine(line);
-                var textColor = GetTextColor(color);
-                var inline = new Run(line);
-                var block = new Paragraph(inline)
-                    {
-                        Background = new SolidColorBrush(color),
-                        Foreground = new SolidColorBrush(textColor),
-                        Margin = new Thickness(0)
-                    };
-                document.Blocks.Add(block);
+                var lines = _file.FileContent.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    var color = GetColorForLine(line);
+                    var textColor = GetTextColor(color);
+                    var inline = new Run(line);
+                    var block = new Paragraph(inline)
+                        {
+                            Background = new SolidColorBrush(color),
+                            Foreground = new SolidColorBrush(textColor),
+                            Margin = new Thickness(0)
+                        };
+                    document.Blocks.Add(block);
+                }
             }
-            
+
             return document;
         }
 

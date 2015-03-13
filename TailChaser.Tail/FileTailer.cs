@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using TailChaser.Entity;
 using TailChaser.Tail.Interfaces;
 
@@ -7,6 +8,8 @@ namespace TailChaser.Tail
     public class FileTailer : ITail
     {
         private readonly IFileReaderAsync _fileReader;
+
+        public event EventHandler<FileChangeEventArgs> UiUpdate;
 
         private FileSystemWatcher _watcher;
         private TailedFile _file;
@@ -54,6 +57,10 @@ namespace TailChaser.Tail
                 {
                     _file.FileContent = task.Result; 
                     // this needs to update the ui with changes
+                    if (UiUpdate != null)
+                    {
+                        UiUpdate(this, new FileChangeEventArgs(_file));
+                    }
                 });
         }
 

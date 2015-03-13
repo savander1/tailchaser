@@ -21,6 +21,7 @@ namespace TailChaser
         {
             _configLoader = new ConfigLoader();
             _fileManager = new FileManager();
+            _fileManager.UiUpdate += (s, e) => Dispatcher.Invoke(() => ContentBox_OnTextChanged(s, e));
             InitializeComponent();
             LoadConfiguration();
             BindTree();
@@ -225,16 +226,17 @@ namespace TailChaser
             if (item.Header.GetType() == typeof (TailedFile))
             {
                 ContentBox.DataContext = item.Header;
-                ContentBox_OnTextChanged(ContentBox, null);
+                var presenter = new FilePresenter((TailedFile) item.Header);
+                ContentBox.Document = presenter.PresentFile();
+                ContentBox.ScrollToEnd();
             }
         }
 
-        private void ContentBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void ContentBox_OnTextChanged(object sender, FileChangeEventArgs e)
         {
-            var file = ((RichTextBox) sender).DataContext;
-            var presenter = new FilePresenter((TailedFile)file);
-            ((RichTextBox)sender).Document = presenter.PresentFile();
-            ((RichTextBox)sender).ScrollToEnd();
+            var presenter = new FilePresenter(e.File);
+            ContentBox.Document = presenter.PresentFile();
+            ContentBox.ScrollToEnd();
         }
     }
 
