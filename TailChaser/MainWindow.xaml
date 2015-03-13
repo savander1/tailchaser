@@ -68,7 +68,9 @@
                          VerticalScrollBarVisibility="Auto">
                 
                 </TextBox>-->
-            <RichTextBox Name="ContentBox" Height ="Auto" DockPanel.Dock="Right"></RichTextBox>
+            <RichTextBox Name="ContentBox" Height ="Auto" DockPanel.Dock="Right"
+                         HorizontalScrollBarVisibility ="Auto"
+                         VerticalScrollBarVisibility="Auto"></RichTextBox>
         </DockPanel>
     </Grid>
 </Window>

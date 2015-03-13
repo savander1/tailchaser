@@ -23,7 +23,8 @@ namespace TailChaser.Code
             var document = new FlowDocument
                 {
                     FontFamily = _file.PresentationSettings.FontFamily,
-                    FontSize = _file.PresentationSettings.FontSize
+                    FontSize = _file.PresentationSettings.FontSize,
+                    MinPageWidth = 1000
                 };
 
             foreach (var line in lines)
@@ -47,7 +48,7 @@ namespace TailChaser.Code
         {
             foreach (var setting in _file.PresentationSettings.FileSettings)
             {
-                if (Regex.IsMatch(line, setting.Expression))
+                if (Regex.IsMatch(line, setting.Expression, RegexOptions.IgnoreCase))
                 {
                     return Color.FromArgb((byte) setting.Alpha, (byte) setting.Red, (byte) setting.Green,
                                           (byte) setting.Blue);
@@ -59,15 +60,11 @@ namespace TailChaser.Code
 
         private Color GetTextColor(Color color)
         {
-            if (color.Equals(Color.FromArgb(255, 255, 255, 255)))
-            {
-                return Color.FromArgb(255, 0, 0, 0);
-            }
             ColorPart highestPart;
             var value = HighestValue(color.R, color.G, color.B, out highestPart);
             var chroma =  value - LowestValue(color.R, color.G, color.B);
             var huePrime = GetHuePrime(chroma, highestPart, color);
-            var hue = (byte) (360 - GetHue(huePrime));
+            var hue = GetHue(huePrime);
             var saturation = GetSaturation(chroma, value);
 
             var invertedHsv = new Hsv {H = hue, S = saturation, V = value};
@@ -106,7 +103,7 @@ namespace TailChaser.Code
             switch (highestPart)
             {
                 case ColorPart.R:
-                    return (byte) ((color.G - color.B)/chroma);
+                    return (byte) ((color.G - color.B)/chroma % 6);
                 case ColorPart.G:
                     return (byte)((color.B - color.R) / chroma + 2);
                 case ColorPart.B:
@@ -125,7 +122,8 @@ namespace TailChaser.Code
         {
             var hue = huePrime * 60;
 
-            return (byte) (hue < 0 ? (hue + 360) : hue);
+            var colorHue = hue < 0 ? (hue + 360) : hue;
+            return (byte) (colorHue < 180 ? colorHue + 180 : colorHue - 180);
         }
 
         private byte LowestValue(byte r, byte g, byte b)
@@ -142,7 +140,7 @@ namespace TailChaser.Code
             var huePrime = invertedHsv.H / 60.0;
 
             var x = (byte)(chroma * (1 - Math.Abs(huePrime % 2 - 1)));
-            var modifier = (byte)(invertedHsv.V - chroma);
+            var modifier = (byte)(chroma - invertedHsv.V);
 
             if (huePrime.Between(0, 1))
             {

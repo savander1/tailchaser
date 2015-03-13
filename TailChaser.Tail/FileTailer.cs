@@ -52,8 +52,7 @@ namespace TailChaser.Tail
         {
             _fileReader.ReadFileContentsAsync(_file.FullName).ContinueWith(task =>
                 {
-                    var content = task.Result;
-                    _file.FileContent = content;
+                    _file.FileContent = task.Result; 
                 });
         }
 

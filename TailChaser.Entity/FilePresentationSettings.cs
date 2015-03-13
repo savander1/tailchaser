@@ -8,7 +8,7 @@ namespace TailChaser.Entity
     [DataContract]
     public class FilePresentationSettings
     {
-        [DataMember]
+        [DataMember()]
         [XmlArrayItem("display_setting", typeof(FilePresentationSetting))]
         [XmlArray("display_settings")]
         public ObservableCollection<FilePresentationSetting> FileSettings { get; set; }
@@ -26,7 +26,11 @@ namespace TailChaser.Entity
 
         public FilePresentationSettings()
         {
-            FileSettings = new ObservableCollection<FilePresentationSetting>();
+            FileSettings = new ObservableCollection<FilePresentationSetting>
+                {
+                    new FilePresentationSetting{Alpha = 255, Red = 255, Green = 0, Blue = 0, Expression=".*\\[Error\\].*"},
+                    new FilePresentationSetting{Alpha = 255, Red = 0, Green = 255, Blue = 0, Expression=".*\\[Info\\].*"}
+                };
             Font = "Courier New";
             FontSize = 12.0;
         }
