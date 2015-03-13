@@ -34,7 +34,7 @@
                     <HierarchicalDataTemplate DataType="{x:Type entity:Group}" ItemsSource="{Binding Files}">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="Resources\Iconlicious-Misc-Folder.ico" Height="20" SnapsToDevicePixels="True"></Image>
-                            <TextBlock Margin="2" Text="{Binding Path=Name}"></TextBlock>
+                            <TextBlock Margin="2" Text="{Binding Path=Name}" ></TextBlock>
                             <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
                         </StackPanel>
                         <HierarchicalDataTemplate.ItemContainerStyle>
@@ -44,7 +44,7 @@
                         </HierarchicalDataTemplate.ItemContainerStyle>
                     </HierarchicalDataTemplate>
                     <DataTemplate DataType="{x:Type entity:TailedFile}">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding Path=FullName}">
                             <Image Source="Resources\Iconlicious-Misc-File.ico" Height="20" SnapsToDevicePixels="True"></Image>
                             <TextBlock Margin="2" Text="{Binding Path=Name}"></TextBlock>
                             <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
@@ -69,6 +69,7 @@
                 
                 </TextBox>-->
             <RichTextBox Name="ContentBox" Height ="Auto" DockPanel.Dock="Right"
+                         
                          HorizontalScrollBarVisibility ="Auto"
                          VerticalScrollBarVisibility="Auto"></RichTextBox>
         </DockPanel>

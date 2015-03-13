@@ -207,6 +207,7 @@ namespace TailChaser
             if (expandable != null)
             {
                 item.IsExpanded = expandable.Expanded;
+                item.ExpandSubtree();
             }
             
         }
@@ -225,20 +226,17 @@ namespace TailChaser
 
             if (item.Header.GetType() == typeof (TailedFile))
             {
-                //ContentBox.DataContext = item.Header;
-                while (((TailedFile) item.Header).FileContent == null)
-                {
-                    Thread.Sleep(10);
-                }
-                var presenter = new FilePresenter((TailedFile) item.Header);
-                ContentBox.Document = presenter.PresentFile();
+                ContentBox.DataContext = item.Header;
+                ContentBox_OnTextChanged(ContentBox, null);
             }
         }
 
         private void ContentBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            ((TextBox) sender).CaretIndex = ((TextBox) sender).Text.Length;
-            ((TextBox) sender).ScrollToEnd();
+            var file = ((RichTextBox) sender).DataContext;
+            var presenter = new FilePresenter((TailedFile)file);
+            ((RichTextBox)sender).Document = presenter.PresentFile();
+            ((RichTextBox)sender).ScrollToEnd();
         }
     }
 
