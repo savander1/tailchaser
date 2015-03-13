@@ -43,6 +43,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UiHelpers\ContextMenuButtonType.cs" />
+    <Compile Include="UiHelpers\ContextMenuHelper.cs" />
     <Compile Include="ViewModelLoader.cs" />
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />

@@ -26,6 +26,10 @@ namespace TailChaser.Entity
         [XmlAttribute("exp")]
         public bool Expanded { get; set; }
 
+        [DataMember]
+        [XmlAttribute("puid")]
+        public Guid ParentId { get; set; }
+
         public Machine(): this(string.Empty){}
        
         public Machine(string machineName)
@@ -33,6 +37,7 @@ namespace TailChaser.Entity
             Name = machineName;
             Groups = new ObservableCollection<Group>();
             Id = Guid.NewGuid();
+            ParentId = Guid.Empty;
         }
 
         public Group FindGroup(Guid groupId)

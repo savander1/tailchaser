@@ -47,6 +47,7 @@
     <Compile Include="FileChangeEventArgs.cs" />
     <Compile Include="FilePresentationSetting.cs" />
     <Compile Include="FilePresentationSettings.cs" />
+    <Compile Include="FileSettingsDialogEventHandler.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="IExpandable.cs" />
     <Compile Include="IItem.cs" />

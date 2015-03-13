@@ -8,7 +8,7 @@ namespace TailChaser.Entity
     [DataContract]
     public class FilePresentationSettings
     {
-        [DataMember()]
+        [DataMember]
         [XmlArrayItem("display_setting", typeof(FilePresentationSetting))]
         [XmlArray("display_settings")]
         public ObservableCollection<FilePresentationSetting> FileSettings { get; set; }

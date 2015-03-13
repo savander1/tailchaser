@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
 using TailChaser.Entity;
 using TailChaser.UI;
+using TailChaser.UI.UiHelpers;
 
 namespace TailChaser
 {
@@ -105,7 +107,7 @@ namespace TailChaser
             
             if (element == null) return;
 
-            element.ContextMenu = GetContextMenu(element.DataContext);
+            element.ContextMenu = ContextMenuHelper.GetContextMenu(element.DataContext, ContextMenuItem_Click);
         }
 
         private void ContextMenuItem_Click(object sender, RoutedEventArgs e)
@@ -113,69 +115,104 @@ namespace TailChaser
             var item = (MenuItem) sender;
             var parameter = item.CommandParameter;
 
-            if (item.Header.Equals(ContentMenuButtonType.Add.ToString()))
+            if (item.Header.Equals(ContextMenuButtonType.Add.ToString()))
             {
-                if (parameter.GetType() == typeof (Machine))
-                {
-                    _settings.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
-                }
-                if (parameter.GetType() == typeof(Group))
-                {
-                    var dialog = new OpenFileDialog
-                        {
-                            Filter = "Log Files (*.txt, *.log)|*.txt;*.log|All files (*.*)|*.*",
-                            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
-                            Multiselect = true,
-                        };
-
-                    dialog.FileOk += (o, args) =>
-                        {
-                            if (!args.Cancel)
-                            {
-                                foreach (var filename in dialog.FileNames)
-                                {
-                                    var file = new TailedFile(filename);
-                                    _settings.FindGroup(((Group)parameter).Id).AddFile(file);
-                                    _fileManager.WatchFile(file);
-                                }
-                            }
-                        };
-
-                    dialog.ShowDialog();
-                }
+                AddClicked(parameter);
             }
-            else if (item.Header.Equals(ContentMenuButtonType.Delete.ToString()))
+            else if (item.Header.Equals(ContextMenuButtonType.Delete.ToString()))
             {
-                if (parameter.GetType() == typeof(Machine))
-                {
-                    _settings.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group"));
-                    _settings.Machines.Remove((Machine)parameter);
-                }
+                DeleteClicked(parameter);
+            }
+            else if (item.Header.Equals(ContextMenuButtonType.Settings.ToString()))
+            {
+                SettingsClicked(parameter);
             }
         }
 
-        private ContextMenu GetContextMenu(object element)
+        private void AddClicked(object parameter)
         {
-            var contextMenu = new ContextMenu();
-            var add = new MenuItem { Header = ContentMenuButtonType.Add.ToString(), CommandParameter = element };
-            add.Click += ContextMenuItem_Click;
-            var delete = new MenuItem { Header = ContentMenuButtonType.Delete.ToString(), CommandParameter = element };
-            delete.Click += ContextMenuItem_Click;
-            var settings = new MenuItem { Header = ContentMenuButtonType.Settings.ToString(), CommandParameter = element };
-            settings.Click += ContextMenuItem_Click;
-
-            if (element.GetType() == typeof(Machine) || element.GetType() == typeof(Group))
+            if (parameter.GetType() == typeof (Machine))
             {
-                contextMenu.Items.Add(add);
-                contextMenu.Items.Add(delete);
+                _settings.FindMachine(((Machine)parameter).Id).Groups.Add(new Group("New Group", ((Machine)parameter).Id));
             }
-            else if (element.GetType() == typeof (TailedFile))
+            if (parameter.GetType() == typeof (Group))
             {
-                contextMenu.Items.Add(settings);
-                contextMenu.Items.Add(delete);
+                var group = (Group) parameter;
+                var dialog = new OpenFileDialog
+                    {
+                        Filter = "Log Files (*.txt, *.log)|*.txt;*.log|All files (*.*)|*.*",
+                        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer),
+                        Multiselect = true,
+                    };
+
+                dialog.FileOk += (o, args) =>
+                    {
+                        if (!args.Cancel)
+                        {
+                            foreach (var filename in dialog.FileNames)
+                            {
+                                var file = new TailedFile(filename, group.Id);
+                                _settings.FindGroup(((Group) parameter).Id).AddFile(file);
+                                _fileManager.WatchFile(file);
+                            }
+                        }
+                    };
+
+                dialog.ShowDialog();
+            }
+        }
+
+        private void DeleteClicked(object parameter)
+        {
+            if (parameter.GetType() == typeof(Machine))
+            {
+                var machine = (Machine)parameter;
+                foreach (var group in machine.Groups)
+                {
+                    foreach (var file in @group.Files)
+                    {
+                        _fileManager.UnWatchFile(file);
+                    }
+                }
+                _settings.Machines.Remove(machine);
             }
 
-            return contextMenu;
+            if (parameter.GetType() == typeof(Group))
+            {
+                var group = (Group)parameter;
+                foreach (var file in @group.Files)
+                {
+                    _fileManager.UnWatchFile(file);
+                }
+                _settings.Machines.Single(x => x.Id == @group.ParentId).Groups.Remove(@group);
+            }
+
+            if (parameter.GetType() == typeof(TailedFile))
+            {
+                var file = (TailedFile)parameter;
+                _fileManager.UnWatchFile(file);
+                var group = _settings.FindGroup(file.ParentId);
+                @group.Files.Remove(file);
+            }
+        }
+
+        private void SettingsClicked(object parameter)
+        {
+            if (parameter.GetType() == typeof(TailedFile))
+            {
+                var file = (TailedFile)parameter;
+
+                var dialog = new FileSettingsDialog(file.PresentationSettings);
+                dialog.FileOk += (o, args) =>
+                {
+                    if (!args.Cancel)
+                    {
+                        file.PresentationSettings = dialog.Settings;
+                    }
+                };
+
+                dialog.ShowDialog();
+            }
         }
 
         private void EventSetter_OnHandler(object sender, MouseButtonEventArgs e)
@@ -238,10 +275,5 @@ namespace TailChaser
             ContentBox.Document = presenter.PresentFile();
             ContentBox.ScrollToEnd();
         }
-    }
-
-    internal enum ContentMenuButtonType
-    {
-        Add, Rename, Delete, Settings
     }
 }

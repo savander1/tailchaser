@@ -50,7 +50,7 @@ namespace TailChaser.Entity
                     select machine.FindGroup(groupId))
                     .FirstOrDefault();
         }
-
+        
         public override string ToString()
         {
             var builder = new StringBuilder();

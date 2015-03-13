@@ -24,6 +24,10 @@ namespace TailChaser.Entity
         public Guid Id { get; set; }
 
         [DataMember]
+        [XmlAttribute("puid")]
+        public Guid ParentId { get; set; }
+
+        [DataMember]
         [XmlElement("settings")]
         public FilePresentationSettings PresentationSettings { get; set; }
 
@@ -38,17 +42,19 @@ namespace TailChaser.Entity
                 OnPropertyChanged();
             } 
         }
-        
 
-        public TailedFile() : this(string.Empty, string.Empty) { }
+        public TailedFile() : this(Guid.Empty) { }
 
-        public TailedFile(string fullname) : this(Path.GetFileName(fullname), fullname) { }
+        public TailedFile(Guid parentId) : this(string.Empty, string.Empty, parentId) { }
 
-        public TailedFile(string name, string fullName)
+        public TailedFile(string fullname, Guid parentId) : this(Path.GetFileName(fullname), fullname, parentId) { }
+
+        public TailedFile(string name, string fullName, Guid parentId)
         {
             Name = name;
             FullName = fullName;
             Id = Guid.NewGuid();
+            ParentId = parentId;
             PresentationSettings = new FilePresentationSettings();
         }
 
