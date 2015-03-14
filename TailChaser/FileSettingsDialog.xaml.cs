@@ -31,6 +31,29 @@ namespace TailChaser
             InitializeComponent();
             Settings = settings;
             Font.SelectedValue = Settings.FontFamily;
+            BindFontSize();
+            SampleText.DataContext = Settings;
+        }
+
+        private void BindFontSize()
+        {
+            var doubles = new List<double>();
+
+            for (var i = 8; i <= 20; i++)
+            {
+                doubles.Add(i);
+            }
+            for (var i = 22; i >= 40; i += 2)
+            {
+                doubles.Add(i);
+            }
+            for (var i = 48; i < 100; i += 8)
+            {
+                doubles.Add(i);
+            }
+
+            FontSize.ItemsSource = doubles;
+            FontSize.SelectedValue = Settings.FontSize;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -51,6 +74,13 @@ namespace TailChaser
             var item = (FontFamily)((ComboBox) sender).SelectedItem;
 
             Settings.Font = item.FamilyNames.First().Value;
+        }
+
+        private void FontSize_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (double)((ComboBox)sender).SelectedItem;
+
+            Settings.FontSize = item;
         }
     }
 }

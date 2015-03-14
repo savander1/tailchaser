@@ -20,15 +20,23 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="2">
-            
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Font Settings" FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2"/>
                 <Separator/>
-                <StackPanel Orientation="Horizontal" Margin="0,1">
-                    <TextBlock Text="Font Family" Margin="20,0,0,0" Padding="2"></TextBlock>
-                    <ComboBox Name="Font"  Margin="20,0,0,0" Width="155"  Padding="2"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Font Family" Padding="2" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Grid.Column="1" Grid.Row="0" Name="Font" Width="Auto"  Padding="2" Margin="5,2"
                           ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}"
-                          SelectionChanged="Font_OnSelectionChanged" HorizontalAlignment="Right">
+                          SelectionChanged="Font_OnSelectionChanged">
                         <ComboBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel />
@@ -36,15 +44,24 @@
                         </ComboBox.ItemsPanel>
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding}" FontFamily="{Binding}" />
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}" MinHeight="15" />
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,1">
-                    <TextBlock Text="Font Size" Margin="20,0,0,0" Padding="2"></TextBlock>
-                    <ComboBox Name="FontSize"  Margin="20,0,0,0" Width="155"  Padding="2" />
-                </StackPanel>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Font Size" Padding="2" VerticalAlignment="Center" ></TextBlock>
+                    <ComboBox Grid.Column="1" Grid.Row="1" Name="FontSize"  Width="40"  Padding="2" Margin="5,2" 
+                              HorizontalAlignment="Left" SelectionChanged="FontSize_OnSelectionChanged"/>
+
+                    <TextBlock Name="SampleText" Grid.ColumnSpan="2" Grid.Row="2"
+                               Text="Sample Text" Margin="5"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="{Binding Path=FontSize, Mode=OneWay}" 
+                               FontFamily="{Binding Path=FontFamily, Mode=OneWay}"/>
+                </Grid>
+                <Separator/>
+                <TextBlock Text="Text Highlighting" FontWeight="DemiBold" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="2"/>
+                <Separator/>
             </StackPanel>
             
         </StackPanel>

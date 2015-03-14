@@ -208,6 +208,8 @@ namespace TailChaser
                     if (!args.Cancel)
                     {
                         file.PresentationSettings = dialog.Settings;
+                        var presenter = new FilePresenter(file);
+                        ContentBox.Document = presenter.PresentFile();
                     }
                 };
 
