@@ -7,3 +7,4 @@
 - Organize log files with meaningful group names
 - Find a word or phrase within a file
 - Make files more readable with Regex style highlighting.
+- Open a log file in an external editor
