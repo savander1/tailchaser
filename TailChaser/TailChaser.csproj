@@ -129,7 +129,19 @@
     <Resource Include="Resources\Iconlicious-Misc-Monitor.ico" />
     <Resource Include="Resources\Iconlicious-Misc-Tv.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Arrow-down.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Arrow-up.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Close-delete-2.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Computer-monitor.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Computer.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Delete-2.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Plus-2.ico" />
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Plus.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

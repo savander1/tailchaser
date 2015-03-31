@@ -57,9 +57,13 @@ namespace TailChaser
             FontSize.SelectedValue = Settings.FontSize;
         }
 
-        private void BindSettings()
+        private void BindSettings(FilePresentationSetting selectedItem = null)
         {
             RegexList.ItemsSource = Settings.FileSettings;
+            if (Settings.FileSettings.Any())
+            {
+                RegexList.SelectedItem = selectedItem ?? Settings.FileSettings.First();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -87,6 +91,70 @@ namespace TailChaser
             var item = (double)((ComboBox)sender).SelectedItem;
 
             Settings.FontSize = item;
+        }
+
+        private void RegexList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var item = (FilePresentationSetting) ((ListBox) sender).SelectedItem;
+            if (item == null) return;
+
+            var backColor= Color.FromArgb((byte) item.Alpha, (byte) item.Red, (byte) item.Green, (byte) item.Blue);
+            var textColor = UI.ColorInverter.InvertColor(backColor);
+            
+            TextColor.Fill = new SolidColorBrush(textColor);
+            BackColor.Fill = new SolidColorBrush(backColor);
+            ExpressionBox.Text = item.Expression;
+
+        }
+
+        private void ToolBar_OnClick(object sender, RoutedEventArgs e)
+        {
+            var button = (Button) sender;
+            var selectedItem = (FilePresentationSetting)RegexList.SelectedItem;
+            var currentIndex = Settings.FileSettings.IndexOf(selectedItem);
+
+            switch (button.Name)
+            {
+                case "AddExpression":
+                    var color = ((SolidColorBrush) BackColor.Fill).Color;
+                    var setting = new FilePresentationSetting
+                        {
+                            Expression = ExpressionBox.Text,
+                            Alpha = color.A,
+                            Blue = color.B,
+                            Green = color.G,
+                            Red = color.R
+                        };
+                    Settings.FileSettings.Add(setting);
+                    BindSettings(setting);
+                    break;
+                case "RemoveExpression":
+                    Settings.FileSettings.Remove(selectedItem);
+                    BindSettings();
+                    break;
+                case "OrderExpressionUp":
+                    if ((currentIndex + 1) <= (Settings.FileSettings.Count - 1))
+                    {
+                        Settings.FileSettings.Move(currentIndex, currentIndex + 1);
+                    }
+                    BindSettings(selectedItem);
+                    break;
+                case "OrderExpressionDown":
+                    if ((currentIndex - 1) >= 0)
+                    {
+                        Settings.FileSettings.Move(currentIndex, currentIndex - 1);
+                    }
+                    BindSettings(selectedItem);
+                    break;
+                case "SaveExpression":
+                    BindSettings(selectedItem);
+                    break;
+            }
+        }
+
+        private void TextColor_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //open a color picker dialog
         }
     }
 }

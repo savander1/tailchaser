@@ -43,6 +43,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorInverter.cs" />
+    <Compile Include="DoubleExtensions.cs" />
     <Compile Include="UiHelpers\ContextMenuButtonType.cs" />
     <Compile Include="UiHelpers\ContextMenuHelper.cs" />
     <Compile Include="ViewModelLoader.cs" />
