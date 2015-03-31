@@ -32,6 +32,7 @@ namespace TailChaser
             Settings = settings;
             Font.SelectedValue = Settings.FontFamily;
             BindFontSize();
+            BindSettings();
             SampleText.DataContext = Settings;
         }
 
@@ -54,6 +55,11 @@ namespace TailChaser
 
             FontSize.ItemsSource = doubles;
             FontSize.SelectedValue = Settings.FontSize;
+        }
+
+        private void BindSettings()
+        {
+            RegexList.ItemsSource = Settings.FileSettings;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
