@@ -47,11 +47,7 @@ namespace TailChaser.Entity
 
         public FilePresentationSettings()
         {
-            FileSettings = new ObservableCollection<FilePresentationSetting>
-                {
-                    new FilePresentationSetting{Alpha = 255, Red = 255, Green = 0, Blue = 0, Expression=".*\\[Error\\].*"},
-                    new FilePresentationSetting{Alpha = 255, Red = 0, Green = 255, Blue = 0, Expression=".*\\[Info\\].*"}
-                };
+            FileSettings = new ObservableCollection<FilePresentationSetting>();
             Font = "Courier New";
             FontSize = 12.0;
         }

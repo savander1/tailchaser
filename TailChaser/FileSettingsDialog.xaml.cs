@@ -25,7 +25,6 @@ namespace TailChaser
             Font.SelectedValue = Settings.FontFamily;
             BindFontSize();
             BindSettings();
-            BindTextColor();
             SampleText.DataContext = Settings;
         }
 
@@ -56,19 +55,6 @@ namespace TailChaser
             if (Settings.FileSettings.Any())
             {
                 RegexList.SelectedItem = selectedItem ?? Settings.FileSettings.First();
-            }
-        }
-
-        public void BindTextColor()
-        {
-            var selectedSetting = (FilePresentationSetting)RegexList.SelectedItem;
-            if (selectedSetting == null)
-            {
-                TextColor.SelectedIndex = 0;
-            }
-            else
-            {
-                TextColor.SelectedIndex = selectedSetting.TextColor == (int) UI.TextColor.Dark ? 0 : 1;
             }
         }
 
@@ -107,8 +93,7 @@ namespace TailChaser
            
             BackColor.Fill = new SolidColorBrush(backColor);
             ExpressionBox.Text = item.Expression;
-
-            BindTextColor();
+            TextColor.DataContext = item;
         }
 
         private void ToolBar_OnClick(object sender, RoutedEventArgs e)
