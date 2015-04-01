@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser", "TailChaser.csproj", "{4D4C8377-343E-49AC-ABC1-A5E370C539F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{99E90579-62FC-4898-B168-24F7DBD3A34D} = {99E90579-62FC-4898-B168-24F7DBD3A34D}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.Entity", "..\TailChaser.Entity\TailChaser.Entity.csproj", "{36790AED-4C87-4B37-B380-B5C783A28E41}"
 EndProject
@@ -15,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.ViewModel", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TailChaser.UI", "..\TailChaser.UI\TailChaser.UI.csproj", "{BEFE9233-5C2D-4DA6-A546-9F0A8F1BE807}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "colorpicker", "..\..\..\Users\shane.vander.meer\Desktop\csharp\colorpickerlib\colorpicker.csproj", "{99E90579-62FC-4898-B168-24F7DBD3A34D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "colorpicker", "..\colorpickerlib\colorpicker.csproj", "{99E90579-62FC-4898-B168-24F7DBD3A34D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
