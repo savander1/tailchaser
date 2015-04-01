@@ -92,7 +92,7 @@ namespace TailChaser
             var backColor = FilePresentationSettingsHelper.GetBackgroundColor(item);
            
             BackColor.Fill = new SolidColorBrush(backColor);
-            ExpressionBox.Text = item.Expression;
+            ExpressionBox.DataContext = item;
             TextColor.DataContext = item;
         }
 
@@ -144,7 +144,44 @@ namespace TailChaser
 
         private void TextColor_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            //open a color picker dialog
+            var colorPicker = new Microsoft.Samples.CustomControls.ColorPickerDialog
+                {
+                    Owner = this
+                };
+            var selectedItem = (FilePresentationSetting)RegexList.SelectedItem;
+            colorPicker.StartingColor = selectedItem != null
+                                            ? FilePresentationSettingsHelper.GetBackgroundColor(selectedItem)
+                                            : Color.FromRgb(255,255,255);
+
+            var result = colorPicker.ShowDialog();
+            if (result.HasValue && result.Value)
+            {
+                var color = colorPicker.SelectedColor;
+                if (selectedItem != null)
+                {
+                    selectedItem.Alpha = color.A;
+                    selectedItem.Blue = color.B;
+                    selectedItem.Green = color.G;
+                    selectedItem.Red = color.R;
+                }
+                BackColor.Fill = new SolidColorBrush(color);
+            }
+        }
+
+        private void ToolBar_Loaded(object sender, RoutedEventArgs e)
+        {
+            var toolBar = sender as ToolBar;
+            if (toolBar == null) return;
+            var overflowGrid = toolBar.Template.FindName("OverflowGrid", toolBar) as FrameworkElement;
+            if (overflowGrid != null)
+            {
+                overflowGrid.Visibility = Visibility.Collapsed;
+            }
+            var mainPanelBorder = toolBar.Template.FindName("MainPanelBorder", toolBar) as FrameworkElement;
+            if (mainPanelBorder != null)
+            {
+                mainPanelBorder.Margin = new Thickness();
+            }
         }
     }
 }

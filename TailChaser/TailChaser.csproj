@@ -110,6 +110,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Users\shane.vander.meer\Desktop\csharp\colorpickerlib\colorpicker.csproj">
+      <Project>{99e90579-62fc-4898-b168-24f7dbd3a34d}</Project>
+      <Name>colorpicker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TailChaser.Entity\TailChaser.Entity.csproj">
       <Project>{36790aed-4c87-4b37-b380-b5c783a28e41}</Project>
       <Name>TailChaser.Entity</Name>

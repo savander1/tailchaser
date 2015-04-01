@@ -9,7 +9,7 @@
              Title="FileSettings"
              ResizeMode="NoResize"
         Width="300"
-        Height ="500">
+        Height ="450">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -73,21 +73,22 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="Auto"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <ToolBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Background="WhiteSmoke">
+                    <ToolBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Background="WhiteSmoke" ToolBarTray.IsLocked="True"
+                             OverflowMode="Never" Loaded="ToolBar_Loaded">
                         <Button Name="AddExpression" Click="ToolBar_OnClick">
-                            <Image Source="Resources\Icojam-Blueberry-Basic-Plus-2.ico" Height="16"></Image>
+                            <Image Source="Resources\Icojam-Blueberry-Basic-Plus-2.ico" Height="16" ToolTip="Add"></Image>
                         </Button>
-                        <Button Name="RemoveExpression" Click="ToolBar_OnClick">
+                        <Button Name="RemoveExpression" Click="ToolBar_OnClick" ToolTip="Delete">
                             <Image Source="Resources\Icojam-Blueberry-Basic-Delete-2.ico" Height="16"></Image>
                         </Button>
                         <Separator/>
-                        <Button Name="OrderExpressionUp" Click="ToolBar_OnClick">
+                        <Button Name="OrderExpressionUp" Click="ToolBar_OnClick" ToolTip="Move Up">
                             <Image Source="Resources\Icojam-Blueberry-Basic-Arrow-up.ico"  Height="16"></Image>
                         </Button>
-                        <Button Name="OrderExpressionDown" Click="ToolBar_OnClick">
+                        <Button Name="OrderExpressionDown" Click="ToolBar_OnClick" ToolTip="Move Down">
                             <Image Source="Resources\Icojam-Blueberry-Basic-Arrow-down.ico" Height="16"></Image>
                         </Button>
-                        <Button Name="SaveExpression" Click="ToolBar_OnClick">
+                        <Button Name="SaveExpression" Click="ToolBar_OnClick" ToolTip="Save Changes">
                             <Image Source="Resources\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" Height="16"></Image>
                         </Button>
                     </ToolBar>
@@ -117,11 +118,12 @@
                                 <ComboBoxItem>Light</ComboBoxItem>
                             </ComboBox>
                         </Grid>
-                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Background Color" Padding="2" VerticalAlignment="Center" Margin="5,2"></TextBlock>
-                        <Rectangle Grid.Column="1" Grid.Row="0" Name="BackColor" Width="50" Height="30" Fill="White" Stroke="LightGray" Margin="0,2"></Rectangle>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Background Color" Padding="2" VerticalAlignment="Center" Margin="0,2,5,2"></TextBlock>
+                        <Rectangle Grid.Column="1" Grid.Row="0" Name="BackColor" Width="45" Height="30" Fill="White" Stroke="LightGray" Margin="0,2"
+                                   MouseLeftButtonUp="TextColor_OnMouseLeftButtonUp"></Rectangle>
                     </WrapPanel>
                     <TextBlock Grid.Column="0" Grid.Row="3" Text="Regular Exp" Padding="2" VerticalAlignment="Center" Margin="0,2"></TextBlock>
-                    <TextBox Grid.Column="1" Grid.Row="3" Margin="5,2" Padding="2" Name="ExpressionBox"></TextBox>
+                    <TextBox Grid.Column="1" Grid.Row="3" Margin="5,2" Padding="2" Name="ExpressionBox" Text="{Binding Path=Expression, Mode=TwoWay}"></TextBox>
                 </Grid>
             </StackPanel>
         </StackPanel>
