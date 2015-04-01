@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TailChaser.Entity;
+using TailChaser.UI.UiHelpers;
 
 namespace TailChaser
 {
@@ -33,6 +25,7 @@ namespace TailChaser
             Font.SelectedValue = Settings.FontFamily;
             BindFontSize();
             BindSettings();
+            BindTextColor();
             SampleText.DataContext = Settings;
         }
 
@@ -66,6 +59,19 @@ namespace TailChaser
             }
         }
 
+        public void BindTextColor()
+        {
+            var selectedSetting = (FilePresentationSetting)RegexList.SelectedItem;
+            if (selectedSetting == null)
+            {
+                TextColor.SelectedIndex = 0;
+            }
+            else
+            {
+                TextColor.SelectedIndex = selectedSetting.TextColor == (int) UI.TextColor.Dark ? 0 : 1;
+            }
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var cancelled = ((Button) sender).Content.Equals("Cancel");
@@ -77,7 +83,6 @@ namespace TailChaser
 
             Close();
         }
-
    
         private void Font_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -98,13 +103,12 @@ namespace TailChaser
             var item = (FilePresentationSetting) ((ListBox) sender).SelectedItem;
             if (item == null) return;
 
-            var backColor= Color.FromArgb((byte) item.Alpha, (byte) item.Red, (byte) item.Green, (byte) item.Blue);
-            var textColor = UI.ColorInverter.InvertColor(backColor);
-            
-            TextColor.Fill = new SolidColorBrush(textColor);
+            var backColor = FilePresentationSettingsHelper.GetBackgroundColor(item);
+           
             BackColor.Fill = new SolidColorBrush(backColor);
             ExpressionBox.Text = item.Expression;
 
+            BindTextColor();
         }
 
         private void ToolBar_OnClick(object sender, RoutedEventArgs e)
@@ -123,7 +127,8 @@ namespace TailChaser
                             Alpha = color.A,
                             Blue = color.B,
                             Green = color.G,
-                            Red = color.R
+                            Red = color.R,
+                            TextColor = 1
                         };
                     Settings.FileSettings.Add(setting);
                     BindSettings(setting);

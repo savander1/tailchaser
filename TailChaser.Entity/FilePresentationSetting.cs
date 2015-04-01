@@ -25,5 +25,9 @@ namespace TailChaser.Entity
         [DataMember]
         [XmlAttribute("b")]
         public int Blue { get; set; }
+
+        [DataMember]
+        [XmlAttribute("t")]
+        public int TextColor { get; set; }
     }
 }
