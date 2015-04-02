@@ -2,3 +2,6 @@ one thread -> FileSystemWatcher to watch for file changes. Add these to a queue.
 another thread -> updates the app with new contents (gets the delta and adds them) 
 
 Look at resync https://rsync.samba.org/tech_report/node1.html
+
+
+Look at -> https://msdn.microsoft.com/en-us/magazine/dn605875.aspx Asyc MVVM
