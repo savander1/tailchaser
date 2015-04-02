@@ -29,10 +29,14 @@ namespace TailChaser
             BindTree();
         }
 
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            StartWatchingTailedFiles();
+        }
+
         private void LoadConfiguration()
         {
             _settings = _configLoader.LoadConfiguration();
-            StartWatchingTailedFiles();
         }
 
         private void StartWatchingTailedFiles()
@@ -208,8 +212,6 @@ namespace TailChaser
                     if (!args.Cancel)
                     {
                         file.PresentationSettings = dialog.Settings;
-                        var presenter = new FilePresenter(file);
-                        ContentBox.Document = presenter.PresentFile();
                     }
                 };
 
@@ -265,17 +267,21 @@ namespace TailChaser
             if (item.Header.GetType() == typeof (TailedFile))
             {
                 ContentBox.DataContext = item.Header;
-                var presenter = new FilePresenter((TailedFile) item.Header);
-                ContentBox.Document = presenter.PresentFile();
-                ContentBox.ScrollToEnd();
+                ContentBox.ScrollToEnd(); 
             }
         }
 
         private void ContentBox_OnTextChanged(object sender, FileChangeEventArgs e)
         {
-            var presenter = new FilePresenter(e.File);
-            ContentBox.Document = presenter.PresentFile();
+            ContentBox.DataContext = e.File;
+            var meep = e.File.FileContent;
+            ContentBox.Document = e.File.PresentedFile;
             ContentBox.ScrollToEnd();
+        }
+
+        private void ContentBox_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //Dispatcher.Invoke(() => { ((RichTextBox) sender).Document = ((TailedFile) e.NewValue).PresentedFile; });
         }
     }
 }

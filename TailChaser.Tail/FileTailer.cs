@@ -53,9 +53,10 @@ namespace TailChaser.Tail
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
+            
             _fileReader.ReadFileContentsAsync(_file.FullName).ContinueWith(task =>
                 {
-                    _file.FileContent = task.Result; 
+                    _file.FileContent = task.Result;
                     // this needs to update the ui with changes
                     if (UiUpdate != null)
                     {

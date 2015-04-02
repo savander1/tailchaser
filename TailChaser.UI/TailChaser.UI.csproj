@@ -52,8 +52,6 @@
     <Compile Include="ConfigLoader.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="FileManager.cs" />
-    <Compile Include="FilePresenter.cs" />
-    <Compile Include="IFilePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
