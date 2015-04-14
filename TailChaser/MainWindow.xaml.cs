@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
 using TailChaser.Entity;
+using TailChaser.Entity.Configuration;
 using TailChaser.UI;
 using TailChaser.UI.UiHelpers;
 
@@ -16,7 +17,7 @@ namespace TailChaser
     public partial class MainWindow : Window
     {
         private readonly ConfigLoader _configLoader;
-        private static Configuration _settings;
+        private static Configurations _settings;
         private readonly FileManager _fileManager;
 
         public MainWindow()
@@ -100,9 +101,9 @@ namespace TailChaser
             }
         }
 
-        private bool NeedsWarning(Configuration savedConfiguration, Configuration currentConfiguration)
+        private bool NeedsWarning(Configurations savedConfigurations, Configurations currentConfigurations)
         {
-            return !savedConfiguration.Equals(currentConfiguration);
+            return !savedConfigurations.Equals(currentConfigurations);
         }
 
         private void UiElement_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)

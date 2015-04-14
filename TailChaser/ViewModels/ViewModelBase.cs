@@ -4,8 +4,9 @@ using TailChaser.Exceptions;
 
 namespace TailChaser.ViewModels
 {
-    public abstract class ViwModelBase : INotifyPropertyChanged, IDisposable
+    public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
+        public string DisplayName { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         protected bool ThrowOnInvalidPropertyName;
 
@@ -27,11 +28,6 @@ namespace TailChaser.ViewModels
             {
                 throw new InvalidPropertyNameException(propertyName);
             }
-        }
-
-        protected virtual ViwModelBase ViewModelBase()
-        {
-            return this;
         }
 
         public void Dispose()

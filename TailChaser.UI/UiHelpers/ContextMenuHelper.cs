@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using TailChaser.Entity;
+using TailChaser.Entity.Configuration;
 
 namespace TailChaser.UI.UiHelpers
 {
