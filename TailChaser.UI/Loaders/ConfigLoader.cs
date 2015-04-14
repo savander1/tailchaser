@@ -1,13 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Security.AccessControl;
+using System.Threading;
 using System.Xml;
-using System.Xml.Serialization;
-using TailChaser.Entity;
+using Newtonsoft.Json;
 using TailChaser.Entity.Configuration;
 using TailChaser.UI.Exceptions;
+using TailChaser.UI.ViewModels;
+using File = System.IO.File;
 
-namespace TailChaser.UI
+namespace TailChaser.UI.Loaders
 {
     public class ConfigLoader
     {
@@ -17,15 +19,20 @@ namespace TailChaser.UI
 
         private static readonly string ConfigFullPath = Path.Combine(ConfigDirectory, ConfigFileName);
 
-        public Configurations LoadConfiguration()
+        public MainWindowViewModel LoadConfiguration()
         {
-            var config = new Configurations();
+            var config = new MainWindowViewModel();
+            var container = new Container(Constants.RootContainer);
             try
             {
-                var serializer = new XmlSerializer(typeof(Configurations));
                 using (var stream = new FileStream(ConfigFullPath, FileMode.Open, FileSystemRights.Read | FileSystemRights.Modify, FileShare.ReadWrite, 8, FileOptions.WriteThrough, new FileSecurity(ConfigFullPath, AccessControlSections.All)) ) // File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
-                    return serializer.Deserialize(stream) as Configurations;
+                    using (var reader = new StreamReader(stream))
+                    {
+                        container = JsonConvert.DeserializeObject<Container>(reader.ReadToEnd());
+                        config = ConfigConverter.ConvertToViewModel(container);
+                        return config;
+                    }
                 }
             }
             catch (FileNotFoundException)
@@ -50,21 +57,29 @@ namespace TailChaser.UI
             }
         }
 
-        public void SaveConfiguration(Configurations config, bool setAtributes = false)
+        public void SaveConfiguration(MainWindowViewModel config, bool setAtributes = false)
         {
             try
             {
-                var serializer = new XmlSerializer(typeof(Configurations));
+                var container = ConfigConverter.ConvertToEntity(config);
                 using (
-                    var stream = new FileStream(ConfigFullPath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
+                    var stream = new FileStream(ConfigFullPath, FileMode.Truncate, FileAccess.ReadWrite,
                                                 FileShare.ReadWrite))
                 {
-                    serializer.Serialize(stream, config);
+                    using (var writer = new StreamWriter(stream))
+                    {
+                        writer.Write(container);
+                    }
                 }
                 if (setAtributes)
                 {
                     File.SetAttributes(ConfigFullPath, FileAttributes.Hidden | FileAttributes.NotContentIndexed);
                 }
+            }
+            catch (ArgumentException)
+            {
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                SaveConfiguration(config, setAtributes);
             }
             catch (DirectoryNotFoundException)
             {

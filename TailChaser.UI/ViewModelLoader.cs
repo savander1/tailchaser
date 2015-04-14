@@ -1,4 +1,5 @@
-﻿using TailChaser.ViewModel;
+﻿using TailChaser.UI.Loaders;
+using TailChaser.ViewModel;
 
 namespace TailChaser.UI
 {

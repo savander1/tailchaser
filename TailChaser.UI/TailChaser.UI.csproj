@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\TailChaser\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -44,15 +47,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DoubleExtensions.cs" />
+    <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
     <Compile Include="TextColor.cs" />
     <Compile Include="UiHelpers\ContextMenuButtonType.cs" />
     <Compile Include="UiHelpers\ContextMenuHelper.cs" />
     <Compile Include="UiHelpers\FilePresentationSettingsHelper.cs" />
     <Compile Include="ViewModelLoader.cs" />
-    <Compile Include="ConfigLoader.cs" />
+    <Compile Include="Loaders\ConfigLoader.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TailChaser.Entity\TailChaser.Entity.csproj">
@@ -67,6 +73,9 @@
       <Project>{d19e3ab6-5755-40c9-88d5-90fa2a931d6e}</Project>
       <Name>TailChaser.ViewModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

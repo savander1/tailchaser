@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\CommandViewModel.cs" />
     <Compile Include="ViewModels\TailedFileViewModel.cs" />

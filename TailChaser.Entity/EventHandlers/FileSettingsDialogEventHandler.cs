@@ -5,14 +5,14 @@ namespace TailChaser.Entity
 
     public class FileSettingsDialogEventHandlerArgs
     {
-        public bool Cancel { get; private set; }
-        public FilePresentationSettings Settings { get; private set; }
+        //public bool Cancel { get; private set; }
+        //public FilePresentationSettings Settings { get; private set; }
 
-        public FileSettingsDialogEventHandlerArgs(bool cancelled, FilePresentationSettings setting)
-        {
-            Cancel = cancelled;
-            Settings = setting;
-        }
+        //public FileSettingsDialogEventHandlerArgs(bool cancelled, FilePresentationSettings setting)
+        //{
+        //    Cancel = cancelled;
+            //Settings = setting;
+        //}
     }
    
 }
