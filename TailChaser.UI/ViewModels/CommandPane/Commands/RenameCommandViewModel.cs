@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TailChaser.UI.ViewModels
+namespace TailChaser.UI.ViewModels.CommandPane.Commands
 {
     public class RenameCommandViewModel: CommandViewModel
     {

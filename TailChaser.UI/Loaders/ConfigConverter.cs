@@ -7,6 +7,7 @@ using System.Windows.Input;
 using TailChaser.Entity.Configuration;
 using TailChaser.UI.Exceptions;
 using TailChaser.UI.ViewModels;
+using TailChaser.UI.ViewModels.CommandPane;
 
 namespace TailChaser.UI.Loaders
 {

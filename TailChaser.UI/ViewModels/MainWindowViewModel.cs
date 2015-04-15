@@ -1,4 +1,6 @@
-﻿namespace TailChaser.UI.ViewModels
+﻿using TailChaser.UI.ViewModels.CommandPane;
+
+namespace TailChaser.UI.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {

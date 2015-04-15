@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace TailChaser.UI.ViewModels
+namespace TailChaser.UI.ViewModels.CommandPane
 {
     public class CommandPaneViewModel : ViewModelBase
     {

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Windows.Input;
 
-namespace TailChaser.UI.ViewModels
+namespace TailChaser.UI.ViewModels.CommandPane.Commands
 {
     public class SettingsCommandViewModel : CommandViewModel
     {
