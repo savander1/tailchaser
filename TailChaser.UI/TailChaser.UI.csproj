@@ -51,13 +51,10 @@
     <Compile Include="Loaders\ConfigConverter.cs" />
     <Compile Include="Loaders\Constants.cs" />
     <Compile Include="TextColor.cs" />
-    <Compile Include="UiHelpers\ContextMenuButtonType.cs" />
-    <Compile Include="UiHelpers\ContextMenuHelper.cs" />
     <Compile Include="UiHelpers\FilePresentationSettingsHelper.cs" />
     <Compile Include="ViewModelLoader.cs" />
     <Compile Include="Loaders\ConfigLoader.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
-    <Compile Include="FileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CommandPaneItemViewModel.cs" />
     <Compile Include="ViewModels\CommandPaneViewModel.cs" />

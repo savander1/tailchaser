@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TailChaser.Entity;
+using TailChaser.Entity.Configuration;
 using TailChaser.Tail;
 
 namespace TailChaser.UI
@@ -11,7 +12,7 @@ namespace TailChaser.UI
 
         public event EventHandler<FileChangeEventArgs> UiUpdate;
 
-        public void WatchFile(TailedFile tailedFile)
+        public void WatchFile(File tailedFile)
         {
             if (!WatchedFiles.ContainsKey(tailedFile.Id))
             {
@@ -25,7 +26,7 @@ namespace TailChaser.UI
             }
         }
 
-        public void UnWatchFile(TailedFile tailedFile)
+        public void UnWatchFile(File tailedFile)
         {
             if (!WatchedFiles.ContainsKey(tailedFile.Id))
             {
