@@ -5,9 +5,12 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using TailChaser.Entity;
+using TailChaser.Entity.Configuration;
+using TailChaser.Entity.EventArgs;
 using TailChaser.UI.UiHelpers;
+using TailChaser.UI.ViewModels.FilePane;
 
-namespace TailChaser
+namespace TailChaser.UI.Dialogs
 {
     /// <summary>
     /// Interaction logic for FileSettingsDialog.xaml
@@ -16,13 +19,13 @@ namespace TailChaser
     {
         public event FileSettingsDialogEventHandler FileOk;
 
-        public FilePresentationSettings Settings { get; private set; }
+        public FileSettingsViewModel Settings { get; private set; }
 
-        public FileSettingsDialog(FilePresentationSettings settings)
+        public FileSettingsDialog(FileSettingsViewModel settings)
         {
             InitializeComponent();
             Settings = settings;
-            Font.SelectedValue = Settings.FontFamily;
+            Font.SelectedValue = Settings.Font;
             BindFontSize();
             BindSettings();
             SampleText.DataContext = Settings;
@@ -49,12 +52,12 @@ namespace TailChaser
             FontSize.SelectedValue = Settings.FontSize;
         }
 
-        private void BindSettings(FilePresentationSetting selectedItem = null)
+        private void BindSettings(Settings selectedItem = null)
         {
-            RegexList.ItemsSource = Settings.FileSettings;
-            if (Settings.FileSettings.Any())
+            RegexList.ItemsSource = Settings.Settings;
+            if (Settings.Settings.Any())
             {
-                RegexList.SelectedItem = selectedItem ?? Settings.FileSettings.First();
+                RegexList.SelectedItem = selectedItem ?? Settings.Settings.First();
             }
         }
 
@@ -64,7 +67,7 @@ namespace TailChaser
 
             if (FileOk != null)
             {
-                FileOk(this, new FileSettingsDialogEventHandlerArgs(cancelled, Settings));
+                FileOk(this, new FileSettingsDialogEventArgs(cancelled, Settings.Settings, Settings.FontSize, Settings.Font));
             }
 
             Close();
@@ -86,7 +89,7 @@ namespace TailChaser
 
         private void RegexList_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = (FilePresentationSetting) ((ListBox) sender).SelectedItem;
+            var item = (Settings) ((ListBox) sender).SelectedItem;
             if (item == null) return;
 
             var backColor = FilePresentationSettingsHelper.GetBackgroundColor(item);
@@ -99,14 +102,14 @@ namespace TailChaser
         private void ToolBar_OnClick(object sender, RoutedEventArgs e)
         {
             var button = (Button) sender;
-            var selectedItem = (FilePresentationSetting)RegexList.SelectedItem;
-            var currentIndex = Settings.FileSettings.IndexOf(selectedItem);
+            var selectedItem = (Settings)RegexList.SelectedItem;
+            var currentIndex = Settings.Settings.IndexOf(selectedItem);
 
             switch (button.Name)
             {
                 case "AddExpression":
                     var color = ((SolidColorBrush) BackColor.Fill).Color;
-                    var setting = new FilePresentationSetting
+                    var setting = new Settings
                         {
                             Expression = ExpressionBox.Text,
                             Alpha = color.A,
@@ -115,24 +118,24 @@ namespace TailChaser
                             Red = color.R,
                             TextColor = 1
                         };
-                    Settings.FileSettings.Add(setting);
+                    Settings.Settings.Add(setting);
                     BindSettings(setting);
                     break;
                 case "RemoveExpression":
-                    Settings.FileSettings.Remove(selectedItem);
+                    Settings.Settings.Remove(selectedItem);
                     BindSettings();
                     break;
                 case "OrderExpressionUp":
-                    if ((currentIndex + 1) <= (Settings.FileSettings.Count - 1))
+                    if ((currentIndex + 1) <= (Settings.Settings.Count - 1))
                     {
-                        Settings.FileSettings.Move(currentIndex, currentIndex + 1);
+                        Settings.Settings.Move(currentIndex, currentIndex + 1);
                     }
                     BindSettings(selectedItem);
                     break;
                 case "OrderExpressionDown":
                     if ((currentIndex - 1) >= 0)
                     {
-                        Settings.FileSettings.Move(currentIndex, currentIndex - 1);
+                        Settings.Settings.Move(currentIndex, currentIndex - 1);
                     }
                     BindSettings(selectedItem);
                     break;
@@ -148,7 +151,7 @@ namespace TailChaser
                 {
                     Owner = this
                 };
-            var selectedItem = (FilePresentationSetting)RegexList.SelectedItem;
+            var selectedItem = (Settings)RegexList.SelectedItem;
             colorPicker.StartingColor = selectedItem != null
                                             ? FilePresentationSettingsHelper.GetBackgroundColor(selectedItem)
                                             : Color.FromRgb(255,255,255);

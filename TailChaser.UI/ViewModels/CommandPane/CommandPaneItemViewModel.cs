@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using TailChaser.Entity.Configuration;
 using TailChaser.UI.ViewModels.CommandPane.Commands;
 
 namespace TailChaser.UI.ViewModels.CommandPane
@@ -7,16 +8,16 @@ namespace TailChaser.UI.ViewModels.CommandPane
     public abstract class CommandPaneItemViewModel : ViewModelBase
     {
         protected CommandPaneViewModel Parent;
-        public Guid ItemId { get; set; }
-        public List<CommandViewModel> Commands { get; private set; }
+        public Item Item { get; private set; }
+        public ICollection<CommandViewModel> Commands { get; private set; }
 
-        protected CommandPaneItemViewModel(Guid itemId)
+        protected CommandPaneItemViewModel(Item item)
         {
-            Commands = new List<CommandViewModel>();
-            ItemId = itemId;
+            Commands = new ObservableCollection<CommandViewModel>();
+            Item = item;
         }
 
-        public void SetParent(CommandPaneViewModel parent)
+        protected internal void SetParent(CommandPaneViewModel parent)
         {
             Parent = parent;
         }

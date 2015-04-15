@@ -55,15 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="ViewModels\IRenamable.cs" />
-    <Compile Include="ViewModels\TailedFileViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="ViewModels\WorkspaceViewModel.cs" />
-    <Page Include="FileSettingsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,9 +62,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="FileSettingsDialog.xaml.cs">
-      <DependentUpon>FileSettingsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -133,23 +121,23 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Iconlicious-Misc-File.ico" />
-    <Resource Include="Resources\Iconlicious-Misc-Folder.ico" />
-    <Resource Include="Resources\Iconlicious-Misc-Monitor.ico" />
-    <Resource Include="Resources\Iconlicious-Misc-Tv.ico" />
+    <Resource Include="Assets\Iconlicious-Misc-File.ico" />
+    <Resource Include="Assets\Iconlicious-Misc-Folder.ico" />
+    <Resource Include="Assets\Iconlicious-Misc-Monitor.ico" />
+    <Resource Include="Assets\Iconlicious-Misc-Tv.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Arrow-down.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Arrow-up.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Close-delete-2.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Computer-monitor.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Computer.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Delete-2.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Plus-2.ico" />
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Plus.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Arrow-down.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Arrow-up.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Close-delete-2.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Computer-monitor.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Computer.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Delete-2.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Plus-2.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Plus.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" />
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />

@@ -1,4 +1,4 @@
-﻿namespace TailChaser.UI
+﻿namespace TailChaser.UI.Enums
 {
     public enum TextColor
     {

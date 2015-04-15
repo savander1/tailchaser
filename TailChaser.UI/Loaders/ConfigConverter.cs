@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TailChaser.Entity;
 using TailChaser.Entity.Configuration;
 using TailChaser.UI.Exceptions;
 using TailChaser.UI.ViewModels;
@@ -31,11 +32,11 @@ namespace TailChaser.UI.Loaders
                 CommandPaneItemViewModel item;
                 if (typeof (Container) == child.GetType())
                 {
-                    item = new ContainerCommandPaneItemViewModel(child.Id); 
+                    item = new ContainerCommandPaneItemViewModel(child); 
                 }
                 else 
                 {
-                    item = new FileCommandPaneItemViewModel(child.Id);
+                    item = new FileCommandPaneItemViewModel(child);
                 }
                 viewModel.CommandPane.AddItem(item);
             }
@@ -43,21 +44,15 @@ namespace TailChaser.UI.Loaders
             return viewModel;
         }
 
-      
-
         public static Container ConvertToEntity(MainWindowViewModel viewModel)
         {
             if (viewModel == null) throw new ArgumentNullException("viewModel");
 
-            var container = new Container(Constants.RootContainer);
+            var container = new Container();
 
             foreach (var item in viewModel.CommandPane.CommandPaneItems)
             {
-                if (typeof(ContainerCommandPaneItemViewModel) == item.GetType())
-                {
-                    var child = new Container(item.Name);
-                    
-                }
+                container.AddChild(item.Item);
             }
 
             return container;

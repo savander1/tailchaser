@@ -50,6 +50,8 @@
     <Compile Include="Configuration\IParentItem.cs" />
     <Compile Include="Configuration\Item.cs" />
     <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="EventArgs\FileSettingsDialogEventArgs.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="EventArgs\FileChangeEventArgs.cs" />
     <Compile Include="EventHandlers\FileSettingsDialogEventHandler.cs" />

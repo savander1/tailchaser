@@ -14,64 +14,8 @@
                     <MenuItem Header= "Save" Click="Save_Click"></MenuItem>
                 </MenuItem>
             </Menu>
-
-
-
-            <TreeView Name="MachineTreeView" Width="242" ItemsSource="{Binding}" DockPanel.Dock="Left"  
-                      MouseRightButtonDown="UiElement_OnMouseRightButtonDown"  Padding="10,01,10,10">
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate DataType="{x:Type configuration:Machine}" ItemsSource="{Binding Groups}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="Resources\Iconlicious-Misc-Monitor.ico" Height="20" SnapsToDevicePixels="True"></Image>
-                            <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                            <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
-                        </StackPanel>
-                        <HierarchicalDataTemplate.ItemContainerStyle>
-                            <Style TargetType ="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"></Setter>
-                            </Style>
-                        </HierarchicalDataTemplate.ItemContainerStyle>
-                    </HierarchicalDataTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type configuration:Group}" ItemsSource="{Binding Files}">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="Resources\Iconlicious-Misc-Folder.ico" Height="20" SnapsToDevicePixels="True"></Image>
-                            <TextBlock Margin="2" Text="{Binding Path=Name}" ></TextBlock>
-                            <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
-                        </StackPanel>
-                        <HierarchicalDataTemplate.ItemContainerStyle>
-                            <Style TargetType ="{x:Type TreeViewItem}">
-                                <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"></Setter>
-                            </Style>
-                        </HierarchicalDataTemplate.ItemContainerStyle>
-                    </HierarchicalDataTemplate>
-                    <DataTemplate DataType="{x:Type entity:TailedFile}">
-                        <StackPanel Orientation="Horizontal" ToolTip="{Binding Path=FullName}">
-                            <Image Source="Resources\Iconlicious-Misc-File.ico" Height="20" SnapsToDevicePixels="True"></Image>
-                            <TextBlock Margin="2" Text="{Binding Path=Name}"></TextBlock>
-                            <TextBox Text="{Binding Path=Name}" LostFocus="Txtbox_LostFocus" Visibility="Collapsed"></TextBox>
-                        </StackPanel>
-                    </DataTemplate>
-                    <Style TargetType="{x:Type TreeViewItem}">
-                        <Setter Property="IsExpanded" Value="{Binding Path=Expanded}"/>
-                        <Setter Property="Focusable" Value="False" />
-                        <EventSetter Event="MouseDoubleClick" Handler="EventSetter_OnHandler"/>
-                        <EventSetter Event="Selected" Handler="TreeviewItem_OnSelected"></EventSetter>
-                    </Style>
-                </TreeView.Resources>
-            </TreeView>
-
-                <!--<TextBox Name="ContentBox" Height="Auto" DockPanel.Dock="Right" 
-                         Text="{Binding Path=FileContent, NotifyOnSourceUpdated=True, Mode=OneWay}"
-                         FontFamily="{Binding Path=PresentationSettings.FontFamily}"
-                         FontSize="{Binding Path=PresentationSettings.FontSize}"
-                         TextChanged="ContentBox_OnTextChanged"
-                         HorizontalScrollBarVisibility="Auto"
-                         VerticalScrollBarVisibility="Auto">
-                
-                </TextBox>-->
-            <RichTextBox Name="ContentBox" Height ="Auto" DockPanel.Dock="Right"
-                         HorizontalScrollBarVisibility ="Auto"
-                         VerticalScrollBarVisibility="Auto" DataContextChanged="ContentBox_OnDataContextChanged"/>
         </DockPanel>
+
+
     </Grid>
 </Window>

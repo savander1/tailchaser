@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using TailChaser.Entity;
 using TailChaser.Entity.Configuration;
 using TailChaser.UI;
+using TailChaser.UI.Dialogs;
 using TailChaser.UI.Loaders;
 using TailChaser.UI.UiHelpers;
 

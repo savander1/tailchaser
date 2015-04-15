@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using TailChaser.Exceptions;
+using TailChaser.UI.Exceptions;
 
 namespace TailChaser.UI.ViewModels
 {

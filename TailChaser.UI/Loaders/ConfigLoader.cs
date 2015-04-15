@@ -4,6 +4,7 @@ using System.Security.AccessControl;
 using System.Threading;
 using System.Xml;
 using Newtonsoft.Json;
+using TailChaser.Entity;
 using TailChaser.Entity.Configuration;
 using TailChaser.UI.Exceptions;
 using TailChaser.UI.ViewModels;
@@ -22,14 +23,13 @@ namespace TailChaser.UI.Loaders
         public MainWindowViewModel LoadConfiguration()
         {
             var config = new MainWindowViewModel();
-            var container = new Container(Constants.RootContainer);
             try
             {
                 using (var stream = new FileStream(ConfigFullPath, FileMode.Open, FileSystemRights.Read | FileSystemRights.Modify, FileShare.ReadWrite, 8, FileOptions.WriteThrough, new FileSecurity(ConfigFullPath, AccessControlSections.All)) ) // File.Open(ConfigFullPath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
                 {
                     using (var reader = new StreamReader(stream))
                     {
-                        container = JsonConvert.DeserializeObject<Container>(reader.ReadToEnd());
+                        var container = JsonConvert.DeserializeObject<Container>(reader.ReadToEnd());
                         config = ConfigConverter.ConvertToViewModel(container);
                         return config;
                     }

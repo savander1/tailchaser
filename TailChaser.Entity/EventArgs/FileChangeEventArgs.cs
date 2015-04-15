@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Documents;
 
-namespace TailChaser.Entity
+namespace TailChaser.Entity.EventArgs
 {
-    public class FileChangeEventArgs : EventArgs
+    public class FileChangeEventArgs : System.EventArgs
     {
         //public TailedFile File { get; private set; }
 

@@ -1,5 +1,5 @@
 ﻿
-namespace TailChaser.UI.Loaders
+namespace TailChaser.Entity
 {
     public class Constants
     {

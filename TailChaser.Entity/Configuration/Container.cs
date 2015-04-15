@@ -7,8 +7,8 @@ namespace TailChaser.Entity.Configuration
     {
         public ICollection<Item> Children { get; set; }
 
-        public Container(): this(string.Empty) { }
-        public Container(string machineName) : base(machineName)
+        public Container(): this(Constants.RootContainer) { }
+        public Container(string name) : base(name)
         {
             Children = new Collection<Item>();
         }
