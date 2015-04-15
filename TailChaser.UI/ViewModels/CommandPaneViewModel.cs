@@ -5,12 +5,10 @@ namespace TailChaser.UI.ViewModels
 {
     public class CommandPaneViewModel : ViewModelBase
     {
-        public Guid ItemId { get; set; }
         public List<CommandPaneItemViewModel> CommandPaneItems { get; private set; }
 
-        public CommandPaneViewModel(Guid itemId)
+        public CommandPaneViewModel()
         {
-            ItemId = itemId;
             CommandPaneItems = new List<CommandPaneItemViewModel>();
         }
 

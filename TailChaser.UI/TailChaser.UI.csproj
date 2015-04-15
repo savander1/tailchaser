@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="DoubleExtensions.cs" />
     <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
+    <Compile Include="Loaders\ConfigConverter.cs" />
+    <Compile Include="Loaders\Constants.cs" />
     <Compile Include="TextColor.cs" />
     <Compile Include="UiHelpers\ContextMenuButtonType.cs" />
     <Compile Include="UiHelpers\ContextMenuHelper.cs" />
@@ -57,7 +59,14 @@
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\CommandPaneItemViewModel.cs" />
+    <Compile Include="ViewModels\CommandPaneViewModel.cs" />
+    <Compile Include="ViewModels\CommandViewModel.cs" />
+    <Compile Include="ViewModels\DeleteCommandViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
+    <Compile Include="ViewModels\SaveCommandViewModel.cs" />
+    <Compile Include="ViewModels\SettingsCommandViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>

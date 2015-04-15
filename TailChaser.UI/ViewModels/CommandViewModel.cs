@@ -5,11 +5,10 @@ namespace TailChaser.UI.ViewModels
 {
     public abstract class CommandViewModel : ViewModelBase
     {
-        public ICommand Command { get; protected set; }
+        public abstract ICommand Command { get; }
 
-        protected CommandViewModel(string name, ICommand command)
+        protected CommandViewModel(string name)
         {
-            if (command == null) throw new ArgumentNullException("command");
             Name = name;
         }
     }
