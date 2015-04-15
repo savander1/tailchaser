@@ -1,6 +1,6 @@
 ﻿using System;
 using TailChaser.Entity.Configuration;
-using TailChaser.UI.ViewModels.CommandPane.Commands;
+using TailChaser.UI.ViewModels.Commands;
 
 namespace TailChaser.UI.ViewModels.CommandPane
 {
@@ -9,7 +9,7 @@ namespace TailChaser.UI.ViewModels.CommandPane
         public ContainerCommandPaneItemViewModel(Item item)
             : base(item)
         {
-            var deleteItem = new DeleteCommandViewModel(x => Parent.CommandPaneItems.Remove(this), null);
+            var deleteItem = new DeleteCommandViewModel(x => ((CommandPaneViewModel)Parent).CommandPaneItems.Remove(this), null);
             var renameItem = new RenameCommandViewModel(x => Parent.Name = (string)x, null);
             AddCommands(deleteItem, renameItem);
         }

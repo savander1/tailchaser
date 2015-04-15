@@ -76,20 +76,20 @@
                     <ToolBar Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Background="WhiteSmoke" ToolBarTray.IsLocked="True"
                              OverflowMode="Never" Loaded="ToolBar_Loaded">
                         <Button Name="AddExpression" Click="ToolBar_OnClick">
-                            <Image Source="..\Assets\Icojam-Blueberry-Basic-Plus-2.ico" Height="16" ToolTip="Add"></Image>
+                            <Image Source="Assets\Icojam-Blueberry-Basic-Plus-2.ico" Height="16" ToolTip="Add"></Image>
                         </Button>
                         <Button Name="RemoveExpression" Click="ToolBar_OnClick" ToolTip="Delete">
-                            <Image Source="..\Assets\Icojam-Blueberry-Basic-Delete-2.ico" Height="16"></Image>
+                            <Image Source="Assets\Icojam-Blueberry-Basic-Delete-2.ico" Height="16"></Image>
                         </Button>
                         <Separator/>
                         <Button Name="OrderExpressionUp" Click="ToolBar_OnClick" ToolTip="Move Up">
-                            <Image Source="..\Assets\Icojam-Blueberry-Basic-Arrow-up.ico"  Height="16"></Image>
+                            <Image Source="Assets\Icojam-Blueberry-Basic-Arrow-up.ico"  Height="16"></Image>
                         </Button>
                         <Button Name="OrderExpressionDown" Click="ToolBar_OnClick" ToolTip="Move Down">
-                            <Image Source="..\Assets\Icojam-Blueberry-Basic-Arrow-down.ico" Height="16"></Image>
+                            <Image Source="Assets\Icojam-Blueberry-Basic-Arrow-down.ico" Height="16"></Image>
                         </Button>
                         <Button Name="SaveExpression" Click="ToolBar_OnClick" ToolTip="Save Changes">
-                            <Image Source="..\Assets\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" Height="16"></Image>
+                            <Image Source="Assets\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" Height="16"></Image>
                         </Button>
                     </ToolBar>
                     <ListBox Name="RegexList" Grid.Column="0" Grid.ColumnSpan="2"  Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Height="100" Padding="2" 

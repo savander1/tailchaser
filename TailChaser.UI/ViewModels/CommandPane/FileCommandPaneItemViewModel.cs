@@ -1,7 +1,7 @@
 ﻿
 using TailChaser.Entity.Configuration;
 using TailChaser.UI.Dialogs;
-using TailChaser.UI.ViewModels.CommandPane.Commands;
+using TailChaser.UI.ViewModels.Commands;
 using TailChaser.UI.ViewModels.FilePane;
 
 namespace TailChaser.UI.ViewModels.CommandPane
@@ -11,7 +11,7 @@ namespace TailChaser.UI.ViewModels.CommandPane
         public FileCommandPaneItemViewModel(Item item)
             : base(item)
         {
-            var deleteItem = new DeleteCommandViewModel(x => Parent.CommandPaneItems.Remove(this), null);
+            var deleteItem = new DeleteCommandViewModel(x => ((CommandPaneViewModel)Parent).CommandPaneItems.Remove(this), null);
             var renameItem = new RenameCommandViewModel(x => Parent.Name = (string)x, null);
             var saveItem = new SaveCommandViewModel(null, null);
             var settings = new SettingsCommandViewModel(FileSettings, null);

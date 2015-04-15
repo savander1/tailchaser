@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TailChaser.UI.ViewModels.CommandPane.Commands
+namespace TailChaser.UI.ViewModels.Commands
 {
     public class SaveCommandViewModel : CommandViewModel
     {

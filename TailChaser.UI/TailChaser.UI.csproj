@@ -58,19 +58,27 @@
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\CommandPane\CommandPaneItemViewModel.cs" />
+    <Compile Include="ViewModels\CommandPane\CommandPaneItemViewModelBase.cs" />
     <Compile Include="ViewModels\CommandPane\CommandPaneViewModel.cs" />
-    <Compile Include="ViewModels\CommandPane\Commands\CommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\CloseCommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\CommandViewModel.cs" />
     <Compile Include="ViewModels\CommandPane\ContainerCommandPaneItemViewModel.cs" />
-    <Compile Include="ViewModels\CommandPane\Commands\DeleteCommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\DeleteCommandViewModel.cs" />
     <Compile Include="ViewModels\CommandPane\FileCommandPaneItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuPane\FileMenuPaneItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuPane\MenuPaneItemViewModel.cs" />
+    <Compile Include="ViewModels\MenuPane\MenuPaneViewModel.cs" />
     <Compile Include="ViewModels\FilePane\FilePaneViewModel.cs" />
     <Compile Include="ViewModels\FilePane\FileSettingsViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\CommandPane\Commands\RelayCommand.cs" />
-    <Compile Include="ViewModels\CommandPane\Commands\RenameCommandViewModel.cs" />
-    <Compile Include="ViewModels\CommandPane\Commands\SaveCommandViewModel.cs" />
-    <Compile Include="ViewModels\CommandPane\Commands\SettingsCommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\RelayCommand.cs" />
+    <Compile Include="ViewModels\Commands\RenameCommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\SaveCommandViewModel.cs" />
+    <Compile Include="ViewModels\Commands\SettingsCommandViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\MainWindowResources.xaml.cs">
+      <DependentUpon>MainWindowResources.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\colorpickerlib\colorpicker.csproj">
@@ -86,50 +94,55 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dialogs\FileSettingsDialog.xaml">
+    <Page Include="Dialogs\FileSettingsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Compile>
+    </Page>
+    <Page Include="Views\MainWindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Arrow-down.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Arrow-down.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Arrow-up.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Arrow-up.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Close-delete-2.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Close-delete-2.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Computer-monitor.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Computer-monitor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Computer.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Computer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Delete-2.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Delete-2.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Plus-2.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Plus-2.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Plus.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Plus.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" />
+    <Resource Include="Dialogs\Assets\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Iconlicious-Misc-File.ico" />
+    <Resource Include="Dialogs\Assets\Iconlicious-Misc-File.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Iconlicious-Misc-Folder.ico" />
+    <Resource Include="Dialogs\Assets\Iconlicious-Misc-Folder.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Iconlicious-Misc-Monitor.ico" />
+    <Resource Include="Dialogs\Assets\Iconlicious-Misc-Monitor.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Assets\Iconlicious-Misc-Tv.ico" />
+    <Resource Include="Dialogs\Assets\Iconlicious-Misc-Tv.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

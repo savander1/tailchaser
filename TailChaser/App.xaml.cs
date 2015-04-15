@@ -7,16 +7,21 @@ namespace TailChaser
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
-    {
+    { 
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
+            var window = new MainWindow();
             var configLoader = new ConfigLoader();
             var config = configLoader.LoadConfiguration();
-            
-            var window = new MainWindow {DataContext = config};
-            window.Show();
+
+            config.RequestClose += window.Close;
+
+            window.DataContext = config;
+
+           window.Show();
         }
     }
+
 }

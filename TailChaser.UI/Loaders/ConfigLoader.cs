@@ -63,12 +63,12 @@ namespace TailChaser.UI.Loaders
             {
                 var container = ConfigConverter.ConvertToEntity(config);
                 using (
-                    var stream = new FileStream(ConfigFullPath, FileMode.Truncate, FileAccess.ReadWrite,
+                    var stream = new FileStream(ConfigFullPath, FileMode.CreateNew, FileAccess.ReadWrite,
                                                 FileShare.ReadWrite))
                 {
                     using (var writer = new StreamWriter(stream))
                     {
-                        writer.Write(container);
+                        writer.Write(JsonConvert.SerializeObject(container));
                     }
                 }
                 if (setAtributes)

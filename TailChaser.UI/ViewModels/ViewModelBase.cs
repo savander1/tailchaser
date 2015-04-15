@@ -8,6 +8,14 @@ namespace TailChaser.UI.ViewModels
     {
         public string Name { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+        public event Action RequestClose;
+
+        protected virtual void OnRequestClose()
+        {
+            var handler = RequestClose;
+            if (handler != null) handler();
+        }
+
         protected bool ThrowOnInvalidPropertyName;
 
         protected virtual void OnPropertyChanged(string propertyName)
