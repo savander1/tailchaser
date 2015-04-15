@@ -14,6 +14,7 @@ namespace TailChaser.UI.ViewModels
 
         public void AddItem(CommandPaneItemViewModel item)
         {
+            item.SetParent(this);
             CommandPaneItems.Add(item);
         }
     }

@@ -5,22 +5,10 @@ namespace TailChaser.UI.ViewModels
 {
     public class DeleteCommandViewModel : CommandViewModel
     {
-        
-        private RelayCommand _command;
-        private Action<object> _action;
 
-        public override ICommand Command { 
-            get
-            {
-                if (_command == null)
-                {
-                    _command = new RelayCommand(param => _action, param => this.CanExafute);
-                }
-            } 
-        }
-        public DeleteCommandViewModel(Action<object> command) : base("Delete")
+        public DeleteCommandViewModel(Action<object> command, Predicate<object> canExecute) : base(command, canExecute, "Delete")
         {
-            _action = command;
+
         }
     }
 }

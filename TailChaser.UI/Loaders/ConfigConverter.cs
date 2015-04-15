@@ -27,20 +27,39 @@ namespace TailChaser.UI.Loaders
             while (iterator.MoveNext())
             {
                 var child = iterator.Current;
+                CommandPaneItemViewModel item;
                 if (typeof (Container) == child.GetType())
                 {
-                    var item = new CommandPaneItemViewModel(child.Id);
-                    item.AddCommand(new DeleteCommandViewModel(command: ));
-                    viewModel.CommandPane.AddItem(new CommandPaneItemViewModel(child.Id));
+                    item = new ContainerCommandPaneItemViewModel(child.Id); 
                 }
+                else 
+                {
+                    item = new FileCommandPaneItemViewModel(child.Id);
+                }
+                viewModel.CommandPane.AddItem(item);
             }
+
+            return viewModel;
         }
 
       
 
         public static Container ConvertToEntity(MainWindowViewModel viewModel)
         {
-            
+            if (viewModel == null) throw new ArgumentNullException("viewModel");
+
+            var container = new Container(Constants.RootContainer);
+
+            foreach (var item in viewModel.CommandPane.CommandPaneItems)
+            {
+                if (typeof(ContainerCommandPaneItemViewModel) == item.GetType())
+                {
+                    var child = new Container(item.Name);
+                    
+                }
+            }
+
+            return container;
         }
     }
 }
