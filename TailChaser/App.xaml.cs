@@ -12,7 +12,7 @@ namespace TailChaser
         {
             base.OnStartup(e);
 
-            var window = new UI.Views.MainWindow();
+            var window = new MainWindow();
             var configLoader = new ConfigLoader();
             var config = configLoader.LoadConfiguration();
 
