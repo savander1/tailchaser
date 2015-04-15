@@ -86,10 +86,49 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="Dialogs\FileSettingsDialog.xaml">
+    <Compile Include="Dialogs\FileSettingsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Arrow-down.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Arrow-up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Close-delete-2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Computer-monitor.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Computer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Delete-2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Plus-2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Plus.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Icojam-Blueberry-Basic-Save-diskette-floppy-disk.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Iconlicious-Misc-File.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Iconlicious-Misc-Folder.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Iconlicious-Misc-Monitor.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Iconlicious-Misc-Tv.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
