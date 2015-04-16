@@ -9,4 +9,10 @@
         </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
 </Window.Resources>
+    <DockPanel Width="Auto" Height="Auto">
+        <ContentPresenter  DockPanel.Dock="Top" DataContext="{Binding Path=MenuPane}" ContentTemplate="{StaticResource MenuTemplate}"></ContentPresenter>
+        <!--<Grid DockPanel.Dock="Top" MaxHeight="30" DataContext="{Binding Path=MenuPane}">
+            <ContentPresenter ContentTemplate="{StaticResource MenuTemplate}"></ContentPresenter>
+        </Grid>-->
+    </DockPanel>
 </Window>
