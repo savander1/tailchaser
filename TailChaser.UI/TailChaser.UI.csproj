@@ -53,6 +53,8 @@
     <Compile Include="Exceptions\InvalidPropertyNameException.cs" />
     <Compile Include="Loaders\ConfigConverter.cs" />
     <Compile Include="Enums\TextColor.cs" />
+    <Compile Include="Properties\AssemblyProductInfo.cs" />
+    <Compile Include="Properties\AssemblyVersionInfo.cs" />
     <Compile Include="UiHelpers\FilePresentationSettingsHelper.cs" />
     <Compile Include="Loaders\ConfigLoader.cs" />
     <Compile Include="Exceptions\InvalidConfigurationException.cs" />
