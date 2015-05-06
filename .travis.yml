@@ -2,4 +2,4 @@ language: csharp
 solution: TailChaser.sln
 branches:
   only:
-    - dev-mvvm
+    - master
