@@ -1,5 +1,5 @@
 language: csharp
-solution: TailChaser.sln
+solution: tailchaser/TailChaser/TailChaser.sln
 branches:
   only:
     - master
