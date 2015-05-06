@@ -11,16 +11,10 @@
     </ResourceDictionary>
 </Window.Resources>
     <DockPanel Width="Auto" Height="Auto">
-        <Menu DataContext="{Binding MenuPane}" ItemsSource="{Binding MenuPane.MenuPaneItems}"  >
-            <Menu.ItemContainerStyle>
-                <Style TargetType="{x:Type MenuItem}" >
-                    <Setter Property="Command" Value="{Binding Command}" />
-                    <Setter Property="Header" Value="{Binding Name}"></Setter>
-                </Style>
-            </Menu.ItemContainerStyle>
+        <Menu DataContext="{Binding Path=MenuPane}" ItemsSource="{Binding Path=MenuPaneItems}">
             <Menu.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type menuPane:MenuPaneItemViewModel}" ItemsSource="{Binding Path=Commands}">
-                    <TextBlock Text="{Binding Name}"/>
+                <HierarchicalDataTemplate DataType="menuPane:MenuPaneItemViewModel">
+                    <MenuItem Header="{Binding Path=Name}"></MenuItem>
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
         </Menu>
