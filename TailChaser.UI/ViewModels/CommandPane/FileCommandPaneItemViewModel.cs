@@ -11,9 +11,10 @@ namespace TailChaser.UI.ViewModels.CommandPane
         public FileCommandPaneItemViewModel(Item item)
             : base(item)
         {
+            Name = "File";
             var deleteItem = new DeleteCommandViewModel(x => ((CommandPaneViewModel)Parent).CommandPaneItems.Remove(this), null);
             var renameItem = new RenameCommandViewModel(x => Parent.Name = (string)x, null);
-            var saveItem = new SaveCommandViewModel(null, null);
+            var saveItem = new SaveCommandViewModel(x => ((CommandViewModel)Parent).Command.Execute(null), null);
             var settings = new SettingsCommandViewModel(FileSettings, null);
             AddCommands(deleteItem, renameItem, saveItem, settings);
         }

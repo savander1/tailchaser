@@ -5,11 +5,11 @@ namespace TailChaser.UI.ViewModels.MenuPane
 {
     public class MenuPaneViewModel : ViewModelBase
     {
-        public ICollection<MenuPaneItemViewModel> MenuPaneItems { get; private set; }
+        public ICollection<MenuPaneItemViewModel> MenuPaneItems { get; set; }
 
         public MenuPaneViewModel(MainWindowViewModel parent)
         {
-            MenuPaneItems = new Collection<MenuPaneItemViewModel>
+            MenuPaneItems = new ObservableCollection<MenuPaneItemViewModel>
                 {
                     new FileMenuPaneItemViewModel(parent)
                 };

@@ -11,7 +11,7 @@ namespace TailChaser.UI.ViewModels
     {
         public CommandPaneViewModel CommandPane { get; private set; }
         public ICollection<FilePaneViewModel> FilePanes { get; private set; }
-        public MenuPaneViewModel MenuPane { get; private set; }
+        public MenuPaneViewModel MenuPane { get; set; }
 
         public MainWindowViewModel()
         {
