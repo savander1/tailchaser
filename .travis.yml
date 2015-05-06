@@ -1,5 +1,5 @@
 language: csharp
-solution: TailChaser/TailChaser.sln
+solution: TailChaser.sln
 branches:
   only:
     - dev-mvvm
