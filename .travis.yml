@@ -1,0 +1,6 @@
+language: csharp
+solution: TailChaser/TailChaser.sln
+branches:
+  only:
+    - master
+    - dev-mvvm
